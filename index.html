@@ -87,33 +87,26 @@
 
     <label class="smart-label" id="lbl-phone">TELEFON / PHONE / TELEFON</label><input type="text" id="in-phone" oninput="updatePreview()">
     <label class="smart-label" id="lbl-email">EMAIL</label><input type="email" id="in-email" oninput="updatePreview()">
-   function applyMatrixSummary() {
-    const sel = document.getElementById('sel-summary');
-    const target = document.getElementById('in-summary');
-    
-    const summaries = {
-        "1": "Több éves vezetői tapasztalattal rendelkező szakember vagyok, aki a stratégiai tervezésben és a csapatok motiválásában hisz. Célom az eredményesség maximalizálása.",
-        "2": "Technológiai szemléletű szakemberként szenvedélyem az innováció és a problémamegoldás. Erős technikai alapokkal és folyamatos tanulási vággyal rendelkezem.",
-        "3": "Rendszerszemléletű, precíz munkavégzés jellemez. Az adminisztrációs folyamatok optimalizálásában és a pontos dokumentációban vagyok a legerősebb.",
-        "4": "Ügyfélközpontú attitűdöm segít a hosszú távú üzleti kapcsolatok építésében. Kiváló kommunikációs készséggel kezelem a konfliktusokat és az értékesítési helyzeteket.",
-        "5": "Kreatív gondolkodásmódommal és vizuális látásmódommal segítem a márkák építését. Nem csak a formát, hanem a funkciót is szem előtt tartom.",
-        "6": "A logisztika és a hatékonyság megszállottja vagyok. Gyors döntéshozatali képességem segít a váratlan helyzetek megoldásában is.",
-        "7": "Lelkes pályakezdőként várom a kihívásokat. Gyorsan tanulok, megbízható vagyok, és elkötelezett a szakmai fejlődés iránt.",
-        "8": "Nagy munkabírású szakemberként a minőségi és pontos kivitelezésre törekszem. Tapasztalatom van ipari környezetben és csapatmunkában is.",
-        "9": "Empatikus és türelmes szakember vagyok, aki elkötelezett mások segítése és a szakmai hivatás gyakorlása mellett.",
-        "10": "A vendéglátásban szerzett tapasztalatomat a legmagasabb szintű kiszolgálás és a vendégelégedettség szolgálatába állítom.",
-        "11": "Elemző és stratégiai látásmódom segít a komplex üzleti problémák átlátásában és a jövőbeli trendek előrejelzésében.",
-        "12": "A számok és adatok világában mozgok otthonosan. Precizitásom és logikai készségem a pénzügyi stabilitást szolgálja.",
-        "13": "Műszaki beállítottságú szakemberként a hibaelhárítás és a folyamatos üzemeltetés biztosítása az elsődleges feladatom.",
-        "14": "Felelősségteljes és fegyelmezett munkavégzés jellemzi a biztonsági területen szerzett pályafutásomat.",
-        "15": "Sokoldalú és rugalmas munkatárs vagyok, aki bármilyen környezetben megtalálja a közös hangot a kollégákkal a közös siker érdekében."
-    };
-
-    if (sel.value && summaries[sel.value]) {
-        target.value = summaries[sel.value];
-        updatePreview(); // Azonnal frissíti a papírt is!
-    }
-}
+   <label class="smart-label" id="lbl-summary">BEMUTATKOZÁS VÁLASZTÓ (15 OPCIÓ - NINCS KORLÁT)</label>
+<select id="sel-summary" onchange="applyMatrixSummary()" style="border: 1px solid #007bb5; background: #1a3a5a;">
+    <option value="">-- Válassz / Select / Wählen --</option>
+    <option value="1">🔝 Proaktív Vezető (Management)</option>
+    <option value="2">💻 Tech-Guru (IT / Fejlesztő)</option>
+    <option value="3">🎯 Precíz Adminisztrátor (Office)</option>
+    <option value="4">🤝 Ügyfélmágnes (Sales / Customer Care)</option>
+    <option value="5">🎨 Kreatív Vizionárius (Design / Marketing)</option>
+    <option value="6">🚛 Logisztikai Nindzsa (Szállítás / Raktár)</option>
+    <option value="7">⚡ Gyorsan Tanuló Junior (Pályakezdő)</option>
+    <option value="8">🏗️ Megbízható Szakmunkás (Ipar)</option>
+    <option value="9">🚑 Gondoskodó Profi (Egészségügy / Oktatás)</option>
+    <option value="10">💎 Luxus / Hospitality (Vendéglátás)</option>
+    <option value="11">🚀 Stratégiai Gondolkodó (Business)</option>
+    <option value="12">📉 Elemző Zseni (Finance / Data)</option>
+    <option value="13">🛠️ Karbantartó / Szerviz (Technical)</option>
+    <option value="14">🛡️ Biztonság és Rend (Security)</option>
+    <option value="15">🌟 Általános Motivált (Universal)</option>
+</select>
+<textarea id="in-summary" rows="5" oninput="updatePreview()" placeholder="Ide írhatsz vagy válassz fent..."></textarea>
     <div id="edu-area"><h3 id="lbl-eduHeader">TANULMÁNYOK</h3><div id="edu-container"></div><button onclick="addEntry('edu')" class="add-btn" id="lbl-addEdu">+ ÚJ ISKOLA</button></div>
     <div id="work-area"><h3 id="lbl-workHeader">MUNKATAPASZTALAT</h3><div id="work-container"></div><button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY</button></div>
 
