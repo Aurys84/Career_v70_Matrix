@@ -29,10 +29,23 @@
         h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
         h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
 
-        /* A 10 STÍLUS */
+         /* ALAP PAPÍR DESIGN */
+        .cv-paper { width: 210mm; min-height: 297mm; background: white; padding: 40px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); box-sizing: border-box; position: relative; }
+        .cv-header { display: flex; gap: 20px; border-bottom: 2px solid var(--main-color); padding-bottom: 20px; margin-bottom: 20px; }
+        #out-photo { width: 130px; height: 160px; object-fit: cover; border: 1px solid #ccc; }
+        h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
+        h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
+
+        /* A 10 STÍLUS KŐKEMÉNY FIXÁLÁSA */
         body.style-1 .cv-paper { border-top: 20px solid var(--main-color); }
-        body.style-2 .cv-header { flex-direction: column; text-align: center; }
+        body.style-2 .cv-header { flex-direction: column; text-align: center; align-items: center; }
         body.style-3 .cv-header { flex-direction: row-reverse; }
+        body.style-4 h3 { background: #f4f4f4; padding: 10px; border-left: 10px solid var(--main-color); border-bottom: none; }
+        body.style-5 .cv-paper { font-family: 'Georgia', serif; }
+        body.style-6 .cv-header { border-bottom: 10px double var(--main-color); }
+        body.style-7 .cv-paper { background: #fafafa; border: 1px solid #ddd; }
+        body.style-8 #out-name { letter-spacing: 8px; text-align: center; width: 100%; }
+        body.style-9 .cv-header { align-items: flex-end; border-bottom-width: 5px; }
         body.style-10 .cv-paper::before { content: ''; position: absolute; top: 0; left: 0; width: 10px; height: 100%; background: var(--main-color); }
 
         @media print { .editor-side { display: none; } .preview-side { width: 100%; padding: 0; background: white; } .cv-paper { box-shadow: none; width: 100%; } }
