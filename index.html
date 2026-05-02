@@ -192,29 +192,42 @@
         document.querySelectorAll('.dyn-other').forEach(el => el.innerText = d.v_other);
     }
 
-   function updatePreview() {
-    const firstName = document.getElementById('in-firstName').value;
-    const lastName = document.getElementById('in-lastName').value;
-    const phone = document.getElementById('in-phone').value;
-    const email = document.getElementById('in-email').value;
+function updatePreview() {
+    // Adatok begyűjtése biztonságosan
+    const getVal = (id) => document.getElementById(id) ? document.getElementById(id).value : '';
+    
+    const firstName = getVal('in-firstName');
+    const lastName = getVal('in-lastName');
+    const phone = getVal('in-phone');
+    const email = getVal('in-email');
+    const summary = getVal('in-summary');
 
-  // Keresd meg az updatePreview függvényben a previewHeader változót, és cseréld erre:
-    const firstName = document.getElementById('in-firstName')?.value || '';
-    const lastName = document.getElementById('in-lastName')?.value || '';
-    const phone = document.getElementById('in-phone')?.value || '';
-    const email = document.getElementById('in-email')?.value || '';
-
+    // Fejléc összeállítása
     const previewHeader = `
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #007bb5; padding-bottom:10px; margin-bottom:20px; font-family: sans-serif;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #007bb5; padding-bottom:10px; margin-bottom:20px;">
             <div style="text-align:left;">
-                <h1 style="margin:0; color:#007bb5; font-size:24px; text-transform: uppercase;">${firstName} ${lastName}</h1>
+                <h1 style="margin:0; color:#007bb5; font-size:24px;">${firstName} ${lastName}</h1>
                 <p style="margin:5px 0; font-style:italic; font-size:12px; color:#666;">Career-V70-Matrix Global Generated</p>
             </div>
-            <div style="text-align:right; font-size:12px; color:#333;">
+            <div style="text-align:right; font-size:12px;">
                 ${phone ? 'Tel: ' + phone + '<br>' : ''}
                 ${email ? 'Email: ' + email : ''}
             </div>
         </div>
+    `;
+
+    // Kimenetek frissítése - csak ha létezik a cél elem
+    if (document.getElementById('out-header')) {
+        document.getElementById('out-header').innerHTML = previewHeader;
+    }
+    
+    if (document.getElementById('out-summary')) {
+        document.getElementById('out-summary').innerText = summary;
+    }
+
+    // Ha van más szekciód (edu, work), azokat is ide kell tenni, 
+    // de előbb nézzük meg, hogy a név visszajön-e!
+}
     `;
 
     // Figyelj rá, hogy ez a sor KÖTELEZŐ alatta:
