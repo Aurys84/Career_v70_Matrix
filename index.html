@@ -27,17 +27,59 @@
         h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
         h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
 
-        /* STÍLUSOK (1-10) */
-        body.style-1 .cv-paper { border-top: 20px solid var(--main-color); }
-        body.style-2 .cv-header { flex-direction: column; text-align: center; }
-        body.style-3 .cv-header { flex-direction: row-reverse; }
-        body.style-4 h3 { background: #f4f4f4; padding: 10px; border-left: 10px solid var(--main-color); border-bottom: none; }
-        body.style-5 .cv-paper { font-family: 'Georgia', serif; }
-        body.style-6 .cv-header { border-bottom: 8px double var(--main-color); }
-        body.style-7 .cv-paper { background: #f9f9f9; border: 1px solid #ddd; }
-        body.style-8 #out-name { letter-spacing: 5px; text-align: center; width: 100%; }
-        body.style-9 .cv-header { align-items: flex-end; border-bottom-width: 5px; }
-        body.style-10 .cv-paper::before { content: ''; position: absolute; top: 0; left: 0; width: 15px; height: 100%; background: var(--main-color); }
+       h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
+
+        /* STÍLUSOK (1-15) - A&N Visual Global Matrix */
+        
+        /* 1. Modern Slim: Vékony kék sáv a bal szélen */
+        body.style-1 .cv-paper { border-left: 15px solid var(--main-color); }
+
+        /* 2. Executive: Vastag fejléc, színes blokkban a név */
+        body.style-2 .cv-header { background: var(--main-color); color: white; padding: 30px; margin: -40px -40px 30px -40px; }
+        body.style-2 #out-name { color: white; }
+
+        /* 3. Creative Split: Függőlegesen kettéosztott design */
+        body.style-3 .cv-header { flex-direction: column; width: 35%; border-right: 1px solid #eee; height: 100%; position: absolute; left: 40px; top: 40px; }
+        body.style-3 #main-content { margin-left: 40%; }
+
+        /* 4. Tech-Grid: Sötét, blokkos alcímek */
+        body.style-4 h3 { background: #333; color: white; padding: 8px 15px; border-radius: 4px; border: none; }
+
+        /* 5. Minimalist Serif: Klasszikus elegancia */
+        body.style-5 .cv-paper { font-family: 'Times New Roman', serif; text-align: justify; }
+
+        /* 6. Dark Mode Paper: Sötét alap, színes kiemeléssel */
+        body.style-6 .cv-paper { background: #222; color: #ddd; }
+        body.style-6 h3 { color: var(--main-color); border-bottom-color: #444; }
+
+        /* 7. Underline Focus: Teljes szélességű vonalak */
+        body.style-7 h3 { border-bottom: 4px solid var(--main-color); width: 100%; }
+
+        /* 8. Floating Card: Kártyaszerű belső elrendezés */
+        body.style-8 .cv-paper { padding: 60px; background: #f0f0f0; }
+        body.style-8 #main-content, body.style-8 .cv-header { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+        /* 9. Infographic: Kör fotó és színes pontok */
+        body.style-9 #out-photo-box { border-radius: 50% !important; border: 4px solid var(--main-color); overflow: hidden; }
+        body.style-9 #out-photo { border-radius: 50%; }
+
+        /* 10. Sidebar Accent: Oldalsávos szövegkiemelés */
+        body.style-10 #main-content div { border-left: 3px solid var(--main-color); padding-left: 15px; }
+
+        /* 11. Bold Typography: Hatalmas név, vékony adatok */
+        body.style-11 #out-name { font-size: 50px; font-weight: 900; line-height: 1; }
+
+        /* 12. Geometric: Átlós díszítés a sarokban */
+        body.style-12 .cv-paper::after { content: ''; position: absolute; top: 0; right: 0; border-style: solid; border-width: 0 100px 100px 0; border-color: transparent var(--main-color) transparent transparent; }
+
+        /* 13. Double Column: Két oszlopos elrendezés */
+        body.style-13 #main-content { column-count: 2; column-gap: 30px; }
+
+        /* 14. Industrial: Keretes, "dobozos" felépítés */
+        body.style-14 h3, body.style-14 .cv-header { border: 2px solid #000; padding: 10px; margin-bottom: 15px; }
+
+        /* 15. Premium Border: Dupla színes keret az egész papír körül */
+        body.style-15 .cv-paper { border: 10px double var(--main-color); }
 
         @media print { .editor-side { display: none; } .preview-side { width: 100%; padding: 0; background: white; } .cv-paper { box-shadow: none; width: 100%; } }
     </style>
@@ -353,13 +395,36 @@
         }
     }
 
-    window.onload = () => {
-        const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
-        colors.forEach(c => {
-            let b = document.createElement('div'); b.className = 'color-btn'; b.style.background = c;
-            b.onclick = () => { document.documentElement.style.setProperty('--main-color', c); updatePreview(); };
-            document.getElementById('color-picker').appendChild(b);
-        });
+   window.onload = () => {
+    // 1. Színválasztó gombok generálása (ez marad, amit küldtél)
+    const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
+    colors.forEach(c => {
+        let b = document.createElement('div'); 
+        b.className = 'color-btn'; 
+        b.style.background = c;
+        b.onclick = () => { 
+            document.documentElement.style.setProperty('--main-color', c); 
+            updatePreview(); 
+        };
+        document.getElementById('color-picker').appendChild(b);
+    });
+
+    // 2. STÍLUSVÁLASZTÓ GOMBOK GENERÁLÁSA (Ez hiányzott!)
+    // Ez hozza létre az 1-től 15-ig tartó gombokat a Mátrixhoz
+    for(let i = 1; i <= 15; i++) {
+        let b = document.createElement('button'); 
+        b.className = 'style-btn'; 
+        b.innerText = i;
+        b.onclick = () => { 
+            document.body.className = 'style-' + i; 
+            updatePreview(); 
+        };
+        document.getElementById('style-picker').appendChild(b);
+    }
+
+    // Kezdő nézet frissítése
+    updatePreview();
+};
         for(let i=1; i<=10; i++) {
             let b = document.createElement('button'); b.className = 'style-btn'; b.innerText = i;
             b.onclick = () => { document.body.className = 'style-' + i; updatePreview(); };
