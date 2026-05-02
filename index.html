@@ -198,15 +198,15 @@
     const phone = document.getElementById('in-phone').value;
     const email = document.getElementById('in-email').value;
 
-    const previewHeader = `
+   const previewHeader = `
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #007bb5; padding-bottom:10px; margin-bottom:20px;">
-            <div>
-                <h1 style="margin:0; color:#007bb5; font-size:24px;">${firstName} ${lastName}</h1>
-                <p style="margin:5px 0; font-style:italic; font-size:12px;">Career-V70-Matrix Global Generated</p>
+            <div style="text-align:left;">
+                <h1 style="margin:0; color:#007bb5; font-size:24px;">${document.getElementById('in-firstName').value} ${document.getElementById('in-lastName').value}</h1>
+                <p style="margin:5px 0; font-style:italic; font-size:12px; color:#666;">Career-V70-Matrix Global Generated</p>
             </div>
-            <div style="text-align:right; font-size:12px;">
-                ${phone ? 'Tel: ' + phone + '<br>' : ''}
-                ${email ? 'Email: ' + email : ''}
+            <div style="text-align:right; font-size:12px; color:#333;">
+                ${document.getElementById('in-phone').value ? 'Tel: ' + document.getElementById('in-phone').value + '<br>' : ''}
+                ${document.getElementById('in-email').value ? 'Email: ' + document.getElementById('in-email').value : ''}
             </div>
         </div>
     `;
