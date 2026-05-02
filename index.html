@@ -143,7 +143,7 @@ function applyMatrixSummary() {
         "5": "Kreatív gondolkodásmódommal és vizuális látásmódommal segítem a márkák építését. Nem csak a formát, hanem a funkciót is szem előtt tartom.",
         "6": "A logisztika és a hatékonyság megszállottja vagyok. Gyors döntéshozatali képességem segít a váratlan helyzetek megoldásában is.",
         "7": "Lelkes pályakezdőként várom a kihívásokat. Gyorsan tanulok, megbízható vagyok, és elkötelezett a szakmai fejlődés iránt.",
-        "8": "Nagy munkabírású szakemberként a minégi és pontos kivitelezésre törekszem. Tapasztalatom van ipari környezetben és csapatmunkában is.",
+        "8": "Nagy munkabírású szakemberként a minőségi és pontos kivitelezésre törekszem. Tapasztalatom van ipari környezetben és csapatmunkában is.",
         "10": "A vendéglátásban szerzett tapasztalatomat a legmagasabb szintű kiszolgálás és a vendégelégedettség szolgálatába állítom.",
         "11": "Elemző és stratégiai látásmódom segít a komplex üzleti problémák átlátásában és a jövőbeli trendek előrejelzésében.",
         "12": "A számok és adatok világában mozgok otthonosan. Precizitásom és logikai készségem a pénzügyi stabilitást szolgálja.",
@@ -153,9 +153,9 @@ function applyMatrixSummary() {
     };
 
     if (sel && sel.value && summaries[sel.value]) {
-        // Itt már CSAK az adatbázis (dictionary) alapján váltunk, ha van kulcs
         const key = "sum_" + sel.value;
-        if (dictionary[currentLang] && dictionary[currentLang][key]) {
+        // Csak akkor használja a dictionary-t, ha létezik, különben marad a magyar
+        if (typeof dictionary !== 'undefined' && dictionary[currentLang] && dictionary[currentLang][key]) {
             target.value = dictionary[currentLang][key];
         } else {
             target.value = summaries[sel.value];
@@ -167,10 +167,12 @@ function applyMatrixSummary() {
 function setMode(l, btn) {
     currentLang = l;
     document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    updateInterface();
-    updatePreview();
-    refreshAllSelects();
+    if (btn) btn.classList.add('active');
+    
+    // Ezeknek a függvényeknek létezniük kell a kódodban:
+    if (typeof updateInterface === 'function') updateInterface();
+    if (typeof updatePreview === 'function') updatePreview();
+    if (typeof refreshAllSelects === 'function') refreshAllSelects();
 }
     function refreshAllSelects() {
         document.querySelectorAll('.entry-box').forEach(box => {
