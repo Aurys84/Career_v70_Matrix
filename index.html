@@ -153,8 +153,32 @@
     }
 
     function addEntry(type) {
-        console.log("Hozzáadás: " + type);
-        // Ide jön az új sor beszúrása (iskola vagy munka)
+        const container = document.getElementById(type === 'edu' ? 'edu-list' : 'work-list');
+        if (!container) return;
+
+        const div = document.createElement('div');
+        div.className = 'entry-item';
+        div.innerHTML = `
+            <input type="text" placeholder="${dictionary[currentLang][type === 'edu' ? 'v_deg' : 'v_job']}" oninput="updatePreview()">
+            <input type="text" placeholder="${dictionary[currentLang][type === 'edu' ? 'v_other' : 'v_pos']}" oninput="updatePreview()">
+            <button class="btn-del" onclick="this.parentElement.remove(); updatePreview();">×</button>
+        `;
+        container.appendChild(div);
+        updatePreview();
+    }
+
+    // Kell egy alap updateInterface is, hogy a feliratok is váltsanak
+    function updateInterface() {
+        const langData = dictionary[currentLang];
+        for (const key in langData) {
+            const el = document.getElementById('lbl-' + key);
+            if (el) el.innerText = langData[key];
+        }
+        // A gombok feliratait is frissítjük
+        if(document.getElementById('btn-addEdu')) document.getElementById('btn-addEdu').innerText = langData.addEdu;
+        if(document.getElementById('btn-addWork')) document.getElementById('btn-addWork').innerText = langData.addWork;
+        if(document.getElementById('btn-print')) document.getElementById('btn-print').innerText = langData.printBtn;
+    }
     }
 
     function setMode(l, btn) {
