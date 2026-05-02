@@ -333,6 +333,29 @@
                 if (currentLang === 'de') return parts[5];
                 return parts[1]; // hu
             }
+            function saveToLocal() {
+        const data = {
+            fName: document.getElementById('in-firstName').value,
+            lName: document.getElementById('in-lastName').value,
+            summary: document.getElementById('in-summary').value,
+            phone: document.getElementById('in-phone').value,
+            email: document.getElementById('in-email').value
+        };
+        localStorage.setItem('matrix_cv_data', JSON.stringify(data));
+    }
+
+    window.addEventListener('load', () => {
+        const saved = localStorage.getItem('matrix_cv_data');
+        if (saved) {
+            const d = JSON.parse(saved);
+            document.getElementById('in-firstName').value = d.fName || '';
+            document.getElementById('in-lastName').value = d.lName || '';
+            document.getElementById('in-summary').value = d.summary || '';
+            document.getElementById('in-phone').value = d.phone || '';
+            document.getElementById('in-email').value = d.email || '';
+            updatePreview();
+        }
+    });
             return line;
         });
         t.value = translatedLines.join('\n');
