@@ -306,6 +306,34 @@
         r.onload = () => { document.getElementById('out-photo').src = r.result; document.getElementById('out-photo-box').style.display='block'; updatePreview(); };
         r.readAsDataURL(e.target.files[0]);
     }
+    function addSum(val) {
+        if (!val) return;
+        const t = document.getElementById('in-summary');
+        if (!t.dataset.raw) t.dataset.raw = "";
+        const parts = val.split('|');
+        // Mindig a magyar verziót mentjük el alapnak az attribútumba
+        t.dataset.raw += (t.dataset.raw ? '\n' : '') + parts[1];
+        translateSummary();
+    }
+
+    function translateSummary() {
+        const t = document.getElementById('in-summary');
+        if (!t.dataset.raw) return;
+        let lines = t.dataset.raw.split('\n');
+        let translatedLines = lines.map(line => {
+            // Megkeressük a mondatot a választómenü opciói között
+            const option = Array.from(document.querySelectorAll('#sel-summary option')).find(opt => opt.value.includes(line));
+            if (option) {
+                const parts = option.value.split('|');
+                if (currentLang === 'en') return parts[3];
+                if (currentLang === 'de') return parts[5];
+                return parts[1]; // hu
+            }
+            return line;
+        });
+        t.value = translatedLines.join('\n');
+        updatePreview();
+    }
 </script>
 </body>
 </html>
