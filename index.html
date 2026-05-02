@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Career-Engine v69.0 - A&N Visual - GLOBAL MATRIX</title>
     <style>
-        :root { --main-color: #007bb5; --bg: #0d0d0d; }
+        :root { --main-color: #007bb5; }
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; background: #000; color: #eee; }
         .editor-side { width: 42%; padding: 25px; overflow-y: auto; background: #111; border-right: 3px solid var(--main-color); }
         .preview-side { width: 58%; background: #333; display: flex; justify-content: center; padding: 40px; overflow-y: auto; }
@@ -31,13 +31,16 @@
         h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
         h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
 
-        /* STÍLUSOK FIXÁLÁSA */
+        /* A 10 STÍLUS FIXÁLÁSA */
         body.style-1 .cv-paper { border-top: 20px solid var(--main-color); }
         body.style-2 .cv-header { flex-direction: column; text-align: center; align-items: center; }
         body.style-3 .cv-header { flex-direction: row-reverse; }
         body.style-4 h3 { background: #f4f4f4; padding: 10px; border-left: 10px solid var(--main-color); border-bottom: none; }
         body.style-5 .cv-paper { font-family: 'Georgia', serif; }
-        body.style-6 .cv-header { border-bottom: 8px double var(--main-color); }
+        body.style-6 .cv-header { border-bottom: 10px double var(--main-color); }
+        body.style-7 .cv-paper { background: #fcfcfc; border: 1px solid #ddd; }
+        body.style-8 #out-name { letter-spacing: 5px; text-align: center; width: 100%; }
+        body.style-9 .cv-header { align-items: flex-end; border-bottom-width: 5px; }
         body.style-10 .cv-paper::before { content: ''; position: absolute; top: 0; left: 0; width: 15px; height: 100%; background: var(--main-color); }
 
         @media print { .editor-side { display: none; } .preview-side { width: 100%; padding: 0; background: white; } .cv-paper { box-shadow: none; width: 100%; } }
@@ -56,28 +59,26 @@
     <div class="picker-row"><label class="smart-label" id="lbl-colors">SZÍNEK</label><div class="color-grid" id="color-picker"></div></div>
     <div class="picker-row"><label class="smart-label" id="lbl-styles">STÍLUSOK</label><div class="style-grid" id="style-picker"></div></div>
 
-    <label class="smart-label" id="lbl-photo">FOTÓ</label><input type="file" onchange="loadPhoto(event)">
+    <label class="smart-label">FOTÓ</label><input type="file" onchange="loadPhoto(event)">
 
     <div class="input-group">
         <div style="flex:1"><label class="smart-label" id="lbl-fName">KERESZTNÉV</label><input type="text" id="in-firstName" oninput="updatePreview()"></div>
         <div style="flex:1"><label class="smart-label" id="lbl-lName">VEZETÉKNÉV</label><input type="text" id="in-lastName" oninput="updatePreview()"></div>
     </div>
-    
     <div class="input-group">
         <div style="flex:1"><label class="smart-label" id="lbl-city">VÁROS</label><input type="text" id="in-city" oninput="updatePreview()"></div>
         <div style="flex:1"><label class="smart-label" id="lbl-street">UTCA</label><input type="text" id="in-street" oninput="updatePreview()"></div>
     </div>
     <div class="input-group">
-        <div style="flex:1"><label class="smart-label" id="lbl-type">≡ TÍPUS</label>
+        <div style="flex:1"><label class="smart-label">≡ TÍPUS</label>
             <select id="in-street-type" onchange="updatePreview()">
                 <option value="utca">utca / street / straße</option>
                 <option value="út">út / road / straße</option>
                 <option value="tér">tér / square / platz</option>
             </select>
         </div>
-        <div style="width:30%"><label class="smart-label">Hsz.</label><input type="text" id="in-house" oninput="updatePreview()"></div>
+        <div style="width:30%"><label class="smart-label">HÁZSZÁM</label><input type="text" id="in-house" oninput="updatePreview()"></div>
     </div>
-
     <label class="smart-label" id="lbl-phone">TELEFON</label><input type="text" id="in-phone" oninput="updatePreview()">
     <label class="smart-label" id="lbl-email">EMAIL</label><input type="email" id="in-email" oninput="updatePreview()">
 
@@ -121,7 +122,6 @@
 <script src="database.js"></script>
 
 <script>
-    // 15 HIVATALOS BEMUTATKOZÁS (MIND A 3 NYELVEN - API NÉLKÜL)
     const summariesDB = {
         hu: {
             "1": "Több éves releváns szakmai és vezetői tapasztalattal rendelkező szakember vagyok. Erősségem a stratégiai tervezés és az eredményorientált csapatvezetés.",
@@ -141,7 +141,7 @@
             "15": "Sokoldalú és szakmailag elkötelezett munkatárs vagyok, kiemelkedő alkalmazkodóképességgel."
         },
         en: {
-            "1": "I am a professional with several years of relevant management experience. Strengths include strategic planning and result-oriented leadership.",
+            "1": "I am a professional with several years of relevant management experience. My strengths include strategic planning and result-oriented leadership.",
             "2": "Tech-focused professional committed to innovative solutions and efficient problem-solving.",
             "3": "Characterized by precision and a systematic approach in managing administrative processes.",
             "4": "Supporting long-term business relationships through a customer-centric mindset.",
@@ -155,7 +155,7 @@
             "12": "Proficient in finance and data analysis, supporting data-driven decision-making.",
             "13": "As a technically-minded professional, my primary task is troubleshooting and ensuring continuous operation.",
             "14": "Professional career is characterized by responsible and disciplined work within security protocols.",
-            "15": "Versatile and flexible colleague with outstanding adaptability."
+            "15": "Versatile and flexible colleague with outstanding adaptability in any corporate environment."
         },
         de: {
             "1": "Fachkraft mit mehrjähriger Managementerfahrung, spezialisiert auf strategische Planung und Teamführung.",
@@ -177,13 +177,13 @@
     };
 
     const dictionary = {
-        hu: { engineName: "Career-Engine", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", city: "VÁROS", street: "UTCA", phone: "TELEFON", email: "EMAIL", summary: "BEMUTATKOZÁS-KÉPESSÉGEK", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "Végzettség", v_job: "Foglalkozás", v_pos: "Beosztás", select_hint: "-- VÁLASSZ --" },
-        en: { engineName: "Career-Engine", fName: "FIRST NAME", lName: "LAST NAME", city: "CITY", street: "STREET", phone: "PHONE", email: "EMAIL", summary: "SUMMARY-SKILLS", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address:", colors: "COLORS", styles: "STYLES", v_deg: "Degree", v_job: "Occupation", v_pos: "Position", select_hint: "-- SELECT --" },
-        de: { engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summary: "PROFIL-FÄHIGKEITEN", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse:", colors: "FARBEN", styles: "STILE", v_deg: "Abschluss", v_job: "Beruf", v_pos: "Position", select_hint: "-- WÄHLEN --" }
+        hu: { engineName: "Career-Engine", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", city: "VÁROS", street: "UTCA", phone: "TELEFON", email: "EMAIL", summary: "BEMUTATKOZÁS-KÉPESSÉGEK", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím:", colors: "SZÍNEK", styles: "STÍLUSOK", select_hint: "-- VÁLASSZ --" },
+        en: { engineName: "Career-Engine", fName: "FIRST NAME", lName: "LAST NAME", city: "CITY", street: "STREET", phone: "PHONE", email: "EMAIL", summary: "SUMMARY-SKILLS", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address:", colors: "COLORS", styles: "STYLES", select_hint: "-- SELECT --" },
+        de: { engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summary: "PROFIL-FÄHIGKEITEN", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse:", colors: "FARBEN", styles: "STILE", select_hint: "-- WÄHLEN --" }
     };
 
     let currentLang = 'hu';
-    let selectedIndices = []; // Tároljuk a kiválasztott bemutatkozások sorrendjét
+    let selectedIndices = [];
 
     function setMode(l, btn) {
         currentLang = l;
@@ -236,7 +236,6 @@
             div.innerHTML = `
                 <input type="text" class="e-main" placeholder="Iskola neve" oninput="updatePreview()">
                 <input type="text" class="e-sub" placeholder="Időtartam" oninput="updatePreview()">
-                <label class="smart-label">${d.v_deg}</label>
                 <select class="e-db" onchange="updatePreview()"></select>
                 <button style="position:absolute; top:5px; right:5px; background:red; color:white; border:none; cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
             `;
@@ -245,9 +244,7 @@
             div.innerHTML = `
                 <input type="text" class="e-main" placeholder="Cég neve" oninput="updatePreview()">
                 <input type="text" class="e-sub" placeholder="Időtartam" oninput="updatePreview()">
-                <label class="smart-label">${d.v_job}</label>
                 <select class="e-job" onchange="updatePreview()"></select>
-                <label class="smart-label">${d.v_pos}</label>
                 <select class="e-pos" onchange="updatePreview()"></select>
                 <button style="position:absolute; top:5px; right:5px; background:red; color:white; border:none; cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
             `;
@@ -261,7 +258,7 @@
         const sel = document.getElementById('sel-summary');
         const target = document.getElementById('in-summary');
         if (sel.value) {
-            selectedIndices.push(sel.value); // Korlátlan hozzáadás tárolása
+            selectedIndices.push(sel.value);
             target.value = selectedIndices.map(idx => summariesDB[currentLang][idx]).join("\n\n");
             sel.value = "";
             updatePreview();
