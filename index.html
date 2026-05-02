@@ -159,7 +159,6 @@ async function applyMatrixSummary() {
         }
     }
 
-    // EZT PÓTOLJUK, MERT EZ HIÁNYZOTT:
     function setMode(l, btn) {
         currentLang = l;
         document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
@@ -167,8 +166,7 @@ async function applyMatrixSummary() {
         updateInterface();
         updatePreview();
         refreshAllSelects();
-    }
-
+    } // EZ A ZÁRÓJEL NAGYON KELL IDE!
     function refreshAllSelects() {
         document.querySelectorAll('.entry-box').forEach(box => {
             const selectDeg = box.querySelector('.e-db');
