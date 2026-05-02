@@ -82,6 +82,20 @@
         </div>
         <div style="width:30%"><label class="smart-label">HÁZSZÁM</label><input type="text" id="in-house" oninput="updatePreview()"></div>
     </div>
+    
+  <label class="smart-label" id="lbl-phone">TELEFON / PHONE / TELEFON</label><input type="text" id="in-phone" oninput="updatePreview()">
+    <label class="smart-label" id="lbl-email">EMAIL</label><input type="email" id="in-email" oninput="updatePreview()">
+    <label class="smart-label" id="lbl-summary">BEMUTATKOZÁS-KÉPESSÉGEK / SUMMARY-SKILLS / PROFIL-FÄHIGKEITEN</label><textarea id="in-summary" rows="3" oninput="updatePreview()"></textarea>
+
+    <div id="edu-area"><h3 id="lbl-eduHeader">TANULMÁNYOK</h3><div id="edu-container"></div><button onclick="addEntry('edu')" class="add-btn" id="lbl-addEdu">+ ÚJ ISKOLA</button></div>
+    <div id="work-area"><h3 id="lbl-workHeader">MUNKATAPASZTALAT</h3><div id="work-container"></div><button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY</button></div>
+
+    <button onclick="window.print()" class="print-btn" id="lbl-printBtn">PDF GENERÁLÁSA</button>
+</div>
+
+<div class="preview-side"><div class="cv-paper" id="cv-paper"><div class="cv-header"><div id="out-photo-box" style="display:none; width:130px; height:160px; overflow:hidden;"><img id="out-photo" style="width:100%;"></div><div class="header-text"><h1 id="out-name">NAME</h1><div id="out-contact" style="margin-top:10px; font-size:14px; color:#555;"></div></div></div><div id="main-content"></div></div></div>
+
+<script src="database.js"></script>
 
     <label class="smart-label" id="lbl-phone">TELEFON / PHONE / TELEFON</label><input type="text" id="in-phone" oninput="updatePreview()">
     <label class="smart-label" id="lbl-email">EMAIL</label><input type="email" id="in-email" oninput="updatePreview()">
