@@ -128,8 +128,13 @@
 
   // Ez az új, villámgyors "Vak-fordító", ami nem használ internetet
 async function apiTranslate(text) {
-    return text; 
-}
+        if (!text || currentLang === 'hu') return text;
+        try {
+            const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=hu|${currentLang}`);
+            const data = await res.json();
+            return data.responseData.translatedText || text;
+        } catch { return text; }
+    }
 
 async function applyMatrixSummary() {
         const sel = document.getElementById('sel-summary');
