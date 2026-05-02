@@ -2,7 +2,7 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Career-v70-Matrix-A&N Visual</title>
+    <title>Career-Engine v69.0 - A&N Visual</title>
     <style>
         :root { --main-color: #007bb5; --bg: #0d0d0d; }
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; background: #000; color: #eee; }
@@ -51,6 +51,8 @@
 
 <div class="editor-side">
     <div class="logo-area"><div class="brand-circle">A&N</div><h1 id="lbl-engineName">Career-Engine</h1></div>
+    <div class="info-panel"><b id="lbl-atsTitle">🚀 GIGA ATS TIPPEK:</b><div id="lbl-atsTips" style="white-space: pre-wrap; margin-top: 5px;"></div></div>
+    <div class="info-panel" style="background:#2c3e50; border-left-color:var(--main-color);"><b id="lbl-guideTitle">📝 ÚTMUTATÓ:</b><p id="lbl-guide"></p></div>
     
     <div class="lang-grid">
         <button class="btn-lang active" onclick="setMode('hu', this)">HU</button>
@@ -82,20 +84,6 @@
         </div>
         <div style="width:30%"><label class="smart-label">HÁZSZÁM</label><input type="text" id="in-house" oninput="updatePreview()"></div>
     </div>
-    
-  <label class="smart-label" id="lbl-phone">TELEFON / PHONE / TELEFON</label><input type="text" id="in-phone" oninput="updatePreview()">
-    <label class="smart-label" id="lbl-email">EMAIL</label><input type="email" id="in-email" oninput="updatePreview()">
-    <label class="smart-label" id="lbl-summary">BEMUTATKOZÁS-KÉPESSÉGEK / SUMMARY-SKILLS / PROFIL-FÄHIGKEITEN</label><textarea id="in-summary" rows="3" oninput="updatePreview()"></textarea>
-
-    <div id="edu-area"><h3 id="lbl-eduHeader">TANULMÁNYOK</h3><div id="edu-container"></div><button onclick="addEntry('edu')" class="add-btn" id="lbl-addEdu">+ ÚJ ISKOLA</button></div>
-    <div id="work-area"><h3 id="lbl-workHeader">MUNKATAPASZTALAT</h3><div id="work-container"></div><button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY</button></div>
-
-    <button onclick="window.print()" class="print-btn" id="lbl-printBtn">PDF GENERÁLÁSA</button>
-</div>
-
-<div class="preview-side"><div class="cv-paper" id="cv-paper"><div class="cv-header"><div id="out-photo-box" style="display:none; width:130px; height:160px; overflow:hidden;"><img id="out-photo" style="width:100%;"></div><div class="header-text"><h1 id="out-name">NAME</h1><div id="out-contact" style="margin-top:10px; font-size:14px; color:#555;"></div></div></div><div id="main-content"></div></div></div>
-
-<script src="database.js"></script>
 
     <label class="smart-label" id="lbl-phone">TELEFON / PHONE / TELEFON</label><input type="text" id="in-phone" oninput="updatePreview()">
     <label class="smart-label" id="lbl-email">EMAIL</label><input type="email" id="in-email" oninput="updatePreview()">
@@ -128,42 +116,129 @@
 <div class="preview-side"><div class="cv-paper" id="cv-paper"><div class="cv-header"><div id="out-photo-box" style="display:none; width:130px; height:160px; overflow:hidden;"><img id="out-photo" style="width:100%;"></div><div class="header-text"><h1 id="out-name">NAME</h1><div id="out-contact" style="margin-top:10px; font-size:14px; color:#555;"></div></div></div><div id="main-content"></div></div></div>
 
 <script src="database.js"></script>
-    
+
 <script>
- const dictionary = {
-        hu: { 
-            engineName: "Career-Engine", atsTitle: "🚀 API TIPPEK:", atsTips: "• Kulcsszavak!\n• Számok!\n• Jó fotó!", guideTitle: "📝 ÚTMUTATÓ:", guide: "Profilba írj 3-4 mondatban.", fName: "KERESZTNÉV / FIRST NAME / VORNAME", lName: "VEZETÉKNÉV / LAST NAME / NACHNAME", city: "VÁROS / CITY / STADT", street: "UTCA / STREET / STRASSE", type: "≡ TÍPUS", phone: "TELEFON / PHONE / TELEFON", email: "EMAIL", summary: "BEMUTATKOZÁS-KÉPESSÉGEK / SUMMARY-SKILLS / PROFIL-FÄHIGKEITEN", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím / Address / Adresse:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "Végzettség", v_job: "Foglalkozás", v_pos: "Beosztás", v_other: "EGYÉB", select_hint: "-- VÁLASSZ / SELECT / WÄHLEN --",
-            sum_1: "Több éves vezetői tapasztalattal rendelkező szakember vagyok...",
-            sum_2: "Technológiai szemléletű szakemberként szenvedélyem az innováció...",
-            sum_3: "Rendszerszemléletű, precíz munkavégzés jellemez...",
-            sum_4: "Ügyfélközpontú attitűdöm segít a hosszú távú üzleti kapcsolatok építésében...",
-            sum_5: "Kreatív gondolkodásmódommal és vizuális látásmódommal segítem a márkák építését...",
-            sum_6: "A logisztika és a hatékonyság megszállottja vagyok...",
-            sum_7: "Lelkes pályakezdőként várom a kihívásokat...",
-            sum_8: "Nagy munkabírású szakemberként a minőségi és pontos kivitelezésre törekszem...",
-            sum_10: "A vendéglátásban szerzett tapasztalatomat a legmagasabb szintű kiszolgálás szolgálatába állítom...",
-            sum_11: "Elemző és stratégiai látásmódom segít a komplex üzleti problémák átlátásában...",
-            sum_12: "A számok és adatok világában mozgok otthonosan...",
-            sum_13: "Műszaki beállítottságú szakemberként a hibaelhárítás az elsődleges feladatom...",
-            sum_14: "Felelősségteljes és fegyelmezett munkavégzés jellemzi a biztonsági területet...",
-            sum_15: "Sokoldalú és rugalmas munkatárs vagyok a közös siker érdekében."
-        },
-        en: { 
-            engineName: "Career-Engine", atsTitle: "🚀 API TIPS:", atsTips: "• Keywords!\n• Numbers!\n• Pro Photo!", guideTitle: "📝 GUIDE:", guide: "Describe yourself in 3-4 sentences.", fName: "FIRST NAME / KERESZTNÉV / VORNAME", lName: "LAST NAME / VEZETÉKNÉV / NACHNAME", city: "CITY / VÁROS / STADT", street: "STREET / UTCA / STRASSE", type: "≡ TYPE", phone: "PHONE / TELEFON / TELEFON", email: "EMAIL", summary: "SUMMARY-SKILLS / BEMUTATKOZÁS-KÉPESSÉGEK / PROFIL-FÄHIGKEITEN", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address / Cím / Adresse:", colors: "COLORS", styles: "STYLES", v_deg: "Degree", v_job: "Occupation", v_pos: "Position", v_other: "OTHER", select_hint: "-- SELECT / VÁLASSZ / WÄHLEN --",
-            sum_1: "I am a professional with several years of leadership experience..."
-            // ... a többi sum ugyanígy jön ide ...
-        }
+    const dictionary = {
+        hu: { engineName: "Career-Engine", atsTitle: "🚀 API TIPPEK:", atsTips: "• Kulcsszavak!\n• Számok!\n• Jó fotó!", guideTitle: "📝 ÚTMUTATÓ:", guide: "Profilba írj 3-4 mondatban.", fName: "KERESZTNÉV / FIRST NAME / VORNAME", lName: "VEZETÉKNÉV / LAST NAME / NACHNAME", city: "VÁROS / CITY / STADT", street: "UTCA / STREET / STRASSE", type: "≡ TÍPUS", phone: "TELEFON / PHONE / TELEFON", email: "EMAIL", summary: "BEMUTATKOZÁS-KÉPESSÉGEK / SUMMARY-SKILLS / PROFIL-FÄHIGKEITEN", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím / Address / Adresse:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "Végzettség", v_job: "Foglalkozás", v_pos: "Beosztás", v_other: "EGYÉB", select_hint: "-- VÁLASSZ / SELECT / WÄHLEN --" },
+        en: { engineName: "Career-Engine", atsTitle: "🚀 API TIPS:", atsTips: "• Keywords!\n• Numbers!\n• Pro Photo!", guideTitle: "📝 GUIDE:", guide: "Describe yourself in 3-4 sentences.", fName: "FIRST NAME / KERESZTNÉV / VORNAME", lName: "LAST NAME / VEZETÉKNÉV / NACHNAME", city: "CITY / VÁROS / STADT", street: "STREET / UTCA / STRASSE", type: "≡ TYPE", phone: "PHONE / TELEFON / TELEFON", email: "EMAIL", summary: "SUMMARY-SKILLS / BEMUTATKOZÁS-KÉPESSÉGEK / PROFIL-FÄHIGKEITEN", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address / Cím / Adresse:", colors: "COLORS", styles: "STYLES", v_deg: "Degree", v_job: "Occupation", v_pos: "Position", v_other: "OTHER", select_hint: "-- SELECT / VÁLASSZ / WÄHLEN --" },
+        de: { engineName: "Career-Engine", atsTitle: "🚀 API TIPPS:", atsTips: "• Keywords!\n• Zahlen!\n• Foto!", guideTitle: "📝 ANLEITUNG:", guide: "Schreiben Sie 3-4 Sätze.", fName: "VORNAME / KERESZTNÉV / FIRST NAME", lName: "NACHNAME / VEZETÉKNÉV / LAST NAME", city: "STADT / VÁROS / CITY", street: "STRASSE / UTCA / STREET", type: "≡ TYP", phone: "TELEFON / TELEFON / PHONE", email: "EMAIL", summary: "PROFIL-FÄHIGKEITEN / BEMUTATKOZÁS-KÉPESSÉGEK / SUMMARY-SKILLS", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse / Address / Cím:", colors: "FARBEN", styles: "STILE", v_deg: "Abschluss", v_job: "Beruf", v_pos: "Position", v_other: "SONSTIGES", select_hint: "-- WÄHLEN / VÁLASSZ / SELECT --" }
     };
 
     let currentLang = 'hu';
 
-    // ALAPFUNKCIÓK (Ezek hiányoznak a képernyőképed alapján!)
+    async function apiTranslate(text) {
+        if (!text || currentLang === 'hu') return text;
+        try {
+            const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=hu|${currentLang}`);
+            const data = await res.json();
+            return data.responseData.translatedText || text;
+        } catch { return text; }
+    }
+
+    function setMode(l, btn) {
+        currentLang = l;
+        document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        updateInterface();
+        updatePreview();
+        refreshAllSelects();
+    }
+
+    function refreshAllSelects() {
+        document.querySelectorAll('.entry-box').forEach(box => {
+            const selectDeg = box.querySelector('.e-db');
+            const selectJob = box.querySelector('.e-job');
+            const selectPos = box.querySelector('.e-pos');
+            if (selectDeg) updateSelect(selectDeg, careerDB.eduLevels);
+            if (selectJob) updateSelect(selectJob, careerDB.jobs);
+            if (selectPos) updateSelect(selectPos, careerDB.positions);
+        });
+    }
+
+    function updateSelect(select, list) {
+        const currentVal = select.value;
+        let html = `<option value="">${dictionary[currentLang].select_hint}</option>`;
+        list.forEach(item => {
+            html += `<option value="${item.hu}" ${item.hu === currentVal ? 'selected' : ''}>${item[currentLang]}</option>`;
+        });
+        select.innerHTML = html;
+    }
+
+    function updateInterface() {
+        const d = dictionary[currentLang];
+        for (let key in d) {
+            const el = document.getElementById('lbl-' + key);
+            if (el) el.innerText = d[key];
+        }
+        document.querySelectorAll('.dyn-deg').forEach(el => el.innerText = d.v_deg);
+        document.querySelectorAll('.dyn-job').forEach(el => el.innerText = d.v_job);
+        document.querySelectorAll('.dyn-pos').forEach(el => el.innerText = d.v_pos);
+        document.querySelectorAll('.dyn-other').forEach(el => el.innerText = d.v_other);
+    }
+
     function updatePreview() {
-        const outName = document.getElementById('out-name');
-        const inFirstName = document.getElementById('in-firstname')?.value || "";
-        const inLastName = document.getElementById('in-lastname')?.value || "";
-        if (outName) outName.innerText = inLastName + " " + inFirstName;
-        // ... ide jön a többi mező frissítése ...
+        const l = document.getElementById('in-lastName').value || "";
+        const f = document.getElementById('in-firstName').value || "";
+        document.getElementById('out-name').innerText = (currentLang === 'hu' ? l + " " + f : f + " " + l).trim().toUpperCase() || "NAME";
+        renderPaper();
+    }
+
+    async function renderPaper() {
+        const d = dictionary[currentLang];
+        const city = await apiTranslate(document.getElementById('in-city').value);
+        const street = document.getElementById('in-street').value;
+        const sTypeSelect = document.getElementById('in-street-type');
+        const sType = sTypeSelect.options[sTypeSelect.selectedIndex].text.split(' / ')[currentLang === 'hu' ? 0 : (currentLang === 'en' ? 1 : 2)];
+        
+        document.getElementById('out-contact').innerHTML = `
+            <b>${d.phone.split(' / ')[0]}:</b> ${document.getElementById('in-phone').value}<br>
+            <b>EMAIL:</b> ${document.getElementById('in-email').value}<br>
+            <b>${d.addr.split(' / ')[0]}:</b> ${city}, ${street} ${sType} ${document.getElementById('in-house').value}
+        `;
+
+        let html = "";
+        const sumRaw = document.getElementById('in-summary').value;
+        if(sumRaw) {
+            const sumTrans = await apiTranslate(sumRaw);
+            html += `<h3>${d.summary.split(' / ')[0]}</h3><p style="margin:5px 0; white-space: pre-wrap;">${sumTrans}</p>`;
+        }
+
+        let eduHtml = "";
+        for (const box of document.querySelectorAll('#edu-container .entry-box')) {
+            const m = box.querySelector('.e-main').value;
+            const sub = box.querySelector('.e-sub').value;
+            const dbVal = box.querySelector('.e-db').value;
+            const otherVal = box.querySelector('.e-other').value;
+            let title = (dbVal && dbVal !== "") ? careerDB.eduLevels.find(x => x.hu === dbVal)[currentLang] : await apiTranslate(otherVal);
+            if(m || title) eduHtml += `
+                <div style="margin-bottom:15px">
+                    <div style="font-weight:bold; font-size:16px;">${m}</div>
+                    <div style="color:#555;">${title}</div>
+                    <div style="font-size:13px; color:#777;">${sub}</div>
+                </div>`;
+        }
+        if(eduHtml) html += `<h3>${d.eduHeader}</h3>` + eduHtml;
+
+        let workHtml = "";
+        for (const box of document.querySelectorAll('#work-container .entry-box')) {
+            const m = box.querySelector('.e-main').value;
+            const sub = box.querySelector('.e-sub').value;
+            const jobVal = box.querySelector('.e-job').value;
+            const jobOther = box.querySelector('.e-job-other').value;
+            const posVal = box.querySelector('.e-pos').value;
+            const posOther = box.querySelector('.e-pos-other').value;
+            let job = (jobVal && jobVal !== "") ? careerDB.jobs.find(x => x.hu === jobVal)[currentLang] : await apiTranslate(jobOther);
+            let pos = (posVal && posVal !== "") ? careerDB.positions.find(x => x.hu === posVal)[currentLang] : await apiTranslate(posOther);
+            if(m || job) workHtml += `
+                <div style="margin-bottom:15px">
+                    <div style="font-weight:bold; font-size:16px;">${m}</div>
+                    <div style="color:#555;">${job} ${pos ? ' - ' + pos : ''}</div>
+                    <div style="font-size:13px; color:#777;">${sub}</div>
+                </div>`;
+        }
+        if(workHtml) html += `<h3>${d.workHeader}</h3>` + workHtml;
+
+        document.getElementById('main-content').innerHTML = html;
     }
 
     function addEntry(type) {
@@ -199,27 +274,53 @@
         updateInterface();
     }
 
+    window.onload = () => {
+        const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
+        colors.forEach(c => {
+            let b = document.createElement('div'); b.className = 'color-btn'; b.style.background = c;
+            b.onclick = () => { document.documentElement.style.setProperty('--main-color', c); updatePreview(); };
+            document.getElementById('color-picker').appendChild(b);
+        });
+        for(let i=1; i<=10; i++) {
+            let b = document.createElement('button'); b.className = 'style-btn'; b.innerText = i;
+            b.onclick = () => { document.body.className = 'style-' + i; };
+            document.getElementById('style-picker').appendChild(b);
+        }
+        updateInterface();
+    };
+
+    function loadPhoto(e) {
+        const r = new FileReader();
+        r.onload = () => { document.getElementById('out-photo').src = r.result; document.getElementById('out-photo-box').style.display='block'; updatePreview(); };
+        r.readAsDataURL(e.target.files[0]);
+    }
     function applyMatrixSummary() {
         const sel = document.getElementById('sel-summary');
         const target = document.getElementById('in-summary');
-        if (sel && target && dictionary[currentLang]["sum_" + sel.value]) {
-            target.value = dictionary[currentLang]["sum_" + sel.value];
-            updatePreview();
+        
+        const summaries = {
+            "1": "Több éves vezetői tapasztalattal rendelkező szakember vagyok, aki a stratégiai tervezésben és a csapatok motiválásában hisz. Célom az eredményesség maximalizálása.",
+            "2": "Technológiai szemléletű szakemberként szenvedélyem az innováció és a problémamegoldás. Erős technikai alapokkal és folyamatos tanulási vággyal rendelkezem.",
+            "3": "Rendszerszemléletű, precíz munkavégzés jellemez. Az adminisztrációs folyamatok optimalizálásában és a pontos dokumentációban vagyok a legerősebb.",
+            "4": "Ügyfélközpontú attitűdöm segít a hosszú távú üzleti kapcsolatok építésében. Kiváló kommunikációs készséggel kezelem a konfliktusokat és az értékesítési helyzeteket.",
+            "5": "Kreatív gondolkodásmódommal és vizuális látásmódommal segítem a márkák építését. Nem csak a formát, hanem a funkciót is szem előtt tartom.",
+            "6": "A logisztika és a hatékonyság megszállottja vagyok. Gyors döntéshozatali képességem segít a váratlan helyzetek megoldásában is.",
+            "7": "Lelkes pályakezdőként várom a kihívásokat. Gyorsan tanulok, megbízható vagyok, és elkötelezett a szakmai fejlődés iránt.",
+            "8": "Nagy munkabírású szakemberként a minőségi és pontos kivitelezésre törekszem. Tapasztalatom van ipari környezetben és csapatmunkában is.",
+            "9": "Empatikus és türelmes szakember vagyok, aki elkötelezett mások segítése és a szakmai hivatás gyakorlása mellett.",
+            "10": "A vendéglátásban szerzett tapasztalatomat a legmagasabb szintű kiszolgálás és a vendégelégedettség szolgálatába állítom.",
+            "11": "Elemző és stratégiai látásmódom segít a komplex üzleti problémák átlátásában és a jövőbeli trendek előrejelzésében.",
+            "12": "A számok és adatok világában mozgok otthonosan. Precizitásom és logikai készségem a pénzügyi stabilitást szolgálja.",
+            "13": "Műszaki beállítottságú szakemberként a hibaelhárítás és a folyamatos üzemeltetés biztosítása az elsődleges feladatom.",
+            "14": "Felelősségteljes és fegyelmezett munkavégzés jellemzi a biztonsági területen szerzett pályafutásomat.",
+            "15": "Sokoldalú és rugalmas munkatárs vagyok, aki bármilyen környezetben megtalálja a közös hangot a kollégákkal a közös siker érdekében."
+        };
+
+        if (sel.value && summaries[sel.value]) {
+            target.value = summaries[sel.value];
+            updatePreview(); 
         }
     }
-
-    function changeColor(c) {
-        document.documentElement.style.setProperty('--main-color', c);
-        updatePreview();
-    }
-
-    function changeStyle(s) {
-        document.body.className = s;
-        updatePreview();
-    }
-
-    // Indításnál frissítés
-    window.onload = updatePreview;  
 </script>
 </body>
 </html>
