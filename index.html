@@ -20,7 +20,6 @@
         .style-btn { padding: 8px; background: #222; color: white; border: 1px solid #444; cursor: pointer; border-radius: 4px; font-weight: bold; }
         .smart-label { display: block; margin-top: 15px; font-size: 11px; font-weight: bold; color: var(--main-color); text-transform: uppercase; }
         input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; box-sizing: border-box; }
-        .input-group { display: flex; gap: 10px; }
         .entry-box { background: #151515; padding: 15px; margin-top: 10px; border-left: 4px solid var(--main-color); border-radius: 4px; position: relative; }
         .add-btn { background: #27ae60; color: white; width: 100%; padding: 12px; border: none; margin-top: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .print-btn { background: var(--main-color); color: white; width: 100%; padding: 18px; border: none; margin-top: 25px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; }
@@ -30,7 +29,7 @@
         h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
         h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
 
-        /* A 10 STÍLUS */
+        /* A 10 STÍLUS FIXÁLÁSA */
         body.style-1 .cv-paper { border-top: 20px solid var(--main-color); }
         body.style-2 .cv-header { flex-direction: column; text-align: center; }
         body.style-3 .cv-header { flex-direction: row-reverse; }
@@ -87,7 +86,7 @@
     <textarea id="in-summary" rows="5" oninput="updatePreview()" placeholder="Válassz fent..."></textarea>
 
     <div id="edu-area"><h3 id="lbl-eduHeader">TANULMÁNYOK</h3><div id="edu-container"></div><button onclick="addEntry('edu')" class="add-btn" id="lbl-addEdu">+ ÚJ ISKOLA</button></div>
-    <div id="work-area"><h3 id="lbl-workHeader">TAPASZTALAT</h3><div id="work-container"></div><button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY</button></div>
+    <div id="work-area"><h3 id="lbl-workHeader">MUNKATAPASZTALAT</h3><div id="work-container"></div><button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY</button></div>
 
     <button onclick="window.print()" class="print-btn" id="lbl-printBtn">PDF GENERÁLÁSA</button>
 </div>
@@ -105,47 +104,64 @@
 </div>
 
 <script>
+    // TELJES ADATBÁZIS INTEGRÁLÁSA
+    const careerDB = {
+        eduLevels: [
+            {hu: "Általános Iskola", en: "Primary School", de: "Grundschule"},
+            {hu: "Középiskola / Gimnázium", en: "High School / Gymnasium", de: "Gymnasium"},
+            {hu: "Szakiskola / Technikum", en: "Vocational School", de: "Berufsschule"},
+            {hu: "Főiskola (BSc)", en: "College (BSc)", de: "Fachhochschule"},
+            {hu: "Egyetem (MSc)", en: "University (MSc)", de: "Universität"},
+            {hu: "Doktori (PhD)", en: "Doctorate (PhD)", de: "Promotion"}
+        ],
+        jobs: [
+            {hu: "Értékesítő / Sales", en: "Sales Representative", de: "Vertriebsmitarbeiter"},
+            {hu: "Adminisztrátor", en: "Administrator", de: "Sachbearbeiter"},
+            {hu: "Szoftverfejlesztő", en: "Software Developer", de: "Softwareentwickler"},
+            {hu: "Raktáros / Logisztikus", en: "Logistician", de: "Logistiker"},
+            {hu: "Vendéglátó / Felszolgáló", en: "Waiter / Waitress", de: "Kellner"},
+            {hu: "Biztonsági Őr", en: "Security Guard", de: "Sicherheitskraft"},
+            {hu: "Szakmunkás", en: "Skilled Worker", de: "Facharbeiter"}
+        ],
+        positions: [
+            {hu: "Gyakornok", en: "Intern", de: "Praktikant"},
+            {hu: "Junior", en: "Junior", de: "Junior"},
+            {hu: "Senior / Tapasztalt", en: "Senior / Experienced", de: "Senior"},
+            {hu: "Vezető / Manager", en: "Manager / Lead", de: "Leiter / Manager"},
+            {hu: "Igazgató", en: "Director", de: "Direktor"}
+        ]
+    };
+
     const dictionary = {
         hu: { 
-            engineName: "Career-Engine", atsTitle: "🚀 API TIPPEK:", atsTips: "• Kulcsszavak!\n• Számok!\n• Jó fotó!", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", summary: "BEMUTATKOZÁS", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", colors: "SZÍNEK", styles: "STÍLUSOK",
-            sum_1: "Több éves vezetői tapasztalattal rendelkező szakember vagyok, aki a stratégiai tervezésben és a csapatok motiválásában hisz. Célom az eredményesség maximalizálása.",
-            sum_2: "Technológiai szemléletű szakemberként szenvedélyem az innováció és a problémamegoldás. Erős technikai alapokkal és folyamatos tanulási vággyal rendelkezem.",
-            sum_3: "Rendszerszemléletű, precíz munkavégzés jellemez. Az adminisztrációs folyamatok optimalizálásában és a pontos dokumentációban vagyok a legerősebb.",
-            sum_4: "Ügyfélközpontú attitűdöm segít a hosszú távú üzleti kapcsolatok építésében. Kiváló kommunikációs készséggel kezelem a konfliktusokat.",
-            sum_5: "Kreatív gondolkodásmódommal és vizuális látásmódommal segítem a márkák építését. Nem csak a formát, hanem a funkciót is szem előtt tartom.",
-            sum_6: "A logisztika és a hatékonyság megszállottja vagyok. Gyors döntéshozatali képességem segít a váratlan helyzetek megoldásában is.",
-            sum_7: "Lelkes pályakezdőként várom a kihívásokat. Gyorsan tanulok, megbízható vagyok, és elkötelezett a szakmai fejlődés iránt.",
-            sum_8: "Nagy munkabírású szakemberként a minőségi és pontos kivitelezésre törekszem. Tapasztalatom van ipari környezetben és csapatmunkában is.",
-            sum_9: "Empatikus és türelmes szakember vagyok, aki elkötelezett mások segítése és a szakmai hivatás gyakorlása mellett.",
-            sum_10: "A vendéglátásban szerzett tapasztalatomat a legmagasabb szintű kiszolgálás és a vendégelégedettség szolgálatába állítom.",
-            sum_11: "Elemző és stratégiai látásmódom segít a komplex üzleti problémák átlátásában és a jövőbeli trendek előrejelzésében.",
-            sum_12: "A számok és adatok világában mozgok otthonosan. Precizitásom és logikai készségem a pénzügyi stabilitást szolgálja.",
-            sum_13: "Műszaki beállítottságú szakemberként a hibaelhárítás és a folyamatos üzemeltetés biztosítása az elsődleges feladatom.",
+            engineName: "Career-Engine", atsTitle: "🚀 API TIPPEK:", atsTips: "• Kulcsszavak!\n• Számok!\n• Jó fotó!", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", summary: "BEMUTATKOZÁS", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", colors: "SZÍNEK", styles: "STÍLUSOK", select_hint: "-- VÁLASSZ --",
+            sum_1: "Több éves vezetői tapasztalattal rendelkező szakember vagyok, aki a stratégiai tervezésben és a csapatok motiválásában hisz.",
+            sum_2: "Technológiai szemléletű szakemberként szenvedélyem az innováció és a problémamegoldás.",
+            sum_3: "Rendszerszemléletű, precíz munkavégzés jellemez. Az adminisztrációs folyamatok optimalizálásában vagyok a legerősebb.",
+            sum_4: "Ügyfélközpontú attitűdöm segít a hosszú távú üzleti kapcsolatok építésében.",
+            sum_5: "Kreatív gondolkodásmódommal és vizuális látásmódommal segítem a márkák építését.",
+            sum_6: "A logisztika és a hatékonyság megszállottja vagyok. Gyors döntéshozatali képesség jellemez.",
+            sum_7: "Lelkes pályakezdőként várom a kihívásokat. Gyorsan tanulok és megbízható vagyok.",
+            sum_8: "Nagy munkabírású szakemberként a minőségi és pontos kivitelezésre törekszem.",
+            sum_9: "Empatikus és türelmes szakember vagyok, aki elkötelezett mások segítése iránt.",
+            sum_10: "A vendéglátásban szerzett tapasztalatomat a legmagasabb szintű kiszolgálás szolgálatába állítom.",
+            sum_11: "Elemző és stratégiai látásmódom segít a komplex üzleti problémák átlátásában.",
+            sum_12: "A számok és adatok világában mozgok otthonosan. Precizitásom a stabilitást szolgálja.",
+            sum_13: "Műszaki beállítottságú szakemberként a hibaelhárítás az elsődleges feladatom.",
             sum_14: "Felelősségteljes és fegyelmezett munkavégzés jellemzi a biztonsági területen szerzett pályafutásomat.",
-            sum_15: "Sokoldalú és rugalmas munkatárs vagyok, aki bármilyen környezetben megtalálja a közös hangot a kollégákkal."
+            sum_15: "Sokoldalú és rugalmas munkatárs vagyok, aki bármilyen környezetben megtalálja a közös hangot."
         },
         en: { 
-            engineName: "Career-Engine", atsTitle: "🚀 API TIPS:", atsTips: "• Keywords!\n• Numbers!\n• Photo!", fName: "FIRST NAME", lName: "LAST NAME", summary: "SUMMARY", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", colors: "COLORS", styles: "STYLES",
-            sum_1: "I am a professional with several years of leadership experience who believes in strategic planning and team motivation. My goal is to maximize effectiveness.",
-            sum_2: "As a technology-oriented professional, my passion is innovation and problem-solving. I have strong technical foundations.",
-            sum_3: "I am characterized by a systematic and precise way of working. I am strongest in optimizing administrative processes.",
-            sum_4: "My customer-oriented attitude helps build long-term business relationships. I handle conflicts with excellent communication.",
-            sum_5: "I help build brands with my creative thinking and visual perspective. I keep both form and function in mind.",
-            sum_6: "I am obsessed with logistics and efficiency. My quick decision-making ability helps solve unexpected situations.",
-            sum_7: "As an enthusiastic beginner, I look forward to challenges. I learn quickly and am committed to professional development.",
-            sum_8: "As a high-capacity professional, I strive for quality and precise execution. I have experience in industrial environments.",
-            sum_9: "I am an empathetic and patient professional committed to helping others and practicing my professional calling.",
-            sum_10: "I put my experience in hospitality at the service of the highest level of service and guest satisfaction.",
-            sum_11: "My analytical and strategic vision helps in understanding complex business problems and forecasting trends.",
-            sum_12: "I am at home in the world of numbers and data. My precision and logical skills serve financial stability.",
-            sum_13: "As a technically-minded professional, troubleshooting and ensuring continuous operation is my primary task.",
-            sum_14: "Responsible and disciplined work characterizes my career in the security field.",
-            sum_15: "I am a versatile and flexible team member who finds common ground in any environment for mutual success."
+            engineName: "Career-Engine", atsTitle: "🚀 API TIPS:", atsTips: "• Keywords!\n• Numbers!\n• Photo!", fName: "FIRST NAME", lName: "LAST NAME", summary: "SUMMARY", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", colors: "COLORS", styles: "STYLES", select_hint: "-- SELECT --",
+            sum_1: "Professional with leadership experience in strategic planning and team motivation.",
+            sum_14: "Responsible and disciplined career in the security field.",
+            sum_15: "Versatile and flexible team member for mutual success."
         },
         de: { 
-            engineName: "Career-Engine", atsTitle: "🚀 API TIPPS:", atsTips: "• Keywords!\n• Zahlen!\n• Foto!", fName: "VORNAME", lName: "NACHNAME", summary: "PROFIL", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", colors: "FARBEN", styles: "STILE",
-            sum_1: "Ich bin eine Führungskraft mit mehrjähriger Erfahrung, die an strategische Planung und Teammotivation glaubt.",
-            sum_15: "Ich bin ein vielseitiges Teammitglied, das in jeder Umgebung den richtigen Ton trifft, um gemeinsam erfolgreich zu sein."
+            engineName: "Career-Engine", atsTitle: "🚀 API TIPPS:", atsTips: "• Keywords!\n• Zahlen!\n• Foto!", fName: "VORNAME", lName: "NACHNAME", summary: "PROFIL", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", colors: "FARBEN", styles: "STILE", select_hint: "-- WÄHLEN --",
+            sum_1: "Führungskraft mit Erfahrung in strategischer Planung.",
+            sum_14: "Verantwortungsbewusstes Arbeiten im Sicherheitsbereich.",
+            sum_15: "Vielseitiges Teammitglied für den gemeinsamen Erfolg."
         }
     };
 
@@ -171,12 +187,39 @@
     function addEntry(type) {
         const div = document.createElement('div');
         div.className = 'entry-box';
-        div.innerHTML = `
-            <input type="text" class="e-main" placeholder="Név / Name" oninput="updatePreview()">
-            <input type="text" class="e-sub" placeholder="Idő / Time" oninput="updatePreview()">
-            <button style="position:absolute; top:5px; right:5px; background:red; color:white; border:none; cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
-        `;
+        const d = dictionary[currentLang];
+        
+        let selectHtml = "";
+        if(type === 'edu') {
+            selectHtml = `<select class="e-db" onchange="updatePreview()">`;
+            careerDB.eduLevels.forEach(item => {
+                selectHtml += `<option value="${item.hu}">${item[currentLang]}</option>`;
+            });
+            selectHtml += `</select>`;
+            div.innerHTML = `
+                <input type="text" class="e-main" placeholder="Iskola neve" oninput="updatePreview()">
+                <input type="text" class="e-sub" placeholder="Év" oninput="updatePreview()">
+                ${selectHtml}
+            `;
+        } else {
+            let jobSelect = `<select class="e-job" onchange="updatePreview()">`;
+            careerDB.jobs.forEach(item => jobSelect += `<option value="${item.hu}">${item[currentLang]}</option>`);
+            jobSelect += `</select>`;
+            
+            let posSelect = `<select class="e-pos" onchange="updatePreview()">`;
+            careerDB.positions.forEach(item => posSelect += `<option value="${item.hu}">${item[currentLang]}</option>`);
+            posSelect += `</select>`;
+            
+            div.innerHTML = `
+                <input type="text" class="e-main" placeholder="Firma / Cég" oninput="updatePreview()">
+                <input type="text" class="e-sub" placeholder="Időtartam" oninput="updatePreview()">
+                ${jobSelect} ${posSelect}
+            `;
+        }
+        
+        div.innerHTML += `<button style="position:absolute; top:5px; right:5px; background:red; color:white; border:none; cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>`;
         document.getElementById(type + '-container').appendChild(div);
+        updatePreview();
     }
 
     function applyMatrixSummary() {
@@ -199,7 +242,9 @@
         ['edu', 'work'].forEach(type => {
             let sectionHtml = `<h3>${dictionary[currentLang][type + 'Header']}</h3>`;
             document.querySelectorAll('#' + type + '-container .entry-box').forEach(box => {
-                sectionHtml += `<div><b>${box.querySelector('.e-main').value}</b> - ${box.querySelector('.e-sub').value}</div>`;
+                const main = box.querySelector('.e-main').value;
+                const sub = box.querySelector('.e-sub').value;
+                if(main) sectionHtml += `<div style="margin-bottom:10px"><b>${main}</b> (${sub})</div>`;
             });
             html += sectionHtml;
         });
@@ -207,7 +252,7 @@
     }
 
     window.onload = () => {
-        const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad"];
+        const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#2c3e50"];
         colors.forEach(c => {
             let b = document.createElement('div'); b.className = 'color-btn'; b.style.background = c;
             b.onclick = () => { document.documentElement.style.setProperty('--main-color', c); updatePreview(); };
