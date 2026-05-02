@@ -2,11 +2,7 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-   <title>Career-V70-Matrix Global</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="manifest" href="manifest.json">
+    <title>Career-Engine v69.0 - A&N Visual</title>
     <style>
         :root { --main-color: #007bb5; --bg: #0d0d0d; }
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; background: #000; color: #eee; }
@@ -54,7 +50,7 @@
 <body class="style-1">
 
 <div class="editor-side">
-   <div class="logo-area"><div class="brand-circle">A&N</div><h1 id="lbl-engineName">Career-V70-Matrix Global</h1></div>
+    <div class="logo-area"><div class="brand-circle">A&N</div><h1 id="lbl-engineName">Career-Engine</h1></div>
     <div class="info-panel"><b id="lbl-atsTitle">🚀 GIGA ATS TIPPEK:</b><div id="lbl-atsTips" style="white-space: pre-wrap; margin-top: 5px;"></div></div>
     <div class="info-panel" style="background:#2c3e50; border-left-color:var(--main-color);"><b id="lbl-guideTitle">📝 ÚTMUTATÓ:</b><p id="lbl-guide"></p></div>
     
@@ -91,38 +87,8 @@
 
     <label class="smart-label" id="lbl-phone">TELEFON / PHONE / TELEFON</label><input type="text" id="in-phone" oninput="updatePreview()">
     <label class="smart-label" id="lbl-email">EMAIL</label><input type="email" id="in-email" oninput="updatePreview()">
-   <label class="smart-label" id="lbl-summary">BEMUTATKOZÁS VÁLASZTÓ (15 OPCIÓ - NINCS KORLÁT)</label>
-<select id="sel-summary" onchange="addSum(this.value)">
-    <option value="">-- Válassz / Select / Wählen --</option>
-    <!-- Tapasztalt / Professional -->
-    <optgroup label="Tapasztalt / Professional">
-        <option value="hu|Precíz, megbízható munkaerő vagyok, aki hosszú távú munkalehetőséget keres.|en|Precise, reliable worker looking for long-term employment.|de|Präziser, zuverlässiger Mitarbeiter auf der Suche nach einer langfristigen Anstellung.">Megbízható / Reliable</option>
-        <option value="hu|Tapasztalt szakemberként célom a csapat hatékony támogatása.|en|As an experienced professional, my goal is to effectively support the team.|de|Als erfahrener Profi ist es mein Ziel, das Team effektiv zu unterstützen.">Tapasztalt / Experienced</option>
-        <option value="hu|Szakmai pályafutásom során bizonyítottam kiváló problémamegoldó képességemet.|en|Throughout my career, I have proven my excellent problem-solving skills.|de|Im Laufe meiner Karriere habe ich meine hervorragenden Problemlösungsfähigkeiten unter Beweis gestellt.">Problémamegoldó / Problem solver</option>
-    </optgroup>
-    <!-- Készségek / Skills -->
-    <optgroup label="Készségek / Skills">
-        <option value="hu|Gyorsan tanulok és kiválóan alkalmazkodom az új környezethez.|en|I learn quickly and adapt perfectly to new environments.|de|Ich lerne schnell und passe mich perfekt an neue Umgebungen an.">Alkalmazkodó / Adaptable</option>
-        <option value="hu|Jó kommunikációs készséggel rendelkező, csapatjátékos személyiség vagyok.|en|I am a team player with good communication skills.|de|Ich bin ein Teamplayer mit guten Kommunikationsfähigkeiten.">Csapatjátékos / Team player</option>
-        <option value="hu|Precizitás és pontosság jellemzi a munkámat minden feladatkörben.|en|Precision and accuracy characterize my work in all tasks.|de|Präzision und Genauigkeit zeichnen meine Arbeit in allen Aufgaben aus.">Precíz / Precise</option>
-        <option value="hu|Rugalmasan kezelem a változásokat és az összetett munkafolyamatokat.|en|I handle changes and complex workflows flexibly.|de|Ich gehe flexibel mit Veränderungen und komplexen Arbeitsabläufen um.">Rugalmas / Flexible</option>
-    </optgroup>
-    <!-- Hozzáállás / Attitude -->
-    <optgroup label="Hozzáállás / Attitude">
-        <option value="hu|Motivált és terhelhető vagyok, kész a felelősségteljes munkavégzésre.|en|I am motivated, resilient, and ready for responsible work.|de|Ich bin motiviert, belastbar und bereit für verantwortungsvolle Arbeit.">Motivált / Motivated</option>
-        <option value="hu|Kitartó és fegyelmezett vagyok, a rám bízott feladatokat maradéktalanul elvégzem.|en|I am persistent and disciplined, completing assigned tasks fully.|de|Ich bin beharrlich und diszipliniert und erledige die zugewiesenen Aufgaben vollständig.">Fegyelmezett / Disciplined</option>
-        <option value="hu|Műszaki beállítottságú vagyok, aki szereti a szakmai kihívásokat.|en|I have a technical mindset and enjoy professional challenges.|de|Ich habe eine technische Denkweise und genieße berufliche Herausforderungen.">Műszaki / Technical</option>
-        <option value="hu|Szakmám iránt elkötelezett vagyok, megbízhatóságomra bármikor lehet alapozni.|en|I am committed to my profession and can be relied upon at all times.|de|Ich setze mich für meinen Beruf ein und bin jederzeit zuverlässig.">Elkötelezett / Committed</option>
-    </optgroup>
-    <!-- Célok / Goals -->
-    <optgroup label="Célok / Goals">
-        <option value="hu|Rendszerető és alapos vagyok, a minőségre mindig kiemelt figyelmet fordítok.|en|I am orderly and thorough, always paying close attention to quality.|de|Ich bin ordentlich und gründlich und achte immer auf Qualität.">Alapos / Thorough</option>
-        <option value="hu|Hosszú távú együttműködést keresek stabil vállalati háttérrel.|en|I am looking for long-term cooperation with a stable corporate background.|de|Ich suche eine langfristige Zusammenarbeit mit einem stabilen Unternehmenshintergrund.">Stabil partner / Stable partner</option>
-        <option value="hu|Célom a folyamatos szakmai fejlődés és új ismeretek elsajátítása.|en|My goal is continuous professional development and learning new skills.|de|Mein Ziel ist die ständige berufliche Weiterentwicklung und das Erlernen neuer Fähigkeiten.">Fejlődni vágyó / Eager to learn</option>
-        <option value="hu|Önálló munkavégzésre és csapatban való együttműködésre egyaránt képes vagyok.|en|I am capable of both independent work and team collaboration.|de|Ich bin sowohl zu selbstständiger Arbeit als auch zur Teamarbeit fähig.">Önálló / Independent</option>
-    </optgroup>
-</select>
-<textarea id="in-summary" rows="5" oninput="updatePreview()"></textarea>
+    <label class="smart-label" id="lbl-summary">BEMUTATKOZÁS-KÉPESSÉGEK / SUMMARY-SKILLS / PROFIL-FÄHIGKEITEN</label><textarea id="in-summary" rows="3" oninput="updatePreview()"></textarea>
+
     <div id="edu-area"><h3 id="lbl-eduHeader">TANULMÁNYOK</h3><div id="edu-container"></div><button onclick="addEntry('edu')" class="add-btn" id="lbl-addEdu">+ ÚJ ISKOLA</button></div>
     <div id="work-area"><h3 id="lbl-workHeader">MUNKATAPASZTALAT</h3><div id="work-container"></div><button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY</button></div>
 
@@ -192,60 +158,11 @@
         document.querySelectorAll('.dyn-other').forEach(el => el.innerText = d.v_other);
     }
 
-function updatePreview() {
-    try {
-        // Alapadatok kinyerése
-        const fn = document.getElementById('in-firstName')?.value || '';
-        const ln = document.getElementById('in-lastName')?.value || '';
-        const ph = document.getElementById('in-phone')?.value || '';
-        const em = document.getElementById('in-email')?.value || '';
-
-        // A fejléc összeállítása
-        const headerHTML = `
-            <div style="border-bottom: 2px solid #007bb5; padding: 10px; margin-bottom: 20px; font-family: Arial, sans-serif;">
-                <h1 style="margin:0; color:#007bb5;">${fn} ${ln}</h1>
-                <p style="margin:0; font-style:italic; font-size:12px;">Career-V70-Matrix Global Generated</p>
-                <div style="text-align:right; font-size:12px;">
-                    ${ph ? 'Tel: ' + ph : ''} ${em ? ' | Email: ' + em : ''}
-                </div>
-            </div>
-        `;
-
-        // Megjelenítés
-        const target = document.getElementById('out-header');
-        if (target) {
-            target.innerHTML = headerHTML;
-        } else {
-            console.error("Hiba: Az 'out-header' elem nem található!");
-        }
-    } catch (e) {
-        console.error("Mátrix hiba az updatePreview-ban: ", e);
-    }
-}
-    `;
-
-    // Kimenetek frissítése - csak ha létezik a cél elem
-    if (document.getElementById('out-header')) {
-        document.getElementById('out-header').innerHTML = previewHeader;
-    }
-    
-    if (document.getElementById('out-summary')) {
-        document.getElementById('out-summary').innerText = summary;
-    }
-
-    // Ha van más szekciód (edu, work), azokat is ide kell tenni, 
-    // de előbb nézzük meg, hogy a név visszajön-e!
-}
-    `;
-
-    // Figyelj rá, hogy ez a sor KÖTELEZŐ alatta:
-    const headerOut = document.getElementById('out-header');
-    if (headerOut) headerOut.innerHTML = previewHeader;
-    
-    // Ide jön a kódod többi része (summary, edu, work...), az maradhat!
-    document.getElementById('out-header').innerHTML = previewHeader;
-    // ...
-}
+    function updatePreview() {
+        const l = document.getElementById('in-lastName').value || "";
+        const f = document.getElementById('in-firstName').value || "";
+        document.getElementById('out-name').innerText = (currentLang === 'hu' ? l + " " + f : f + " " + l).trim().toUpperCase() || "NAME";
+        renderPaper();
     }
 
     async function renderPaper() {
@@ -358,57 +275,6 @@ function updatePreview() {
         const r = new FileReader();
         r.onload = () => { document.getElementById('out-photo').src = r.result; document.getElementById('out-photo-box').style.display='block'; updatePreview(); };
         r.readAsDataURL(e.target.files[0]);
-    }
-    function addSum(val) {
-        if (!val) return;
-        const t = document.getElementById('in-summary');
-        if (!t.dataset.raw) t.dataset.raw = "";
-        const parts = val.split('|');
-        // Mindig a magyar verziót mentjük el alapnak az attribútumba
-        t.dataset.raw += (t.dataset.raw ? '\n' : '') + parts[1];
-        translateSummary();
-    }
-
-    function translateSummary() {
-        const t = document.getElementById('in-summary');
-        if (!t.dataset.raw) return;
-        let lines = t.dataset.raw.split('\n');
-        let translatedLines = lines.map(line => {
-            // Megkeressük a mondatot a választómenü opciói között
-            const option = Array.from(document.querySelectorAll('#sel-summary option')).find(opt => opt.value.includes(line));
-            if (option) {
-                const parts = option.value.split('|');
-                if (currentLang === 'en') return parts[3];
-                if (currentLang === 'de') return parts[5];
-                return parts[1]; // hu
-            }
-            function saveToLocal() {
-        const data = {
-            fName: document.getElementById('in-firstName').value,
-            lName: document.getElementById('in-lastName').value,
-            summary: document.getElementById('in-summary').value,
-            phone: document.getElementById('in-phone').value,
-            email: document.getElementById('in-email').value
-        };
-        localStorage.setItem('matrix_cv_data', JSON.stringify(data));
-    }
-
-    window.addEventListener('load', () => {
-        const saved = localStorage.getItem('matrix_cv_data');
-        if (saved) {
-            const d = JSON.parse(saved);
-            document.getElementById('in-firstName').value = d.fName || '';
-            document.getElementById('in-lastName').value = d.lName || '';
-            document.getElementById('in-summary').value = d.summary || '';
-            document.getElementById('in-phone').value = d.phone || '';
-            document.getElementById('in-email').value = d.email || '';
-            updatePreview();
-        }
-    });
-            return line;
-        });
-        t.value = translatedLines.join('\n');
-        updatePreview();
     }
 </script>
 </body>
