@@ -10,7 +10,6 @@
         .preview-side { width: 58%; background: #333; display: flex; justify-content: center; padding: 40px; overflow-y: auto; }
         .logo-area { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
         .brand-circle { width: 45px; height: 45px; background: var(--main-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; border: 2px solid #fff; font-size: 20px; }
-        .info-panel { background: #1a3a5a; padding: 15px; border-radius: 8px; margin-bottom: 12px; border-left: 5px solid #f1c40f; font-size: 13px; }
         .lang-grid { display: flex; gap: 8px; margin-bottom: 20px; }
         .btn-lang { flex: 1; padding: 12px; border: none; background: #333; color: white; cursor: pointer; border-radius: 4px; font-weight: bold; }
         .btn-lang.active { background: var(--main-color); box-shadow: 0 0 10px var(--main-color); }
@@ -19,23 +18,15 @@
         .style-btn { padding: 8px; background: #222; color: white; border: 1px solid #444; cursor: pointer; border-radius: 4px; font-weight: bold; }
         .smart-label { display: block; margin-top: 15px; font-size: 11px; font-weight: bold; color: var(--main-color); text-transform: uppercase; }
         input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; box-sizing: border-box; }
-        .input-group { display: flex; gap: 10px; }
         .entry-box { background: #151515; padding: 15px; margin-top: 10px; border-left: 4px solid var(--main-color); border-radius: 4px; }
         .add-btn { background: #27ae60; color: white; width: 100%; padding: 12px; border: none; margin-top: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .print-btn { background: var(--main-color); color: white; width: 100%; padding: 18px; border: none; margin-top: 25px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; }
-        
-        .cv-paper { width: 210mm; min-height: 297mm; background: white; padding: 40px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); box-sizing: border-box; position: relative; }
+        .cv-paper { width: 210mm; min-height: 297mm; background: white; padding: 40px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; }
         .cv-header { display: flex; gap: 20px; border-bottom: 2px solid var(--main-color); padding-bottom: 20px; margin-bottom: 20px; }
         #out-photo { width: 130px; height: 160px; object-fit: cover; border: 1px solid #ccc; }
         h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
         h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
-
-        /* A 10 STÍLUS */
-        body.style-1 .cv-paper { border-top: 20px solid var(--main-color); }
-        body.style-2 .cv-header { flex-direction: column; text-align: center; align-items: center; }
-        body.style-3 .cv-header { flex-direction: row-reverse; }
         body.style-10 .cv-paper::before { content: ''; position: absolute; top: 0; left: 0; width: 10px; height: 100%; background: var(--main-color); }
-
         @media print { .editor-side { display: none; } .preview-side { width: 100%; padding: 0; background: white; } .cv-paper { box-shadow: none; width: 100%; } }
     </style>
 </head>
@@ -55,22 +46,20 @@
 
     <label class="smart-label" id="lbl-photo">FOTÓ</label><input type="file" onchange="loadPhoto(event)">
 
-    <div class="input-group">
+    <div style="display:flex; gap:10px;">
         <div style="flex:1"><label class="smart-label" id="lbl-fName">KERESZTNÉV</label><input type="text" id="in-firstName" oninput="updatePreview()"></div>
         <div style="flex:1"><label class="smart-label" id="lbl-lName">VEZETÉKNÉV</label><input type="text" id="in-lastName" oninput="updatePreview()"></div>
     </div>
 
-    <div class="input-group">
+    <div style="display:flex; gap:10px;">
         <div style="flex:1"><label class="smart-label" id="lbl-city">VÁROS</label><input type="text" id="in-city" oninput="updatePreview()"></div>
         <div style="flex:1"><label class="smart-label" id="lbl-street">UTCA</label><input type="text" id="in-street" oninput="updatePreview()"></div>
     </div>
 
-    <div class="input-group">
+    <div style="display:flex; gap:10px;">
         <div style="flex:1"><label class="smart-label" id="lbl-type">≡ TÍPUS</label>
             <select id="in-street-type" onchange="updatePreview()">
-                <option value="utca">utca / street / straße</option>
-                <option value="út">út / road / straße</option>
-                <option value="tér">tér / square / platz</option>
+                <option value="utca">utca / street</option><option value="út">út / road</option><option value="tér">tér / square</option>
             </select>
         </div>
         <div style="width:30%"><label class="smart-label">HÁZSZÁM</label><input type="text" id="in-house" oninput="updatePreview()"></div>
@@ -79,18 +68,23 @@
     <label class="smart-label" id="lbl-phone">TELEFON</label><input type="text" id="in-phone" oninput="updatePreview()">
     <label class="smart-label" id="lbl-email">EMAIL</label><input type="email" id="in-email" oninput="updatePreview()">
 
-    <label class="smart-label">GYORS PROFIL VÁLASZTÓ (KORLÁTLAN)</label>
+    <label class="smart-label" id="lbl-summary">PROFIL VÁLASZTÓ (KORLÁTLAN)</label>
     <select id="sel-summary" onchange="addSum(this.value)">
         <option value="">-- Válassz összefűzhető mondatokat --</option>
         <optgroup label="Tapasztalt">
             <option value="Precíz, megbízható munkaerő vagyok, aki hosszú távú munkalehetőséget keres.">Megbízható szakember</option>
             <option value="Tapasztalt szakemberként célom a csapat hatékony támogatása.">Tapasztalt specialista</option>
-            <option value="Szakmai pályafutásom során bizonyítottam problémamegoldó képességemet.">Problémamegoldó</option>
+            <option value="Szakmai pályafutásom során bizonyítottam kiváló problémamegoldó képességemet.">Problémamegoldó</option>
+        </optgroup>
+        <optgroup label="Készségek">
+            <option value="Jó kommunikációs készséggel rendelkező, csapatjátékos személyiség vagyok.">Csapatjátékos</option>
+            <option value="Precizitás és pontosság jellemzi a munkámat minden feladatkörben.">Precíz munkatárs</option>
+            <option value="Rugalmasan kezelem a változásokat és az összetett munkafolyamatokat.">Rugalmas nindzsa</option>
         </optgroup>
         <optgroup label="Hozzáállás">
-            <option value="Jó kommunikációs készséggel rendelkező, csapatjátékos személyiség vagyok.">Csapatjátékos</option>
-            <option value="Gyorsan tanulok és kiválóan alkalmazkodom az új munkakörnyezethez.">Alkalmazkodó</option>
-            <option value="Szakmám iránt elkötelezett vagyok, megbízhatóságomra bármikor lehet alapozni.">Megbízható pillér</option>
+            <option value="Szakmai elhivatottságom révén értékes tagja lennék a vállalatnak.">Elhivatott tag</option>
+            <option value="Kitartó és fegyelmezett vagyok, a rám bízott feladatokat maradéktalanul elvégzem.">Fegyelmezett</option>
+            <option value="Műszaki beállítottságú vagyok, aki szereti a szakmai kihívásokat.">Műszaki szemléletű</option>
         </optgroup>
     </select>
     <textarea id="in-summary" rows="3" oninput="updatePreview()"></textarea>
@@ -112,11 +106,35 @@
 </div>
 
 <script>
-    // BEÉPÍTETT ADATBÁZIS (Nincs szükség database.js-re)
     const careerDB = {
-        eduLevels: [{hu:"Általános iskola", en:"Elementary School", de:"Grundschule"}, {hu:"Gimnázium", en:"High School", de:"Gymnasium"}, {hu:"Technikum", en:"Technical School", de:"Technikum"}, {hu:"Egyetem", en:"University", de:"Universität"}],
-        jobs: [{hu:"Raktáros", en:"Warehouse Worker", de:"Lagerarbeiter"}, {hu:"Targoncás", en:"Forklift Driver", de:"Staplerfahrer"}, {hu:"Adminisztrátor", en:"Administrator", de:"Administrator"}],
-        positions: [{hu:"Beosztott", en:"Employee", de:"Angestellter"}, {hu:"Csoportvezető", en:"Team Leader", de:"Teamleiter"}]
+        eduLevels: [
+            {hu:"Általános iskola", en:"Elementary School", de:"Grundschule"},
+            {hu:"Szakmunkásképző", en:"Vocational School", de:"Berufsschule"},
+            {hu:"Szakközépiskola", en:"Secondary Vocational School", de:"Fachoberschule"},
+            {hu:"Gimnázium", en:"High School", de:"Gymnasium"},
+            {hu:"Technikum", en:"Technical College", de:"Technikum"},
+            {hu:"Főiskola", en:"College", de:"Fachhochschule"},
+            {hu:"Egyetem", en:"University", de:"Universität"}
+        ],
+        jobs: [
+            {hu:"Raktáros / Áruösszekészítő", en:"Warehouse Worker", de:"Lagerarbeiter"},
+            {hu:"Targoncavezető", en:"Forklift Operator", de:"Staplerfahrer"},
+            {hu:"Gépkezelő", en:"Machine Operator", de:"Maschinenbediener"},
+            {hu:"Sofőr / Futár", en:"Driver / Courier", de:"Fahrer / Kurier"},
+            {hu:"Kőműves", en:"Bricklayer", de:"Maurer"},
+            {hu:"Festő-mázoló", en:"Painter", de:"Maler"},
+            {hu:"Villanyszerelő", en:"Electrician", de:"Elektriker"},
+            {hu:"Lakatos / Hegesztő", en:"Locksmith / Welder", de:"Schlosser / Schweißer"},
+            {hu:"Adminisztrátor", en:"Administrator", de:"Administrator"},
+            {hu:"Eladó / Pénztáros", en:"Sales Clerk / Cashier", de:"Verkäufer / Kassierer"}
+        ],
+        positions: [
+            {hu:"Beosztott", en:"Staff", de:"Angestellter"},
+            {hu:"Csoportvezető", en:"Team Leader", de:"Teamleiter"},
+            {hu:"Műszakvezető", en:"Shift Leader", de:"Schichtleiter"},
+            {hu:"Projektvezető", en:"Project Manager", de:"Projektleiter"},
+            {hu:"Mester", en:"Master", de:"Meister"}
+        ]
     };
 
     const dictionary = {
@@ -142,18 +160,12 @@
     }
 
     function updatePreview() {
-        const l = document.getElementById('in-lastName').value || "";
-        const f = document.getElementById('in-firstName').value || "";
+        const l = document.getElementById('in-lastName').value || ""; const f = document.getElementById('in-firstName').value || "";
         document.getElementById('out-name').innerText = (currentLang === 'hu' ? l + " " + f : f + " " + l).trim().toUpperCase() || "NAME";
-        
         const city = document.getElementById('in-city').value;
         const street = document.getElementById('in-street').value;
         const sType = document.getElementById('in-street-type').options[document.getElementById('in-street-type').selectedIndex].text;
-        
-        document.getElementById('out-contact').innerHTML = `
-            <b>Tel:</b> ${document.getElementById('in-phone').value} | <b>Email:</b> ${document.getElementById('in-email').value}<br>
-            <b>Cím:</b> ${city}, ${street} ${sType} ${document.getElementById('in-house').value}
-        `;
+        document.getElementById('out-contact').innerHTML = `<b>Tel:</b> ${document.getElementById('in-phone').value} | <b>Email:</b> ${document.getElementById('in-email').value}<br><b>Cím:</b> ${city}, ${street} ${sType} ${document.getElementById('in-house').value}`;
 
         let html = `<h3>PROFIL</h3><p style="white-space:pre-wrap;">${document.getElementById('in-summary').value}</p>`;
         ['edu', 'work'].forEach(t => {
@@ -161,8 +173,11 @@
             if(container.children.length > 0) {
                 html += `<h3>${dictionary[currentLang][t==='edu'?'eduHeader':'workHeader']}</h3>`;
                 Array.from(container.children).forEach(box => {
-                    const inputs = box.querySelectorAll('input, select');
-                    if(inputs[0].value) html += `<div style="margin-bottom:10px"><b>${inputs[0].value}</b><br><small>${inputs[2].options[inputs[2].selectedIndex]?.text || ''} - ${inputs[1].value}</small></div>`;
+                    const i = box.querySelectorAll('input, select');
+                    if(i[0].value) {
+                        const subText = (i[2].options[i[2].selectedIndex]?.text || '') + (i.length > 3 ? ' - ' + (i[3].options[i[3].selectedIndex]?.text || '') : '');
+                        html += `<div style="margin-bottom:12px"><b>${i[0].value}</b><br><small>${subText} | ${i[1].value}</small></div>`;
+                    }
                 });
             }
         });
@@ -173,22 +188,18 @@
         const div = document.createElement('div'); div.className = 'entry-box';
         const d = dictionary[currentLang];
         if(type === 'edu') {
-            div.innerHTML = `<input type="text" placeholder="Iskola" oninput="updatePreview()"><input type="text" placeholder="Év" oninput="updatePreview()">
-                             <label class="smart-label">${d.v_deg}</label><select onchange="updatePreview()">${getOptions(careerDB.eduLevels)}</select>`;
+            div.innerHTML = `<input type="text" placeholder="Iskola" oninput="updatePreview()"><input type="text" placeholder="Év" oninput="updatePreview()"><label class="smart-label">${d.v_deg}</label><select onchange="updatePreview()">${getOptions(careerDB.eduLevels)}</select>`;
         } else {
-            div.innerHTML = `<input type="text" placeholder="Cég" oninput="updatePreview()"><input type="text" placeholder="Időtartam" oninput="updatePreview()">
-                             <label class="smart-label">${d.v_job}</label><select onchange="updatePreview()">${getOptions(careerDB.jobs)}</select>`;
+            div.innerHTML = `<input type="text" placeholder="Cég" oninput="updatePreview()"><input type="text" placeholder="Időtartam" oninput="updatePreview()"><label class="smart-label">${d.v_job}</label><select onchange="updatePreview()">${getOptions(careerDB.jobs)}</select><label class="smart-label">${d.v_pos}</label><select onchange="updatePreview()">${getOptions(careerDB.positions)}</select>`;
         }
         document.getElementById(type + '-container').appendChild(div);
     }
 
-    function getOptions(list) {
-        return `<option value="">${dictionary[currentLang].select_hint}</option>` + list.map(x => `<option value="${x.hu}">${x[currentLang]}</option>`).join('');
-    }
+    function getOptions(list) { return `<option value="">${dictionary[currentLang].select_hint}</option>` + list.map(x => `<option value="${x.hu}">${x[currentLang]}</option>`).join(''); }
 
     window.onload = () => {
         const cp = document.getElementById('color-picker');
-        ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a"].forEach(c => {
+        ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"].forEach(c => {
             let b = document.createElement('div'); b.className = 'color-btn'; b.style.background = c;
             b.onclick = () => { document.documentElement.style.setProperty('--main-color', c); updatePreview(); }; cp.appendChild(b);
         });
