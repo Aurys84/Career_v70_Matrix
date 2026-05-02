@@ -395,44 +395,39 @@
         }
     }
 
-   window.onload = () => {
-    // 1. Színválasztó gombok generálása (ez marad, amit küldtél)
-    const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
-    colors.forEach(c => {
-        let b = document.createElement('div'); 
-        b.className = 'color-btn'; 
-        b.style.background = c;
-        b.onclick = () => { 
-            document.documentElement.style.setProperty('--main-color', c); 
-            updatePreview(); 
-        };
-        document.getElementById('color-picker').appendChild(b);
-    });
+  window.onload = () => {
+        // 1. Színválasztó gombok generálása
+        const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
+        colors.forEach(c => {
+            let b = document.createElement('div'); 
+            b.className = 'color-btn'; 
+            b.style.background = c;
+            b.onclick = () => { 
+                document.documentElement.style.setProperty('--main-color', c); 
+                updatePreview(); 
+            };
+            document.getElementById('color-picker').appendChild(b);
+        });
 
-    // 2. STÍLUSVÁLASZTÓ GOMBOK GENERÁLÁSA (Ez hiányzott!)
-    // Ez hozza létre az 1-től 15-ig tartó gombokat a Mátrixhoz
-    for(let i = 1; i <= 15; i++) {
-        let b = document.createElement('button'); 
-        b.className = 'style-btn'; 
-        b.innerText = i;
-        b.onclick = () => { 
-            document.body.className = 'style-' + i; 
-            updatePreview(); 
-        };
-        document.getElementById('style-picker').appendChild(b);
-    }
-
-    // Kezdő nézet frissítése
-    updatePreview();
-};
-        for(let i=1; i<=10; i++) {
-            let b = document.createElement('button'); b.className = 'style-btn'; b.innerText = i;
-            b.onclick = () => { document.body.className = 'style-' + i; updatePreview(); };
+        // 2. STÍLUSVÁLASZTÓ GOMBOK GENERÁLÁSA (Fix 15 stílus)
+        for(let i = 1; i <= 15; i++) {
+            let b = document.createElement('button'); 
+            b.className = 'style-btn'; 
+            b.innerText = i;
+            b.onclick = () => { 
+                document.body.className = 'style-' + i; 
+                updatePreview(); 
+            };
             document.getElementById('style-picker').appendChild(b);
         }
-        refreshMenu();
-        updateInterface();
+
+        // 3. Labor funkciók indítása
+        if (typeof refreshMenu === "function") refreshMenu();
+        if (typeof updateInterface === "function") updateInterface();
+        
+        updatePreview();
     };
+// Itt ér véget a script, ne legyen utána több kód!
 </script>
 </body>
 </html>
