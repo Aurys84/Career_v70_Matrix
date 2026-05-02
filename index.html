@@ -269,17 +269,74 @@
         }
     };
 
-    const dictionary = {
+  const dictionary = {
         hu: { 
-            engineName: "Career-Engine", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", city: "VÁROS", street: "UTCA", phone: "TELEFON", email: "EMAIL", summaryHeader: "BEMUTATKOZÁS VÁLASZTÓ", summary: "BEMUTATKOZÁS-KÉPESSÉGEK", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "Képesítés", v_prof: "Szakma", select_hint: "-- HOZZÁADÁS --",
+            engineName: "Career-Engine", 
+            fName: "KERESZTNÉV", 
+            lName: "VEZETÉKNÉV", 
+            city: "VÁROS", 
+            street: "UTCA", 
+            phone: "TELEFON", 
+            email: "EMAIL", 
+            summaryHeader: "BEMUTATKOZÁS VÁLASZTÓ", 
+            summary: "BEMUTATKOZÁS-KÉPESSÉGEK", 
+            eduHeader: "TANULMÁNYOK", 
+            workHeader: "TAPASZTALAT", 
+            addEdu: "+ ÚJ ISKOLA / VÉGZETTSÉG", 
+            addWork: "+ ÚJ MUNKAHELY", 
+            printBtn: "PDF GENERÁLÁSA", 
+            addr: "Cím:", 
+            colors: "SZÍNEK", 
+            styles: "STÍLUSOK", 
+            v_deg: "Képesítés / Végzettség", 
+            v_prof: "Szakma / Megnevezés", 
+            select_hint: "-- HOZZÁADÁS --",
             menu: ["🔝 Proaktív Vezető", "💻 Tech-Guru", "🎯 Adminisztrátor", "🤝 Ügyfélmágnes", "🎨 Kreatív Vizionárius", "🚛 Logisztikai", "⚡ Junior", "🏗️ Szakmunkás", "🚑 Egészségügy / Oktatás", "💎 Hospitality / Luxus", "🚀 Stratégiai", "📉 Elemző", "🛠️ Karbantartó / Szerviz", "🛡️ Biztonság és Rend", "🌟 Általános Motivált"]
         },
         en: { 
-            engineName: "Career-Engine", fName: "FIRST NAME", lName: "LAST NAME", city: "CITY", street: "STREET", phone: "PHONE", email: "EMAIL", summaryHeader: "SUMMARY SELECTOR", summary: "SUMMARY-SKILLS", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address:", colors: "COLORS", styles: "STYLES", v_deg: "Degree", v_prof: "Profession", select_hint: "-- ADD --",
+            engineName: "Career-Engine", 
+            fName: "FIRST NAME", 
+            lName: "LAST NAME", 
+            city: "CITY", 
+            street: "STREET", 
+            phone: "PHONE", 
+            email: "EMAIL", 
+            summaryHeader: "SUMMARY SELECTOR", 
+            summary: "SUMMARY-SKILLS", 
+            eduHeader: "EDUCATION", 
+            workHeader: "EXPERIENCE", 
+            addEdu: "+ NEW SCHOOL / DEGREE", 
+            addWork: "+ ADD JOB", 
+            printBtn: "GENERATE PDF", 
+            addr: "Address:", 
+            colors: "COLORS", 
+            styles: "STYLES", 
+            v_deg: "Degree / Qualification", 
+            v_prof: "Profession / Specialization", 
+            select_hint: "-- ADD --",
             menu: ["🔝 Proactive Leader", "💻 Tech-Guru", "🎯 Administrator", "🤝 Customer Magnet", "🎨 Creative Visionary", "🚛 Logistics", "⚡ Junior", "🏗️ Industrial Worker", "🚑 Health / Education", "💎 Hospitality / Luxury", "🚀 Strategic", "📉 Analyst", "🛠️ Technical / Service", "🛡️ Security and Order", "🌟 General Motivated"]
         },
         de: { 
-            engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summaryHeader: "PROFIL AUSWAHL", summary: "PROFIL-FÄHIGKEITEN", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse:", colors: "FARBEN", styles: "STILE", v_deg: "Abschluss", v_prof: "Beruf", select_hint: "-- HINZUFÜGEN --",
+            engineName: "Career-Engine", 
+            fName: "VORNAME", 
+            lName: "NACHNAME", 
+            city: "STADT", 
+            street: "STRASSE", 
+            phone: "TELEFON", 
+            email: "EMAIL", 
+            summaryHeader: "PROFIL AUSWAHL", 
+            summary: "PROFIL-FÄHIGKEITEN", 
+            eduHeader: "BILDUNG", 
+            workHeader: "ERFAHRUNG", 
+            addEdu: "+ NEUE SCHULE / ABSCHLUSS", 
+            addWork: "+ JOB", 
+            printBtn: "PDF GENERIEREN", 
+            addr: "Adresse:", 
+            colors: "FARBEN", 
+            styles: "STILE", 
+            v_deg: "Abschluss / Qualifikation", 
+            v_prof: "Beruf / Fachrichtung", 
+            select_hint: "-- HINZÜFÜGEN --",
             menu: ["🔝 Proaktive Führungskraft", "💻 Tech-Guru", "🎯 Administrator", "🤝 Kundenmagnet", "🎨 Kreativer Visionär", "🚛 Logistik", "⚡ Junior", "🏗️ Facharbeiter", "🚑 Gesundheit / Bildung", "💎 Hospitality / Luxus", "🚀 Strategisch", "📉 Analyst", "🛠️ Technisch / Service", "🛡️ Sicherheit und Ordnung", "🌟 Allgemein Motiviert"]
         }
     };
@@ -348,19 +405,44 @@
         select.innerHTML = h;
     }
 
-    function addEntry(type) {
-        const div = document.createElement('div');
-        div.className = 'entry-box';
-        const d = dictionary[currentLang];
-        if(type === 'edu') {
-            div.innerHTML = `<input type="text" class="e-main" placeholder="Iskola / School" oninput="updatePreview()"><input type="text" class="e-sub" placeholder="Idő / Year" oninput="updatePreview()"><select class="e-db" onchange="updatePreview()"></select><input type="text" class="e-prof" placeholder="${d.v_prof}" oninput="updatePreview()"><button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>`;
-            updateSelect(div.querySelector('.e-db'), careerDB.eduLevels);
-        } else {
-            div.innerHTML = `<input type="text" class="e-main" placeholder="Cég / Company" oninput="updatePreview()"><input type="text" class="e-sub" placeholder="Idő / Duration" oninput="updatePreview()"><select class="e-job" onchange="updatePreview()"></select><select class="e-pos" onchange="updatePreview()"></select><button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>`;
-            updateSelect(div.querySelector('.e-job'), careerDB.jobs);
-            updateSelect(div.querySelector('.e-pos'), careerDB.positions);
-        }
-        document.getElementById(type + '-container').appendChild(div);
+  function addEntry(type) {
+    const div = document.createElement('div');
+    div.className = 'entry-box';
+    const d = dictionary[currentLang]; // Itt kéri le a frissített szótáradat
+    
+    if(type === 'edu') {
+        div.innerHTML = `
+            <input type="text" class="e-main" placeholder="Iskola neve" oninput="updatePreview()">
+            <input type="text" class="e-sub" placeholder="Időtartam (pl. 2010-2014)" oninput="updatePreview()">
+            
+            <!-- A szótárból húzott dinamikus címkék -->
+            <label class="smart-label">${d.v_deg}</label>
+            <select class="e-db" onchange="updatePreview()"></select>
+            
+            <label class="smart-label">${d.v_prof}</label>
+            <input type="text" class="e-prof" placeholder="Szakma megnevezése" oninput="updatePreview()">
+            
+            <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;cursor:pointer;border-radius:50%;width:25px;height:25px;" onclick="this.parentElement.remove(); updatePreview();">×</button>
+        `;
+        // Betölti a végzettségi szinteket a database.js-ből
+        updateSelect(div.querySelector('.e-db'), careerDB.eduLevels);
+    } else {
+        // Munkahelyi rész javítása is, hogy ott is fordítson
+        div.innerHTML = `
+            <input type="text" class="e-main" placeholder="Cég neve" oninput="updatePreview()">
+            <input type="text" class="e-sub" placeholder="Időtartam" oninput="updatePreview()">
+            
+            <label class="smart-label">${d.v_prof}</label>
+            <select class="e-job" onchange="updatePreview()"></select>
+            <select class="e-pos" onchange="updatePreview()"></select>
+            
+            <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;cursor:pointer;border-radius:50%;width:25px;height:25px;" onclick="this.parentElement.remove(); updatePreview();">×</button>
+        `;
+        updateSelect(div.querySelector('.e-job'), careerDB.jobs);
+        updateSelect(div.querySelector('.e-pos'), careerDB.positions);
+    }
+    document.getElementById(type + '-container').appendChild(div);
+}
     }
 
     function updatePreview() {
