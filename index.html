@@ -2,195 +2,108 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Career-Engine v70.0 - A&N Visual</title>
+    <title>Career-Engine v75.0 - A&N Visual</title>
     <style>
         :root { --main-color: #007bb5; --bg: #0d0d0d; }
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; background: #000; color: #eee; }
         .editor-side { width: 42%; padding: 25px; overflow-y: auto; background: #111; border-right: 3px solid var(--main-color); }
         .preview-side { width: 58%; background: #333; display: flex; justify-content: center; padding: 40px; overflow-y: auto; }
-        .logo-area { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .brand-circle { width: 45px; height: 45px; background: var(--main-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; border: 2px solid #fff; font-size: 20px; }
-        .lang-grid { display: flex; gap: 8px; margin-bottom: 20px; }
-        .btn-lang { flex: 1; padding: 12px; border: none; background: #333; color: white; cursor: pointer; border-radius: 4px; font-weight: bold; }
-        .btn-lang.active { background: var(--main-color); box-shadow: 0 0 10px var(--main-color); }
-        .picker-row { margin-bottom: 15px; }
-        .color-grid, .style-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 5px; }
-        .color-btn { width: 100%; height: 30px; cursor: pointer; border-radius: 4px; border: 1px solid #444; }
-        .style-btn { padding: 8px; background: #222; color: white; border: 1px solid #444; cursor: pointer; border-radius: 4px; font-weight: bold; }
         .smart-label { display: block; margin-top: 15px; font-size: 11px; font-weight: bold; color: var(--main-color); text-transform: uppercase; }
         input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; box-sizing: border-box; }
-        .input-group { display: flex; gap: 10px; }
         .entry-box { background: #151515; padding: 15px; margin-top: 10px; border-left: 4px solid var(--main-color); border-radius: 4px; }
         .add-btn { background: #27ae60; color: white; width: 100%; padding: 12px; border: none; margin-top: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .print-btn { background: var(--main-color); color: white; width: 100%; padding: 18px; border: none; margin-top: 25px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; }
-        .cv-paper { width: 210mm; min-height: 297mm; background: white; padding: 40px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); box-sizing: border-box; position: relative; }
-        .cv-header { display: flex; gap: 20px; border-bottom: 2px solid var(--main-color); padding-bottom: 20px; margin-bottom: 20px; }
-        #out-photo { width: 130px; height: 160px; object-fit: cover; border: 1px solid #ccc; }
+        .cv-paper { width: 210mm; min-height: 297mm; background: white; padding: 40px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; }
         h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
         h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
-
-         /* ALAP PAPÍR DESIGN */
-        .cv-paper { width: 210mm; min-height: 297mm; background: white; padding: 40px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); box-sizing: border-box; position: relative; }
-        .cv-header { display: flex; gap: 20px; border-bottom: 2px solid var(--main-color); padding-bottom: 20px; margin-bottom: 20px; }
-        #out-photo { width: 130px; height: 160px; object-fit: cover; border: 1px solid #ccc; }
-        h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
-        h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
-
-        /* A 10 STÍLUS KŐKEMÉNY FIXÁLÁSA */
-        body.style-1 .cv-paper { border-top: 20px solid var(--main-color); }
-        body.style-2 .cv-header { flex-direction: column; text-align: center; align-items: center; }
-        body.style-3 .cv-header { flex-direction: row-reverse; }
-        body.style-4 h3 { background: #f4f4f4; padding: 10px; border-left: 10px solid var(--main-color); border-bottom: none; }
-        body.style-5 .cv-paper { font-family: 'Georgia', serif; }
-        body.style-6 .cv-header { border-bottom: 10px double var(--main-color); }
-        body.style-7 .cv-paper { background: #fafafa; border: 1px solid #ddd; }
-        body.style-8 #out-name { letter-spacing: 8px; text-align: center; width: 100%; }
-        body.style-9 .cv-header { align-items: flex-end; border-bottom-width: 5px; }
-        body.style-10 .cv-paper::before { content: ''; position: absolute; top: 0; left: 0; width: 10px; height: 100%; background: var(--main-color); }
-
         @media print { .editor-side { display: none; } .preview-side { width: 100%; padding: 0; background: white; } .cv-paper { box-shadow: none; width: 100%; } }
     </style>
 </head>
 <body class="style-1">
 
 <div class="editor-side">
-    <div class="logo-area"><div class="brand-circle">A&N</div><h1 id="lbl-engineName">Career-Engine</h1></div>
+    <h1>A&N Visual v75.0</h1>
     
-    <div class="lang-grid">
-        <button class="btn-lang active" onclick="setMode('hu', this)">HU</button>
-        <button class="btn-lang" onclick="setMode('en', this)">EN</button>
-        <button class="btn-lang" onclick="setMode('de', this)">DE</button>
-    </div>
+    <label class="smart-label">STÍLUSVÁLTÓ</label>
+    <div id="style-picker" style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 5px;"></div>
 
-    <div class="picker-row"><label class="smart-label">SZÍNEK</label><div class="color-grid" id="color-picker"></div></div>
-    <div class="picker-row"><label class="smart-label">STÍLUSOK</label><div class="style-grid" id="style-picker"></div></div>
-
-    <label class="smart-label">FOTÓ</label><input type="file" onchange="loadPhoto(event)">
-
-    <div class="input-group">
-        <div style="flex:1"><label class="smart-label">KERESZTNÉV</label><input type="text" id="in-firstName" oninput="updatePreview()"></div>
-        <div style="flex:1"><label class="smart-label">VEZETÉKNÉV</label><input type="text" id="in-lastName" oninput="updatePreview()"></div>
-     <div class="input-group">
-        <div style="flex:1"><label class="smart-label" id="lbl-city">VÁROS / CITY / STADT</label><input type="text" id="in-city" oninput="updatePreview()"></div>
-        <div style="flex:1"><label class="smart-label" id="lbl-street">UTCA / STREET / STRASSE</label><input type="text" id="in-street" oninput="updatePreview()"></div>
+    <label class="smart-label">NÉV ÉS KAPCSOLAT</label>
+    <div style="display:flex; gap:10px;">
+        <input type="text" id="in-lastName" placeholder="Vezetéknév" oninput="upd()">
+        <input type="text" id="in-firstName" placeholder="Keresztnév" oninput="upd()">
     </div>
-    <div class="input-group">
-        <div style="flex:1"><label class="smart-label" id="lbl-type">≡ TÍPUS</label>
-            <select id="in-street-type" onchange="updatePreview()">
-                <option value="utca">utca / street / straße</option>
-                <option value="út">út / road / straße</option>
-                <option value="tér">tér / square / platz</option>
-            </select>
-        </div>
-        <div style="width:30%"><label class="smart-label">HÁZSZÁM</label><input type="text" id="in-house" oninput="updatePreview()"></div>
-    </div>
-
-       <div class="input-group">
-        <div style="flex:1"><label class="smart-label" id="lbl-city">VÁROS / CITY / STADT</label><input type="text" id="in-city" oninput="updatePreview()"></div>
-        <div style="flex:1"><label class="smart-label" id="lbl-street">UTCA / STREET / STRASSE</label><input type="text" id="in-street" oninput="updatePreview()"></div>
-    </div>
-    <div class="input-group">
-        <div style="flex:1"><label class="smart-label" id="lbl-type">≡ TÍPUS</label>
-            <select id="in-street-type" onchange="updatePreview()">
-                <option value="utca">utca / street / straße</option>
-                <option value="út">út / road / straße</option>
-                <option value="tér">tér / square / platz</option>
-            </select>
-        </div>
-        <div style="width:30%"><label class="smart-label">HÁZSZÁM</label><input type="text" id="in-house" oninput="updatePreview()"></div>
-    </div>
-
-    <label class="smart-label">TELEFON</label><input type="text" id="in-phone" oninput="updatePreview()">
-    <label class="smart-label">EMAIL</label><input type="email" id="in-email" oninput="updatePreview()">
+    <input type="text" id="in-phone" placeholder="Telefon" oninput="upd()">
+    <input type="email" id="in-email" placeholder="Email" oninput="upd()">
 
     <label class="smart-label">BEMUTATKOZÁS VÁLASZTÓ (KORLÁTLAN)</label>
-    <select id="sel-summary" onchange="addSum(this.value)">
-        <option value="">-- Válassz összefűzhető mondatokat --</option>
-        <optgroup label="Tapasztalt">
-            <option value="Precíz, megbízható munkaerő vagyok, aki hosszú távú munkalehetőséget keres.">Megbízható</option>
-            <option value="Tapasztalt szakemberként célom a csapat hatékony támogatása.">Tapasztalt</option>
-        </optgroup>
-        <optgroup label="Készségek">
-            <option value="Jó kommunikációs készséggel rendelkező, csapatjátékos személyiség vagyok.">Csapatjátékos</option>
-            <option value="Precizitás és pontosság jellemzi a munkámat minden feladatkörben.">Precíz munkatárs</option>
-        </optgroup>
-        <optgroup label="Célok">
-            <option value="Hosszú távú együttműködést keresek stabil vállalati háttérrel.">Stabil partner</option>
-            <option value="Szakmám iránt elkötelezett vagyok, megbízhatóságomra bármikor lehet alapozni.">Elkötelezett</option>
-        </optgroup>
+    <select onchange="addS(this.value)">
+        <option value="">-- Válassz mondatot --</option>
+        <option value="Precíz, megbízható munkaerő vagyok.">Megbízható</option>
+        <option value="Tapasztalt szakemberként célom a fejlődés.">Tapasztalt</option>
+        <option value="Gyorsan tanulok és jól alkalmazkodom.">Alkalmazkodó</option>
+        <option value="Jó kommunikációs készséggel rendelkező csapatjátékos.">Csapatjátékos</option>
+        <option value="Műszaki beállítottságú, kihívásokat kedvelő szakember.">Műszaki</option>
     </select>
-    <textarea id="in-summary" rows="5" oninput="updatePreview()"></textarea>
+    <textarea id="sum" rows="4" oninput="upd()"></textarea>
 
-    <div id="edu-area"><h3>TANULMÁNYOK</h3><div id="edu-container"></div><button onclick="addEntry('edu')" class="add-btn">+ ÚJ ISKOLA</button></div>
-    <div id="work-area"><h3>TAPASZTALAT</h3><div id="work-container"></div><button onclick="addEntry('work')" class="add-btn">+ ÚJ MUNKAHELY</button></div>
-    <button onclick="window.print()" class="print-btn">PDF GENERÁLÁSA</button>
+    <div id="edu-area"><h3>TANULMÁNYOK</h3><div id="e-list"></div><button onclick="add('e-list')" class="add-btn">+ ÚJ ISKOLA</button></div>
+    <div id="work-area"><h3>TAPASZTALAT</h3><div id="w-list"></div><button onclick="add('w-list')" class="add-btn">+ ÚJ MUNKAHELY</button></div>
+    
+    <button onclick="window.print()" class="add-btn" style="background:var(--main-color); margin-top:20px;">PDF GENERÁLÁSA</button>
 </div>
 
 <div class="preview-side">
-    <div class="cv-paper" id="cv-paper">
-        <div class="cv-header">
-            <div id="out-photo-box" style="display:none; width:130px; height:160px; overflow:hidden;"><img id="out-photo" style="width:100%;"></div>
-            <div class="header-text">
-                <h1 id="out-name">NAME</h1>
-                <div id="out-contact" style="margin-top:10px; font-size:14px; color:#555;"></div>
-            </div>
-        </div>
-        <div id="main-content"></div>
+    <div class="cv-paper" id="paper">
+        <h1 id="o-n">NAME</h1>
+        <div id="o-c" style="margin-bottom:20px; font-size:14px;"></div>
+        <div id="o-b"></div>
     </div>
 </div>
 
 <script>
-    let curL = 'hu';
-    function addSum(v) { const t = document.getElementById('in-summary'); if(v) { t.value += (t.value ? '\n' : '') + v; updatePreview(); } }
-    function setMode(l, btn) { curL = l; document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active')); btn.classList.add('active'); updatePreview(); }
-    function updatePreview() {
-        const l = document.getElementById('in-lastName').value || ""; const f = document.getElementById('in-firstName').value || "";
-        document.getElementById('out-name').innerText = (curL === 'hu' ? l + " " + f : f + " " + l).trim().toUpperCase() || "NAME";
-        
-        const city = document.getElementById('in-city').value;
-        const street = document.getElementById('in-street').value;
-        const sType = document.getElementById('in-street-type').value;
-        const house = document.getElementById('in-house').value;
-        document.getElementById('out-contact').innerHTML = `
-            <b>Tel:</b> ${document.getElementById('in-phone').value} | <b>Email:</b> ${document.getElementById('in-email').value}<br>
-            <b>Cím:</b> ${city}, ${street} ${sType} ${house}
-        `;
+    const data = {
+        edu: ["Általános iskola", "Szakmunkásképző", "Szakközépiskola", "Gimnázium", "Technikum", "Főiskola", "Egyetem"],
+        jobs: ["Raktáros", "Targoncavezető", "Sofőr", "Kőműves", "Festő", "Villanyszerelő", "Lakatos", "Hegesztő", "Adminisztrátor", "Értékesítő"]
+    };
 
-        let h = `<h3>PROFIL</h3><p style="white-space:pre-wrap;">${document.getElementById('in-summary').value}</p>`;
-        ['edu', 'work'].forEach(t => {
-            const container = document.getElementById(t + '-container');
-            if(container.children.length > 0) {
-                h += `<h3>${t==='edu'?'TANULMÁNYOK':'TAPASZTALAT'}</h3>`;
+    function addS(v) { if(v) { document.getElementById('sum').value += (document.getElementById('sum').value ? '\n' : '') + v; upd(); } }
+
+    function upd() {
+        const l = document.getElementById('ln' || 'in-lastName').value, f = document.getElementById('fn' || 'in-firstName').value;
+        document.getElementById('o-n').innerText = (l + " " + f).toUpperCase() || "NAME";
+        document.getElementById('o-c').innerHTML = `<b>Tel:</b> ${document.getElementById('in-phone').value} | <b>Email:</b> ${document.getElementById('in-email').value}`;
+        
+        let h = `<h3>PROFIL</h3><p style="white-space:pre-wrap;">${document.getElementById('sum').value}</p>`;
+        ['e-list', 'w-list'].forEach(id => {
+            const container = document.getElementById(id); if(container.children.length > 0) {
+                h += `<h3>${id === 'e-list' ? 'TANULMÁNYOK' : 'TAPASZTALAT'}</h3>`;
                 Array.from(container.children).forEach(box => {
-                    const i = box.querySelectorAll('input');
-                    if(i[0].value) h += `<div style="margin-bottom:10px"><b>${i[0].value}</b><br><small>${i[1].value}</small></div>`;
+                    const inputs = box.querySelectorAll('input, select');
+                    if(inputs[0].value) h += `<div style="margin-bottom:10px"><b>${inputs[0].value}</b> (${inputs[2].value})<br><small>${inputs[1].value}</small></div>`;
                 });
             }
         });
-        document.getElementById('main-content').innerHTML = h;
+        document.getElementById('o-b').innerHTML = h;
     }
-    function addEntry(t) {
+
+    function add(id) {
         const d = document.createElement('div'); d.className = 'entry-box';
-        d.innerHTML = `<input type="text" placeholder="Megnevezés" oninput="updatePreview()"><input type="text" placeholder="Év / Időtartam" oninput="updatePreview()">`;
-        document.getElementById(t + '-container').appendChild(d);
+        const list = id === 'e-list' ? data.edu : data.jobs;
+        let options = list.map(x => `<option value="${x}">${x}</option>`).join('');
+        d.innerHTML = `
+            <input type="text" placeholder="Intézmény / Cég" oninput="upd()">
+            <input type="text" placeholder="Év / Időtartam" oninput="upd()">
+            <select onchange="upd()"><option value="">-- Válassz típust --</option>${options}</select>
+        `;
+        document.getElementById(id).appendChild(d);
     }
+
     window.onload = () => {
-        const cp = document.getElementById('color-picker');
-        ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"].forEach(c => {
-            let b = document.createElement('div'); b.className = 'color-btn'; b.style.background = c;
-            b.onclick = () => { document.documentElement.style.setProperty('--main-color', c); updatePreview(); }; cp.appendChild(b);
-        });
         const sp = document.getElementById('style-picker');
         for(let i=1; i<=10; i++) {
             let b = document.createElement('button'); b.className = 'style-btn'; b.innerText = i;
-            b.onclick = () => { document.body.className = 'style-' + i; updatePreview(); }; sp.appendChild(b);
+            b.onclick = () => { document.body.className = 'style-' + i; upd(); }; sp.appendChild(b);
         }
     };
-    function loadPhoto(e) {
-        const r = new FileReader();
-        r.onload = () => { document.getElementById('out-photo').src = r.result; document.getElementById('out-photo-box').style.display='block'; updatePreview(); };
-        r.readAsDataURL(e.target.files[0]);
-    }
 </script>
 </body>
 </html>
