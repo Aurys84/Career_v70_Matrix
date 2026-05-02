@@ -192,11 +192,29 @@
         document.querySelectorAll('.dyn-other').forEach(el => el.innerText = d.v_other);
     }
 
-    function updatePreview() {
-        const l = document.getElementById('in-lastName').value || "";
-        const f = document.getElementById('in-firstName').value || "";
-        document.getElementById('out-name').innerText = (currentLang === 'hu' ? l + " " + f : f + " " + l).trim().toUpperCase() || "NAME";
-        renderPaper();
+   function updatePreview() {
+    const firstName = document.getElementById('in-firstName').value;
+    const lastName = document.getElementById('in-lastName').value;
+    const phone = document.getElementById('in-phone').value;
+    const email = document.getElementById('in-email').value;
+
+    const previewHeader = `
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #007bb5; padding-bottom:10px; margin-bottom:20px;">
+            <div>
+                <h1 style="margin:0; color:#007bb5; font-size:24px;">${firstName} ${lastName}</h1>
+                <p style="margin:5px 0; font-style:italic; font-size:12px;">Career-V70-Matrix Global Generated</p>
+            </div>
+            <div style="text-align:right; font-size:12px;">
+                ${phone ? 'Tel: ' + phone + '<br>' : ''}
+                ${email ? 'Email: ' + email : ''}
+            </div>
+        </div>
+    `;
+    
+    // Ide jön a kódod többi része (summary, edu, work...), az maradhat!
+    document.getElementById('out-header').innerHTML = previewHeader;
+    // ...
+}
     }
 
     async function renderPaper() {
