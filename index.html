@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Career-Engine v69.0 - A&N Visual</title>
     <style>
-        :root { --main-color: #007bb5; --bg: #0d0d0d; }
+        :root { --main-color: #007bb5; }
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; background: #000; color: #eee; }
         .editor-side { width: 42%; padding: 25px; overflow-y: auto; background: #111; border-right: 3px solid var(--main-color); }
         .preview-side { width: 58%; background: #333; display: flex; justify-content: center; padding: 40px; overflow-y: auto; }
@@ -19,15 +19,25 @@
         .style-btn { padding: 8px; background: #222; color: white; border: 1px solid #444; cursor: pointer; border-radius: 4px; font-weight: bold; }
         .smart-label { display: block; margin-top: 15px; font-size: 11px; font-weight: bold; color: var(--main-color); text-transform: uppercase; }
         input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; box-sizing: border-box; }
-        .input-group { display: flex; gap: 10px; }
         .entry-box { background: #151515; padding: 15px; margin-top: 10px; border-left: 4px solid var(--main-color); border-radius: 4px; position: relative; }
         .add-btn { background: #27ae60; color: white; width: 100%; padding: 12px; border: none; margin-top: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .print-btn { background: var(--main-color); color: white; width: 100%; padding: 18px; border: none; margin-top: 25px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; }
+        
+        /* CV DESIGN SZABÁLYOK */
         .cv-paper { width: 210mm; min-height: 297mm; background: white; padding: 40px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); box-sizing: border-box; position: relative; }
         .cv-header { display: flex; gap: 20px; border-bottom: 2px solid var(--main-color); padding-bottom: 20px; margin-bottom: 20px; }
         #out-photo { width: 130px; height: 160px; object-fit: cover; border: 1px solid #ccc; }
         h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
         h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
+
+        /* STÍLUSOK FIXÁLÁSA */
+        body.style-1 .cv-paper { border-top: 20px solid var(--main-color); }
+        body.style-2 .cv-header { flex-direction: column; text-align: center; align-items: center; }
+        body.style-3 .cv-header { flex-direction: row-reverse; }
+        body.style-4 h3 { background: #f4f4f4; padding: 10px; border-left: 10px solid var(--main-color); border-bottom: none; }
+        body.style-5 .cv-paper { font-family: 'Georgia', serif; }
+        body.style-10 .cv-paper::before { content: ''; position: absolute; top: 0; left: 0; width: 15px; height: 100%; background: var(--main-color); }
+
         @media print { .editor-side { display: none; } .preview-side { width: 100%; padding: 0; background: white; } .cv-paper { box-shadow: none; width: 100%; } }
     </style>
 </head>
@@ -35,34 +45,27 @@
 
 <div class="editor-side">
     <div class="logo-area"><div class="brand-circle">A&N</div><h1 id="lbl-engineName">Career-Engine</h1></div>
+    
     <div class="lang-grid">
         <button class="btn-lang active" onclick="setMode('hu', this)">HU</button>
         <button class="btn-lang" onclick="setMode('en', this)">EN</button>
         <button class="btn-lang" onclick="setMode('de', this)">DE</button>
     </div>
+
     <div class="picker-row"><label class="smart-label" id="lbl-colors">SZÍNEK</label><div class="color-grid" id="color-picker"></div></div>
     <div class="picker-row"><label class="smart-label" id="lbl-styles">STÍLUSOK</label><div class="style-grid" id="style-picker"></div></div>
-    
-    <label class="smart-label" id="lbl-photo">FOTÓ</label><input type="file" onchange="loadPhoto(event)">
 
     <div class="input-group">
         <div style="flex:1"><label class="smart-label" id="lbl-fName">KERESZTNÉV</label><input type="text" id="in-firstName" oninput="updatePreview()"></div>
         <div style="flex:1"><label class="smart-label" id="lbl-lName">VEZETÉKNÉV</label><input type="text" id="in-lastName" oninput="updatePreview()"></div>
     </div>
+    
     <div class="input-group">
         <div style="flex:1"><label class="smart-label" id="lbl-city">VÁROS</label><input type="text" id="in-city" oninput="updatePreview()"></div>
         <div style="flex:1"><label class="smart-label" id="lbl-street">UTCA</label><input type="text" id="in-street" oninput="updatePreview()"></div>
+        <div style="width:20%"><label class="smart-label">Hsz.</label><input type="text" id="in-house" oninput="updatePreview()"></div>
     </div>
-    <div class="input-group">
-        <div style="flex:1"><label class="smart-label" id="lbl-type">≡ TÍPUS</label>
-            <select id="in-street-type" onchange="updatePreview()">
-                <option value="utca">utca / street / straße</option>
-                <option value="út">út / road / straße</option>
-                <option value="tér">tér / square / platz</option>
-            </select>
-        </div>
-        <div style="width:30%"><label class="smart-label">HÁZSZÁM</label><input type="text" id="in-house" oninput="updatePreview()"></div>
-    </div>
+
     <label class="smart-label" id="lbl-phone">TELEFON</label><input type="text" id="in-phone" oninput="updatePreview()">
     <label class="smart-label" id="lbl-email">EMAIL</label><input type="email" id="in-email" oninput="updatePreview()">
 
@@ -71,21 +74,11 @@
         <option value="">-- Hozzáadás / Add / Hinzufügen --</option>
         <option value="1">🔝 Proaktív Vezető</option>
         <option value="2">💻 Tech-Guru</option>
-        <option value="3">🎯 Adminisztrátor</option>
-        <option value="4">🤝 Ügyfélmágnes</option>
-        <option value="5">🎨 Kreatív Vizionárius</option>
-        <option value="6">🚛 Logisztikai</option>
-        <option value="7">⚡ Junior</option>
-        <option value="8">🏗️ Szakmunkás</option>
-        <option value="9">🚑 Gondoskodó Profi</option>
-        <option value="10">💎 Hospitality</option>
-        <option value="11">🚀 Stratégiai</option>
-        <option value="12">📉 Elemző</option>
         <option value="13">🛠️ Karbantartó / Szerviz</option>
         <option value="14">🛡️ Biztonság és Rend</option>
         <option value="15">🌟 Általános Motivált</option>
     </select>
-    <textarea id="in-summary" rows="8" oninput="updatePreview()" placeholder="Válogass össze több stílust..."></textarea>
+    <textarea id="in-summary" rows="8" oninput="updatePreview()"></textarea>
 
     <div id="edu-area"><h3 id="lbl-eduHeader">TANULMÁNYOK</h3><div id="edu-container"></div><button onclick="addEntry('edu')" class="add-btn" id="lbl-addEdu">+ ÚJ ISKOLA</button></div>
     <div id="work-area"><h3 id="lbl-workHeader">TAPASZTALAT</h3><div id="work-container"></div><button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY</button></div>
@@ -96,37 +89,40 @@
 <div class="preview-side">
     <div class="cv-paper" id="cv-paper">
         <div class="cv-header">
-            <div id="out-photo-box" style="display:none; width:130px; height:160px; overflow:hidden;"><img id="out-photo" style="width:100%;"></div>
             <div class="header-text"><h1 id="out-name">NAME</h1><div id="out-contact" style="margin-top:10px; font-size:14px; color:#555;"></div></div>
         </div>
         <div id="main-content"></div>
     </div>
 </div>
 
-<script src="database.js"></script>
-
 <script>
-    // 15 HIVATALOS BEMUTATKOZÁS (API NÉLKÜL)
+    // 15 HIVATALOS BEMUTATKOZÁS (MIND A 3 NYELVEN - API KIVÁLTVA)
     const summariesDB = {
-        hu: { "1": "Több éves szakmai és vezetői tapasztalattal rendelkező szakember vagyok...", "2": "Technológiai fókuszú szakemberként elkötelezett vagyok az innovatív megoldások iránt...", "13": "Műszaki orientációjú szakemberként a rendszerek üzemeltetése alkotja szakterületem magját.", "14": "Felelősségteljes és fegyelmezett munkavégzés jellemzi pályafutásomat.", "15": "Sokoldalú és szakmailag elkötelezett munkatárs vagyok." },
-        en: { "1": "Professional with several years of relevant management experience...", "2": "Tech-focused professional committed to innovative solutions...", "13": "As a technically oriented professional, system operation is the core of my expertise.", "14": "My professional career is characterized by responsible and disciplined work.", "15": "I am a versatile and professionally committed colleague." },
-        de: { "1": "Fachkraft mit mehrjähriger Managementerfahrung...", "2": "Technologieorientierter Profi mit Fokus auf innovative Lösungen...", "13": "Technisch orientierter Profi für Systembetrieb.", "14": "Verantwortungsbewusste und disziplinierte Karriere.", "15": "Vielseitiger und flexibler Mitarbeiter." }
+        hu: { "1": "Több éves szakmai és vezetői tapasztalattal rendelkező szakember vagyok...", "13": "Műszaki beállítottságú szakemberként a hibaelhárítás az elsődleges feladatom.", "14": "Felelősségteljes biztonsági szakember...", "15": "Sokoldalú és rugalmas munkatárs..." },
+        en: { "1": "Experienced leader with strategic vision...", "13": "As a technically-minded professional, troubleshooting is my primary task.", "14": "Responsible security professional...", "15": "Versatile and flexible team player..." },
+        de: { "1": "Erfahrene Führungskraft mit Vision...", "13": "Als technisch versierte Fachkraft ist Fehlerbehebung meine Hauptaufgabe.", "14": "Verantwortungsbewusste Sicherheitskraft...", "15": "Vielseitiger und motivierter Mitarbeiter..." }
     };
 
     const dictionary = {
-        hu: { engineName: "Career-Engine", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", city: "VÁROS", street: "UTCA", phone: "TELEFON", email: "EMAIL", summary: "BEMUTATKOZÁS-KÉPESSÉGEK", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "Végzettség", v_job: "Foglalkozás", v_pos: "Beosztás", select_hint: "-- VÁLASSZ --" },
-        en: { engineName: "Career-Engine", fName: "FIRST NAME", lName: "LAST NAME", city: "CITY", street: "STREET", phone: "PHONE", email: "EMAIL", summary: "SUMMARY-SKILLS", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address:", colors: "COLORS", styles: "STYLES", v_deg: "Degree", v_job: "Occupation", v_pos: "Position", select_hint: "-- SELECT --" },
-        de: { engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summary: "PROFIL-FÄHIGKEITEN", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse:", colors: "FARBEN", styles: "STILE", v_deg: "Abschluss", v_job: "Beruf", v_pos: "Position", select_hint: "-- WÄHLEN --" }
+        hu: { engineName: "Career-Engine", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", city: "VÁROS", street: "UTCA", phone: "TELEFON", email: "EMAIL", summary: "BEMUTATKOZÁS-KÉPESSÉGEK", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addr: "Cím:", colors: "SZÍNEK", styles: "STÍLUSOK" },
+        en: { engineName: "Career-Engine", fName: "FIRST NAME", lName: "LAST NAME", city: "CITY", street: "STREET", phone: "PHONE", email: "EMAIL", summary: "SUMMARY-SKILLS", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addr: "Address:", colors: "COLORS", styles: "STYLES" },
+        de: { engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summary: "PROFIL-FÄHIGKEITEN", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addr: "Adresse:", colors: "FARBEN", styles: "STILE" }
     };
 
     let currentLang = 'hu';
+    let selectedSummaryIndex = ""; // Eltárolja, melyik bemutatkozást választottad
 
     function setMode(l, btn) {
         currentLang = l;
         document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
+        
+        // Ha van kiválasztott bemutatkozás, nyelvváltáskor a textarea tartalmát is lefordítjuk az adatbázisból
+        if (selectedSummaryIndex && summariesDB[currentLang][selectedSummaryIndex]) {
+            document.getElementById('in-summary').value = summariesDB[currentLang][selectedSummaryIndex];
+        }
+
         updateInterface();
-        refreshAllSelects(); // Ez tölti fel a menüket nyelvváltáskor
         updatePreview();
     }
 
@@ -138,63 +134,27 @@
         }
     }
 
-    function refreshAllSelects() {
-        document.querySelectorAll('.entry-box').forEach(box => {
-            const selectDeg = box.querySelector('.e-db');
-            const selectJob = box.querySelector('.e-job');
-            const selectPos = box.querySelector('.e-pos');
-            if (selectDeg) updateSelect(selectDeg, careerDB.eduLevels);
-            if (selectJob) updateSelect(selectJob, careerDB.jobs);
-            if (selectPos) updateSelect(selectPos, careerDB.positions);
-        });
-    }
-
-    function updateSelect(select, list) {
-        const currentVal = select.value;
-        let html = `<option value="">${dictionary[currentLang].select_hint}</option>`;
-        list.forEach(item => {
-            html += `<option value="${item.hu}" ${item.hu === currentVal ? 'selected' : ''}>${item[currentLang]}</option>`;
-        });
-        select.innerHTML = html;
+    function applyMatrixSummary() {
+        const sel = document.getElementById('sel-summary');
+        const target = document.getElementById('in-summary');
+        if (sel.value) {
+            selectedSummaryIndex = sel.value; // Eltároljuk az indexet
+            target.value = summariesDB[currentLang][sel.value];
+            updatePreview();
+        }
     }
 
     function addEntry(type) {
         const div = document.createElement('div');
         div.className = 'entry-box';
-        const d = dictionary[currentLang];
-        if(type === 'edu') {
-            div.innerHTML = `
-                <input type="text" class="e-main" placeholder="Iskola neve" oninput="updatePreview()">
-                <input type="text" class="e-sub" placeholder="Időtartam" oninput="updatePreview()">
-                <label class="smart-label">${d.v_deg}</label>
-                <select class="e-db" onchange="updatePreview()"></select>
-                <button style="position:absolute; top:5px; right:5px; background:red; color:white; border:none; cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
-            `;
-            updateSelect(div.querySelector('.e-db'), careerDB.eduLevels);
-        } else {
-            div.innerHTML = `
-                <input type="text" class="e-main" placeholder="Cég neve" oninput="updatePreview()">
-                <input type="text" class="e-sub" placeholder="Időtartam" oninput="updatePreview()">
-                <label class="smart-label">${d.v_job}</label>
-                <select class="e-job" onchange="updatePreview()"></select>
-                <label class="smart-label">${d.v_pos}</label>
-                <select class="e-pos" onchange="updatePreview()"></select>
-                <button style="position:absolute; top:5px; right:5px; background:red; color:white; border:none; cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
-            `;
-            updateSelect(div.querySelector('.e-job'), careerDB.jobs);
-            updateSelect(div.querySelector('.e-pos'), careerDB.positions);
-        }
+        div.innerHTML = `
+            <input type="text" class="e-main" placeholder="Név / Institution" oninput="updatePreview()">
+            <input type="text" class="e-sub" placeholder="Idő / Period" oninput="updatePreview()">
+            <input type="text" class="e-desc" placeholder="Leírás / Description" oninput="updatePreview()">
+            <button style="position:absolute; top:5px; right:5px; background:red; color:white; border:none; cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
+        `;
         document.getElementById(type + '-container').appendChild(div);
-    }
-
-    function applyMatrixSummary() {
-        const sel = document.getElementById('sel-summary');
-        const target = document.getElementById('in-summary');
-        if (sel.value && summariesDB[currentLang][sel.value]) {
-            target.value += (target.value ? "\n\n" : "") + summariesDB[currentLang][sel.value];
-            sel.value = "";
-            updatePreview();
-        }
+        updatePreview();
     }
 
     function updatePreview() {
@@ -203,13 +163,10 @@
         const f = document.getElementById('in-firstName').value || "";
         document.getElementById('out-name').innerText = (currentLang === 'hu' ? l + " " + f : f + " " + l).toUpperCase() || "NAME";
         
-        const sTypeSelect = document.getElementById('in-street-type');
-        const sType = sTypeSelect.options[sTypeSelect.selectedIndex].text.split(' / ')[currentLang === 'hu' ? 0 : (currentLang === 'en' ? 1 : 2)];
-
         document.getElementById('out-contact').innerHTML = `
             <b>${d.phone}:</b> ${document.getElementById('in-phone').value}<br>
             <b>EMAIL:</b> ${document.getElementById('in-email').value}<br>
-            <b>${d.addr}</b> ${document.getElementById('in-city').value}, ${document.getElementById('in-street').value} ${sType} ${document.getElementById('in-house').value}
+            <b>${d.addr}</b> ${document.getElementById('in-city').value}, ${document.getElementById('in-street').value} ${document.getElementById('in-house').value}
         `;
 
         let html = `<h3>${d.summary}</h3><p style="white-space: pre-wrap;">${document.getElementById('in-summary').value}</p>`;
@@ -217,48 +174,33 @@
         ['edu', 'work'].forEach(type => {
             let sectionHtml = `<h3>${d[type + 'Header']}</h3>`;
             document.querySelectorAll('#' + type + '-container .entry-box').forEach(box => {
-                const m = box.querySelector('.e-main').value;
+                const main = box.querySelector('.e-main').value;
                 const sub = box.querySelector('.e-sub').value;
-                const dbVal = type === 'edu' ? box.querySelector('.e-db').value : box.querySelector('.e-job').value;
-                const posVal = type === 'work' ? box.querySelector('.e-pos').value : "";
-                
-                let title = "";
-                if(type === 'edu' && dbVal) title = careerDB.eduLevels.find(x => x.hu === dbVal)[currentLang];
-                if(type === 'work' && dbVal) {
-                    const job = careerDB.jobs.find(x => x.hu === dbVal)[currentLang];
-                    const pos = posVal ? careerDB.positions.find(x => x.hu === posVal)[currentLang] : "";
-                    title = job + (pos ? " - " + pos : "");
-                }
-
-                if(m || title) sectionHtml += `<div style="margin-bottom:15px"><b>${m}</b> (${sub})<br><i>${title}</i></div>`;
+                const desc = box.querySelector('.e-desc').value;
+                if(main) sectionHtml += `<div style="margin-bottom:12px"><b>${main}</b> (${sub})<br><i>${desc}</i></div>`;
             });
             html += sectionHtml;
         });
         document.getElementById('main-content').innerHTML = html;
     }
 
-    function loadPhoto(event) {
-        const reader = new FileReader();
-        reader.onload = () => {
-            document.getElementById('out-photo').src = reader.result;
-            document.getElementById('out-photo-box').style.display = 'block';
-        }
-        reader.readAsDataURL(event.target.files[0]);
-    }
-
     window.onload = () => {
+        // Színválasztó
         const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
         colors.forEach(c => {
             let b = document.createElement('div'); b.className = 'color-btn'; b.style.background = c;
             b.onclick = () => { document.documentElement.style.setProperty('--main-color', c); updatePreview(); };
             document.getElementById('color-picker').appendChild(b);
         });
+        
+        // Stílus gombok - body.className váltás
         for(let i=1; i<=10; i++) {
             let b = document.createElement('button'); b.className = 'style-btn'; b.innerText = i;
             b.onclick = () => { document.body.className = 'style-' + i; updatePreview(); };
             document.getElementById('style-picker').appendChild(b);
         }
         updateInterface();
+        updatePreview();
     };
 </script>
 </body>
