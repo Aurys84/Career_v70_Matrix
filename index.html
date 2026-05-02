@@ -289,10 +289,18 @@
         document.getElementById('main-content').innerHTML = html;
     }
 
-    function loadPhoto(e) {
-        const r = new FileReader();
-        r.onload = () => { document.getElementById('out-photo-box').style.display='block'; document.getElementById('out-photo').src = r.result; };
-        r.readAsDataURL(e.target.files[0]);
+  function loadPhoto(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const outImg = document.getElementById('out-photo');
+            const outBox = document.getElementById('out-photo-box');
+            outImg.src = reader.result;
+            outBox.style.display = 'block'; 
+            updatePreview();
+        }
+        if(event.target.files[0]) {
+            reader.readAsDataURL(event.target.files[0]);
+        }
     }
 
     window.onload = () => {
