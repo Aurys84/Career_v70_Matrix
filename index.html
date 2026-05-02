@@ -17,6 +17,7 @@
         h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
         h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
         
+        /* STÍLUSOK */
         body.style-1 .cv-paper { border-top: 20px solid var(--main-color); }
         body.style-2 .cv-header { text-align: center; }
         body.style-10 .cv-paper::before { content: ''; position: absolute; top: 0; left: 0; width: 10px; height: 100%; background: var(--main-color); }
@@ -26,21 +27,45 @@
 <body class="style-1">
 
 <div class="editor-side">
-    <h1>A&N Visual Engine</h1>
+    <h1>A&N Visual v70.0</h1>
     <div id="style-picker" style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 5px;"></div>
 
     <label class="smart-label">NÉV</label>
-    <input type="text" id="in-lastName" placeholder="Vezetéknév" oninput="updatePreview()">
-    <input type="text" id="in-firstName" placeholder="Keresztnév" oninput="updatePreview()">
+    <div style="display:flex; gap:10px;">
+        <input type="text" id="in-lastName" placeholder="Vezetéknév" oninput="updatePreview()">
+        <input type="text" id="in-firstName" placeholder="Keresztnév" oninput="updatePreview()">
+    </div>
 
-    <label class="smart-label">ATS PROFIL (MAX 3)</label>
-    <select onchange="addSum(this.value)">
-        <option value="">-- Válassz --</option>
-        <option value="Precíz, megbízható munkaerő vagyok, aki hosszú távú munkalehetőséget keres.">Megbízható</option>
-        <option value="Gyorsan tanulok és kiválóan alkalmazkodom az új munkakörnyezethez.">Alkalmazkodó</option>
-        <option value="Tapasztalt szakemberként célom a csapat hatékony támogatása.">Tapasztalt</option>
+    <label class="smart-label">PROFIL VÁLASZTÓ (15 OPCIÓ - NINCS KORLÁT)</label>
+    <select id="sel-summary" onchange="addSum(this.value)">
+        <option value="">-- Válassz összefűzhető mondatokat --</option>
+        <optgroup label="Tapasztalt">
+            <option value="Precíz, megbízható munkaerő vagyok, aki hosszú távú munkalehetőséget keres.">Megbízható szakember</option>
+            <option value="Tapasztalt szakemberként célom a csapat hatékony támogatása és a folyamatos fejlődés.">Tapasztalt specialista</option>
+            <option value="Szakmai pályafutásom során bizonyítottam kiváló problémamegoldó képességemet.">Problémamegoldó</option>
+        </optgroup>
+        <optgroup label="Pályakezdő">
+            <option value="Gyorsan tanulok és kiválóan alkalmazkodom az új munkakörnyezethez.">Alkalmazkodó kezdő</option>
+            <option value="Motivált és terhelhető pályakezdő vagyok, készen állok a felelősségteljes munkára.">Motivált újonc</option>
+            <option value="Célom egy stabil háttérrel rendelkező cégnél kamatoztatni elméleti tudásomat.">Céltudatos kezdő</option>
+        </optgroup>
+        <optgroup label="Készségek">
+            <option value="Jó kommunikációs készséggel rendelkező, csapatjátékos személyiség vagyok.">Csapatjátékos</option>
+            <option value="Precizitás és pontosság jellemzi a munkámat minden feladatkörben.">Precíz munkatárs</option>
+            <option value="Rugalmasan kezelem a változásokat és az összetett munkafolyamatokat.">Rugalmas nindzsa</option>
+        </optgroup>
+        <optgroup label="Hozzáállás">
+            <option value="Szakmai elhivatottságom révén értékes tagja lennék a vállalatnak.">Elhivatott tag</option>
+            <option value="Kitartó és fegyelmezett vagyok, a rám bízott feladatokat maradéktalanul elvégzem.">Fegyelmezett</option>
+            <option value="Műszaki beállítottságú vagyok, aki szereti a szakmai kihívásokat.">Műszaki szemléletű</option>
+        </optgroup>
+        <optgroup label="Célok">
+            <option value="Rendszerető és alapos vagyok, a minőségre mindig kiemelt figyelmet fordítok.">Minőség-orientált</option>
+            <option value="Hosszú távú együttműködést keresek stabil vállalati háttérrel.">Stabil partner</option>
+            <option value="Szakmám iránt elkötelezett vagyok, megbízhatóságomra bármikor lehet alapozni.">Megbízható pillér</option>
+        </optgroup>
     </select>
-    <textarea id="in-summary" rows="4" oninput="updatePreview()"></textarea>
+    <textarea id="in-summary" rows="5" oninput="updatePreview()"></textarea>
 
     <div id="edu-area"><h3>TANULMÁNYOK</h3><div id="edu-container"></div><button onclick="addEntry('edu')" class="add-btn">+ ÚJ ISKOLA</button></div>
     <div id="work-area"><h3>TAPASZTALAT</h3><div id="work-container"></div><button onclick="addEntry('work')" class="add-btn">+ ÚJ MUNKAHELY</button></div>
@@ -52,8 +77,10 @@
 <script>
     function addSum(v) {
         const t = document.getElementById('in-summary');
-        if(v && t.value.split('\n').filter(x=>x).length < 3) { t.value += (t.value ? '\n' : '') + v; }
-        updatePreview();
+        if(v) {
+            t.value += (t.value ? '\n' : '') + v;
+            updatePreview();
+        }
     }
     function updatePreview() {
         const l = document.getElementById('in-lastName').value, f = document.getElementById('in-firstName').value;
