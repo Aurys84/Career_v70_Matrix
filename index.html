@@ -118,7 +118,7 @@
 <script src="database.js"></script>
 
 <script>
-   const dictionary = {
+  const dictionary = {
         hu: { 
             engineName: "Career-Engine", atsTitle: "🚀 API TIPPEK:", atsTips: "• Kulcsszavak!\n• Számok!\n• Jó fotó!", guideTitle: "📝 ÚTMUTATÓ:", guide: "Profilba írj 3-4 mondatban.", fName: "KERESZTNÉV / FIRST NAME / VORNAME", lName: "VEZETÉKNÉV / LAST NAME / NACHNAME", city: "VÁROS / CITY / STADT", street: "UTCA / STREET / STRASSE", type: "≡ TÍPUS", phone: "TELEFON / PHONE / TELEFON", email: "EMAIL", summary: "BEMUTATKOZÁS-KÉPESSÉGEK / SUMMARY-SKILLS / PROFIL-FÄHIGKEITEN", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím / Address / Adresse:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "Végzettség", v_job: "Foglalkozás", v_pos: "Beosztás", v_other: "EGYÉB", select_hint: "-- VÁLASSZ / SELECT / WÄHLEN --",
             sum_1: "Több éves vezetői tapasztalattal rendelkező szakember vagyok, aki a stratégiai tervezésben és a csapatok motiválásában hisz. Célom az eredményesség maximalizálása.",
@@ -164,7 +164,7 @@
             sum_7: "Als motivierter Berufseinsteiger freue ich mich auf Herausforderungen. Ich lerne schnell, bin zuverlässig und engagiert.",
             sum_8: "Als belastbare Fachkraft strebe ich nach Qualität und Präzision. Ich habe Erfahrung in industriellen Umgebungen und Teamarbeit.",
             sum_10: "Ich stelle meine Erfahrung in der Gastronomie in den Dienst von bestem Service und höchster Gästezufriedenheit.",
-            sum_11: "Meine analytische und strategische Vision hilft bei komplexen Problemen und der Vorhersage zukünftiger Trends.",
+            sum_11: "Meine analytische und stratégische Vision hilft bei komplexen Problemen und der Vorhersage zukünftiger Trends.",
             sum_12: "In der Welt der Zahlen und Daten fühle ich mich zu Hause. Meine Präzision und Logik dienen der finanziellen Stabilität.",
             sum_13: "Als technisch versierte Fachkraft sind Fehlerbehebung und Betriebssicherung meine Hauptaufgaben.",
             sum_14: "Verantwortungsbewusstes und diszipliniertes Arbeiten zeichnet meine Karriere im Sicherheitsbereich aus.",
@@ -205,17 +205,28 @@
             } else {
                 target.value = summaries[sel.value];
             }
-            if (typeof updatePreview === 'function') updatePreview(); 
+            updatePreview(); 
         }
     }
 
+    // --- EZ A RÉSZ HIÁNYOZOTT, AMI A SZÍNEKÉRT FELEL ---
     function setMode(l, btn) {
         currentLang = l;
         document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
         if (btn) btn.classList.add('active');
-        if (typeof updateInterface === 'function') updateInterface();
-        if (typeof updatePreview === 'function') updatePreview();
-        if (typeof refreshAllSelects === 'function') refreshAllSelects();
+        updateInterface();
+        updatePreview();
+        refreshAllSelects();
+    }
+
+    function changeColor(c) {
+        document.documentElement.style.setProperty('--main-color', c);
+        updatePreview();
+    }
+
+    function changeStyle(s) {
+        document.body.className = s;
+        updatePreview();
     }
 
     let currentLang = 'hu';
