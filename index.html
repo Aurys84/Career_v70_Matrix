@@ -59,11 +59,21 @@
     <label class="smart-label" id="lbl-summaryHeader">BEMUTATKOZÁS VÁLASZTÓ</label>
     <select id="sel-summary" onchange="applyMatrixSummary()" style="background: #1a3a5a; color: white;">
         <option value="">-- Válassz / Select / Wählen --</option>
-        <option value="1">🔝 Proaktív Vezető (Management)</option>
-        <option value="2">💻 Tech-Guru (IT)</option>
-        <option value="13">🛠️ Karbantartó / Szerviz (Technical)</option>
-        <option value="14">🛡️ Biztonság és Rend (Security)</option>
-        <option value="15">🌟 Általános Motivált (Universal)</option>
+        <option value="1">🔝 Proaktív Vezető</option>
+        <option value="2">💻 Tech-Guru</option>
+        <option value="3">🎯 Adminisztrátor</option>
+        <option value="4">🤝 Ügyfélmágnes</option>
+        <option value="5">🎨 Kreatív Vizionárius</option>
+        <option value="6">🚛 Logisztikai</option>
+        <option value="7">⚡ Junior</option>
+        <option value="8">🏗️ Szakmunkás</option>
+        <option value="9">🚑 Gondoskodó Profi</option>
+        <option value="10">💎 Hospitality</option>
+        <option value="11">🚀 Stratégiai</option>
+        <option value="12">📉 Elemző</option>
+        <option value="13">🛠️ Karbantartó / Szerviz</option>
+        <option value="14">🛡️ Biztonság és Rend</option>
+        <option value="15">🌟 Általános Motivált</option>
     </select>
     <textarea id="in-summary" rows="5" oninput="updatePreview()"></textarea>
 
@@ -82,26 +92,56 @@
 
 <script>
     const summaryDB = {
-        hu: { 
-            "1": "Több éves releváns szakmai és vezetői tapasztalattal rendelkező szakember vagyok. Erősségem a stratégiai tervezés és az eredményorientált csapatvezetés.", 
+        hu: {
+            "1": "Több éves szakmai és vezetői tapasztalattal rendelkező szakember vagyok. Erősségem a stratégiai tervezés és az eredményorientált csapatvezetés.",
             "2": "Technológiai fókuszú szakemberként elkötelezett vagyok az innovatív megoldások és a hatékony problémamegoldás iránt.",
-            "13": "Műszaki beállítottságú szakemberként a hibaelhárítás és a folyamatos üzemeltetés biztosítása az elsődleges feladatom.",
-            "14": "Felelősségteljes és fegyelmezett munkavégzés jellemzi szakmai pályafutásomat a biztonsági előírások mentén.",
+            "3": "Precíz és rendszerszemléletű munkavégzés jellemez, kimagasló tapasztalattal az adminisztrációs folyamatok kezelésében.",
+            "4": "Ügyfélközpontú szemléletmódommal hatékonyan támogatom a hosszú távú üzleti kapcsolatok építésében.",
+            "5": "Kreatív szakemberként a vizuális kommunikáció és a márkaépítés területén nyújtok professzionális támogatást.",
+            "6": "A logisztikai folyamatok és az operatív hatékonyság szakértője vagyok, gyors döntéshozatali képességgel.",
+            "7": "Elkötelezett és fejlődésorientált pályakezdőként felelősségteljes munkavégzéssel keresem a szakmai kihívásokat.",
+            "8": "Nagy munkabírású, megbízható szakmunkásként a minőségi és pontos ipari kivitelezésre törekszem.",
+            "9": "Empatikus szakemberként munkám során a szakmai protokollok szigorú betartására és a magas szintű ellátásra törekszem.",
+            "10": "A prémium vendéglátásban szerzett tapasztalataimat a reprezentatív ügyfélélmény biztosításának szolgálatába állítom.",
+            "11": "Stratégiai látásmódom segíti a komplex üzleti folyamatok átlátásában és a hatékony döntéselőkészítést.",
+            "12": "Pénzügyi és adatelemzési területen mozgok otthonosan, támogatva az adatvezérelt döntéshozatalt.",
+            "13": "Műszaki orientációjú szakemberként a rendszerek üzemeltetése és a hibaelhárítás alkotja szakterületem magját.",
+            "14": "Felelősségteljes és fegyelmezett munkavégzés jellemzi pályafutásomat a biztonsági előírások mentén.",
             "15": "Sokoldalú és szakmailag elkötelezett munkatárs vagyok, kiemelkedő alkalmazkodóképességgel."
         },
-        en: { 
-            "1": "I am a professional with several years of management experience, focused on strategic planning and leadership.", 
+        en: {
+            "1": "Professional with several years of relevant management experience. My strengths include strategic planning and result-oriented leadership.",
             "2": "Tech-focused professional committed to innovative solutions and efficient problem-solving.",
-            "13": "As a technically-minded professional, my primary task is troubleshooting and ensuring continuous operation.",
-            "14": "My professional career is characterized by responsible and disciplined work within security protocols.",
-            "15": "I am a versatile and professionally committed colleague with outstanding adaptability."
+            "3": "Characterized by precision and a systematic approach in managing administrative and corporate documentation.",
+            "4": "Supporting long-term business relationships through a customer-centric mindset and professional management.",
+            "5": "Creative professional providing support in visual communication and branding with functional efficiency.",
+            "6": "Expert in logistical processes and operational efficiency with quick decision-making abilities.",
+            "7": "Growth-oriented entry-level professional characterized by quick learning and a responsible work ethic.",
+            "8": "Reliable skilled worker with high stamina striving for quality and precise industrial execution.",
+            "9": "Empathetic professional committed to strict adherence to professional protocols and high-level care.",
+            "10": "Applying premium hospitality experience to ensure the highest level of representative client experience.",
+            "11": "Strategic and analytical vision for understanding complex business problems and decision preparation.",
+            "12": "Proficient in finance and data analysis, supporting stability and data-driven decision-making.",
+            "13": "Technically oriented professional focused on system operation and efficient troubleshooting.",
+            "14": "Responsible and disciplined career committed to the full observance of safety regulations and order.",
+            "15": "Versatile and flexible colleague with outstanding adaptability in any corporate environment."
         },
-        de: { 
-            "1": "Fachkraft mit mehrjähriger Managementerfahrung, spezialisiert auf strategische Planung und Teamführung.", 
+        de: {
+            "1": "Fachkraft mit mehrjähriger Managementerfahrung, spezialisiert auf strategische Planung und Teamführung.",
             "2": "Technologieorientierter Profi mit Fokus auf innovative Lösungen und effiziente Problemlösung.",
-            "13": "Als technisch versierte Fachkraft sind Fehlerbehebung und Betriebssicherung meine Hauptaufgaben.",
-            "14": "Verantwortungsbewusstes und disziplinierte Arbeit unter Einhaltung aller Sicherheitsvorschriften.",
-            "15": "Vielseitiger und flexibler Mitarbeiter mit hervorragender Anpassungsfähigkeit."
+            "3": "Präzise und systematische Arbeitsweise in der Verwaltung und Unternehmensdokumentation.",
+            "4": "Kundenorientierte Einstellung zur Unterstützung langfristiger Geschäftsbeziehungen.",
+            "5": "Kreativer Profi für visuelle Kommunikation und Markenaufbau mit funktionaler Effizienz.",
+            "6": "Experte für Logistikprozesse und operative Effizienz mit schneller Entscheidungsfähigkeit.",
+            "7": "Engagierter Berufseinsteiger mit schneller Auffassungsgabe und verantwortungsbewusster Arbeitsmoral.",
+            "8": "Zuverlässiger Facharbeiter mit hoher Ausdauer für qualitätsbewusste industrielle Ausführung.",
+            "9": "Empathischer Profi, der sich der strikten Einhaltung fachlicher Protokolle verschrieben hat.",
+            "10": "Premium-Gastronomieerfahrung zur Gewährleistung erstklassiger Kundenerlebnisse.",
+            "11": "Strategische Vision zum Verständnis komplexer Geschäftsprozesse und Trendanalysen.",
+            "12": "Kompetent in Finanzen und Datenanalyse zur Unterstützung datengesteuerter Entscheidungen.",
+            "13": "Technisch orientierter Profi für Systembetrieb und effiziente Fehlerbehebung.",
+            "14": "Verantwortungsbewusste und disziplinierte Karriere unter Einhaltung aller Sicherheitsvorschriften.",
+            "15": "Vielseitiger und flexibler Mitarbeiter mit hervorragender Anpassungsfähigkeit in jedem Umfeld."
         }
     };
 
@@ -137,7 +177,7 @@
         div.innerHTML = `
             <input type="text" class="e-main" placeholder="Név / Name / Name" oninput="updatePreview()">
             <input type="text" class="e-sub" placeholder="Idő / Period / Zeitraum" oninput="updatePreview()">
-            <input type="text" class="e-desc" placeholder="Beosztás-Leírás / Description" oninput="updatePreview()">
+            <input type="text" class="e-desc" placeholder="Leírás / Description / Beschreibung" oninput="updatePreview()">
             <button style="position:absolute; top:5px; right:5px; background:red; color:white; border:none; cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
         `;
         document.getElementById(type + '-container').appendChild(div);
@@ -146,7 +186,7 @@
 
     function applyMatrixSummary() {
         const sel = document.getElementById('sel-summary');
-        if (sel.value) {
+        if (sel.value && summaryDB[currentLang][sel.value]) {
             document.getElementById('in-summary').value = summaryDB[currentLang][sel.value];
             updatePreview();
         }
@@ -192,6 +232,7 @@
             document.getElementById('style-picker').appendChild(b);
         }
         updateInterface();
+        updatePreview();
     };
 </script>
 </body>
