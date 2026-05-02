@@ -24,7 +24,6 @@
         .print-btn { background: var(--main-color); color: white; width: 100%; padding: 18px; border: none; margin-top: 25px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; }
         .cv-paper { width: 210mm; min-height: 297mm; background: white; padding: 40px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); box-sizing: border-box; position: relative; }
         .cv-header { display: flex; gap: 20px; border-bottom: 2px solid var(--main-color); padding-bottom: 20px; margin-bottom: 20px; }
-        #out-photo { width: 130px; height: 160px; object-fit: cover; border: 1px solid #ccc; }
         h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
         h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
 
@@ -53,33 +52,31 @@
         <button class="btn-lang" onclick="setMode('de', this)">DE</button>
     </div>
 
-    <div class="picker-row"><label class="smart-label" id="lbl-colors">SZÍNEK</label><div class="color-grid" id="color-picker"></div></div>
-    <div class="picker-row"><label class="smart-label" id="lbl-styles">STÍLUSOK</label><div class="style-grid" id="style-picker"></div></div>
-
-    <label class="smart-label">FOTÓ</label><input type="file" onchange="loadPhoto(event)">
+    <div class="picker-row"><label class="smart-label">SZÍNEK / COLORS / FARBEN</label><div class="color-grid" id="color-picker"></div></div>
+    <div class="picker-row"><label class="smart-label">STÍLUSOK / STYLES / STILE</label><div class="style-grid" id="style-picker"></div></div>
 
     <div class="input-group">
-        <div style="flex:1"><label class="smart-label" id="lbl-fName">KERESZTNÉV</label><input type="text" id="in-firstName" oninput="updatePreview()"></div>
-        <div style="flex:1"><label class="smart-label" id="lbl-lName">VEZETÉKNÉV</label><input type="text" id="in-lastName" oninput="updatePreview()"></div>
+        <div style="flex:1"><label class="smart-label">KERESZTNÉV / FIRST NAME / VORNAME</label><input type="text" id="in-firstName" oninput="updatePreview()"></div>
+        <div style="flex:1"><label class="smart-label">VEZETÉKNÉV / LAST NAME / NACHNAME</label><input type="text" id="in-lastName" oninput="updatePreview()"></div>
     </div>
     <div class="input-group">
-        <div style="flex:1"><label class="smart-label" id="lbl-city">VÁROS</label><input type="text" id="in-city" oninput="updatePreview()"></div>
-        <div style="flex:1"><label class="smart-label" id="lbl-street">UTCA</label><input type="text" id="in-street" oninput="updatePreview()"></div>
+        <div style="flex:1"><label class="smart-label">VÁROS / CITY / STADT</label><input type="text" id="in-city" oninput="updatePreview()"></div>
+        <div style="flex:1"><label class="smart-label">UTCA / STREET / STRASSE</label><input type="text" id="in-street" oninput="updatePreview()"></div>
     </div>
     <div class="input-group">
-        <div style="flex:1"><label class="smart-label">≡ TÍPUS</label>
+        <div style="flex:1"><label class="smart-label">≡ TÍPUS / TYPE / TYP</label>
             <select id="in-street-type" onchange="updatePreview()">
                 <option value="utca">utca / street / straße</option>
                 <option value="út">út / road / straße</option>
                 <option value="tér">tér / square / platz</option>
             </select>
         </div>
-        <div style="width:30%"><label class="smart-label">HÁZSZÁM</label><input type="text" id="in-house" oninput="updatePreview()"></div>
+        <div style="width:30%"><label class="smart-label">HÁZSZÁM / HOUSE NO / HAUSNR.</label><input type="text" id="in-house" oninput="updatePreview()"></div>
     </div>
-    <label class="smart-label" id="lbl-phone">TELEFON</label><input type="text" id="in-phone" oninput="updatePreview()">
-    <label class="smart-label" id="lbl-email">EMAIL</label><input type="email" id="in-email" oninput="updatePreview()">
+    <label class="smart-label">TELEFON / PHONE / TELEFON</label><input type="text" id="in-phone" oninput="updatePreview()">
+    <label class="smart-label">EMAIL</label><input type="email" id="in-email" oninput="updatePreview()">
 
-    <label class="smart-label" id="lbl-summaryHeader">BEMUTATKOZÁS VÁLASZTÓ / SUMMARY SELECTOR / PROFIL AUSWAHL</label>
+    <label class="smart-label">BEMUTATKOZÁS VÁLASZTÓ / SUMMARY SELECTOR / PROFIL AUSWAHL</label>
     <select id="sel-summary" onchange="applyMatrixSummary()" style="background: #1a3a5a; color: white; border: 1px solid #007bb5;">
         <option value="">-- Hozzáadás / Add / Hinzufügen --</option>
         <option value="1">🔝 Proaktív Vezető (Management)</option>
@@ -90,20 +87,20 @@
         <option value="6">🚛 Logisztikai (Logistics)</option>
         <option value="7">⚡ Junior (Entry Level)</option>
         <option value="8">🏗️ Szakmunkás (Industrial)</option>
-        <option value="9">🚑 Egészségügy / Oktatás (Health)</option>
+        <option value="9">🚑 Egészségügy / Oktatás</option>
         <option value="10">💎 Hospitality / Luxus</option>
         <option value="11">🚀 Stratégiai (Business)</option>
         <option value="12">📉 Elemző (Finance)</option>
-        <option value="13">🛠️ Karbantartó / Szerviz (Technical)</option>
-        <option value="14">🛡️ Biztonság és Rend (Security)</option>
-        <option value="15">🌟 Általános Motivált (Universal)</option>
+        <option value="13">🛠️ Karbantartó / Szerviz</option>
+        <option value="14">🛡️ Biztonság és Rend</option>
+        <option value="15">🌟 Általános Motivált</option>
     </select>
     <textarea id="in-summary" rows="8" oninput="updatePreview()" placeholder="Válogass össze több stílust / Add multiple styles / Wählen Sie Stile..."></textarea>
 
-    <div id="edu-area"><h3 id="lbl-eduHeader">TANULMÁNYOK</h3><div id="edu-container"></div><button onclick="addEntry('edu')" class="add-btn" id="lbl-addEdu">+ ÚJ ISKOLA / NEW SCHOOL</button></div>
-    <div id="work-area"><h3 id="lbl-workHeader">TAPASZTALAT</h3><div id="work-container"></div><button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY / NEW JOB</button></div>
+    <div id="edu-area"><h3>TANULMÁNYOK / EDUCATION / BILDUNG</h3><div id="edu-container"></div><button onclick="addEntry('edu')" class="add-btn">+ ÚJ ISKOLA / NEW SCHOOL</button></div>
+    <div id="work-area"><h3>TAPASZTALAT / EXPERIENCE / ERFAHRUNG</h3><div id="work-container"></div><button onclick="addEntry('work')" class="add-btn">+ ÚJ MUNKAHELY / NEW JOB</button></div>
 
-    <button onclick="window.print()" class="print-btn" id="lbl-printBtn">PDF GENERÁLÁSA</button>
+    <button onclick="window.print()" class="print-btn">PDF GENERÁLÁSA / GENERATE PDF</button>
 </div>
 
 <div class="preview-side">
@@ -120,15 +117,15 @@
 
 <script>
     const summariesDB = {
-        hu: { "1": "Több éves szakmai és vezetői tapasztalattal rendelkező szakember vagyok...", "2": "Technológiai fókuszú szakemberként...", "13": "Műszaki orientációjú szakemberként...", "14": "Felelősségteljes és fegyelmezett...", "15": "Sokoldalú és szakmailag elkötelezett..." },
-        en: { "1": "Professional with management experience...", "2": "Tech-focused professional...", "13": "As a technically oriented professional...", "14": "My professional career is characterized...", "15": "I am a versatile colleague..." },
-        de: { "1": "Fachkraft mit Managementerfahrung...", "2": "Technologieorientierter Profi...", "13": "Technisch versierte Fachkraft...", "14": "Verantwortungsbewusste Karriere...", "15": "Vielseitiger Mitarbeiter..." }
+        hu: { "1": "Több éves szakmai és vezetői tapasztalattal rendelkező szakember vagyok. Erősségem a stratégiai tervezés és az eredményorientált csapatvezetés.", "2": "Technológiai fókuszú szakemberként elkötelezett vagyok az innovatív megoldások és a hatékony problémamegoldás iránt.", "13": "Műszaki orientációjú szakemberként a rendszerek üzemeltetése és a hibaelhárítás alkotja szakterületem magját.", "14": "Felelősségteljes és fegyelmezett munkavégzés jellemzi pályafutásomat a biztonsági előírások mentén.", "15": "Sokoldalú és szakmailag elkötelezett munkatárs vagyok, kiemelkedő alkalmazkodóképességgel." },
+        en: { "1": "I am a professional with several years of management experience. My strengths include strategic planning and result-oriented leadership.", "2": "Tech-focused professional committed to innovative solutions and efficient problem-solving.", "13": "As a technically oriented professional, system operation and efficient troubleshooting form the core of my expertise.", "14": "My professional career is characterized by responsible and disciplined work within security protocols.", "15": "I am a versatile and professionally committed colleague with outstanding adaptability." },
+        de: { "1": "Fachkraft mit mehrjähriger Managementerfahrung, spezialisiert auf strategische Planung und Teamführung.", "2": "Technologieorientierter Profi mit Fokus auf innovative Lösungen und effiziente Problemlösung.", "13": "Als technisch versierte Fachkraft sind Fehlerbehebung und Betriebssicherung meine Hauptaufgaben.", "14": "Verantwortungsbewusstes und disziplinierte Arbeit unter Einhaltung aller Sicherheitsvorschriften.", "15": "Vielseitiger und flexibler Mitarbeiter mit hervorragender Anpassungsfähigkeit." }
     };
 
     const dictionary = {
-        hu: { engineName: "Career-Engine", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", city: "VÁROS", street: "UTCA", phone: "TELEFON", email: "EMAIL", summary: "BEMUTATKOZÁS-KÉPESSÉGEK", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "Képesítés / Degree / Abschluss", v_prof: "Szakma / Profession / Beruf", v_job: "Foglalkozás / Job / Beruf", v_pos: "Beosztás / Position / Position", select_hint: "-- VÁLASSZ --" },
-        en: { engineName: "Career-Engine", fName: "FIRST NAME", lName: "LAST NAME", city: "CITY", street: "STREET", phone: "PHONE", email: "EMAIL", summary: "SUMMARY-SKILLS", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address:", colors: "COLORS", styles: "STYLES", v_deg: "Degree", v_prof: "Profession", v_job: "Occupation", v_pos: "Position", select_hint: "-- SELECT --" },
-        de: { engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summary: "PROFIL-FÄHIGKEITEN", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse:", colors: "FARBEN", styles: "STILE", v_deg: "Abschluss", v_prof: "Beruf", v_job: "Beruf", v_pos: "Position", select_hint: "-- WÄHLEN --" }
+        hu: { summary: "BEMUTATKOZÁS-KÉPESSÉGEK", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addr: "Cím:", phone: "TELEFON:", select_hint: "-- VÁLASSZ --" },
+        en: { summary: "SUMMARY-SKILLS", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addr: "Address:", phone: "PHONE:", select_hint: "-- SELECT --" },
+        de: { summary: "PROFIL-FÄHIGKEITEN", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addr: "Adresse:", phone: "TELEFON:", select_hint: "-- WÄHLEN --" }
     };
 
     let currentLang = 'hu';
@@ -141,17 +138,8 @@
         if (selectedIndices.length > 0) {
             document.getElementById('in-summary').value = selectedIndices.map(idx => summariesDB[currentLang][idx]).join("\n\n");
         }
-        updateInterface();
-        refreshAllSelects();
         updatePreview();
-    }
-
-    function updateInterface() {
-        const d = dictionary[currentLang];
-        for (let key in d) {
-            const el = document.getElementById('lbl-' + key);
-            if (el) el.innerText = d[key];
-        }
+        refreshAllSelects();
     }
 
     function refreshAllSelects() {
@@ -181,11 +169,9 @@
         if(type === 'edu') {
             div.innerHTML = `
                 <input type="text" class="e-main" placeholder="Iskola / School / Schule" oninput="updatePreview()">
-                <input type="text" class="e-sub" placeholder="Év / Year / Jahr" oninput="updatePreview()">
-                <label class="smart-label">${d.v_deg}</label>
+                <input type="text" class="e-sub" placeholder="Idő / Period / Zeitraum" oninput="updatePreview()">
                 <select class="e-db" onchange="updatePreview()"></select>
-                <label class="smart-label">${d.v_prof}</label>
-                <input type="text" class="e-prof-input" placeholder="Szakma / Profession / Beruf" oninput="updatePreview()">
+                <input type="text" class="e-prof" placeholder="Szakma / Profession / Beruf" oninput="updatePreview()">
                 <button style="position:absolute; top:5px; right:5px; background:red; color:white; border:none; cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
             `;
             updateSelect(div.querySelector('.e-db'), careerDB.eduLevels);
@@ -193,9 +179,7 @@
             div.innerHTML = `
                 <input type="text" class="e-main" placeholder="Cég / Company / Firma" oninput="updatePreview()">
                 <input type="text" class="e-sub" placeholder="Időtartam / Duration / Dauer" oninput="updatePreview()">
-                <label class="smart-label">${d.v_job}</label>
                 <select class="e-job" onchange="updatePreview()"></select>
-                <label class="smart-label">${d.v_pos}</label>
                 <select class="e-pos" onchange="updatePreview()"></select>
                 <button style="position:absolute; top:5px; right:5px; background:red; color:white; border:none; cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
             `;
@@ -203,6 +187,7 @@
             updateSelect(div.querySelector('.e-pos'), careerDB.positions);
         }
         document.getElementById(type + '-container').appendChild(div);
+        updatePreview();
     }
 
     function applyMatrixSummary() {
@@ -227,7 +212,7 @@
         const sType = currentLang === 'hu' ? sTypeArr[0] : (currentLang === 'en' ? sTypeArr[1] : sTypeArr[2]);
 
         document.getElementById('out-contact').innerHTML = `
-            <b>${d.phone}:</b> ${document.getElementById('in-phone').value}<br>
+            <b>${d.phone}</b> ${document.getElementById('in-phone').value}<br>
             <b>EMAIL:</b> ${document.getElementById('in-email').value}<br>
             <b>${d.addr}</b> ${document.getElementById('in-city').value}, ${document.getElementById('in-street').value} ${sType} ${document.getElementById('in-house').value}
         `;
@@ -235,17 +220,17 @@
         let html = `<h3>${d.summary}</h3><p style="white-space: pre-wrap;">${document.getElementById('in-summary').value}</p>`;
         
         ['edu', 'work'].forEach(type => {
-            let sectionHtml = `<h3>${d[type + 'Header']}</h3>`;
+            let sectionHtml = `<h3>${dictionary[currentLang][type + 'Header']}</h3>`;
             document.querySelectorAll('#' + type + '-container .entry-box').forEach(box => {
                 const m = box.querySelector('.e-main').value;
                 const sub = box.querySelector('.e-sub').value;
                 const dbVal = type === 'edu' ? box.querySelector('.e-db').value : box.querySelector('.e-job').value;
-                const profVal = type === 'edu' ? box.querySelector('.e-prof-input').value : "";
+                const prof = type === 'edu' ? box.querySelector('.e-prof').value : "";
                 const posVal = type === 'work' ? box.querySelector('.e-pos').value : "";
                 
                 let title = "";
-                if(type === 'edu' && dbVal) title = careerDB.eduLevels.find(x => x.hu === dbVal)[currentLang] + (profVal ? " - " + profVal : "");
-                else if(type === 'edu' && profVal) title = profVal;
+                if(type === 'edu' && dbVal) title = careerDB.eduLevels.find(x => x.hu === dbVal)[currentLang] + (prof ? " - " + prof : "");
+                else if(type === 'edu' && prof) title = prof;
 
                 if(type === 'work' && dbVal) {
                     const job = careerDB.jobs.find(x => x.hu === dbVal)[currentLang];
@@ -263,8 +248,8 @@
     function loadPhoto(event) {
         const reader = new FileReader();
         reader.onload = () => {
-            const img = document.getElementById('out-photo');
-            img.src = reader.result;
+            const out = document.getElementById('out-photo');
+            out.src = reader.result;
             document.getElementById('out-photo-box').style.display = 'block';
         }
         reader.readAsDataURL(event.target.files[0]);
@@ -282,7 +267,7 @@
             b.onclick = () => { document.body.className = 'style-' + i; updatePreview(); };
             document.getElementById('style-picker').appendChild(b);
         }
-        updateInterface();
+        updatePreview();
     };
 </script>
 </body>
