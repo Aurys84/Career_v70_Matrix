@@ -70,11 +70,19 @@
     <div class="input-group">
         <div style="flex:1"><label class="smart-label">KERESZTNÉV</label><input type="text" id="in-firstName" oninput="updatePreview()"></div>
         <div style="flex:1"><label class="smart-label">VEZETÉKNÉV</label><input type="text" id="in-lastName" oninput="updatePreview()"></div>
+     <div class="input-group">
+        <div style="flex:1"><label class="smart-label" id="lbl-city">VÁROS / CITY / STADT</label><input type="text" id="in-city" oninput="updatePreview()"></div>
+        <div style="flex:1"><label class="smart-label" id="lbl-street">UTCA / STREET / STRASSE</label><input type="text" id="in-street" oninput="updatePreview()"></div>
     </div>
-
     <div class="input-group">
-        <div style="flex:1"><label class="smart-label">VÁROS</label><input type="text" id="in-city" oninput="updatePreview()"></div>
-        <div style="flex:1"><label class="smart-label">UTCA</label><input type="text" id="in-street" oninput="updatePreview()"></div>
+        <div style="flex:1"><label class="smart-label" id="lbl-type">≡ TÍPUS</label>
+            <select id="in-street-type" onchange="updatePreview()">
+                <option value="utca">utca / street / straße</option>
+                <option value="út">út / road / straße</option>
+                <option value="tér">tér / square / platz</option>
+            </select>
+        </div>
+        <div style="width:30%"><label class="smart-label">HÁZSZÁM</label><input type="text" id="in-house" oninput="updatePreview()"></div>
     </div>
 
     <div class="input-group">
