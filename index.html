@@ -2,7 +2,7 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Career-Engine v69.0 - A&N Visual - GLOBAL MATRIX</title>
+    <title>Career-Engine v69.0 - A&N Visual</title>
     <style>
         :root { --main-color: #007bb5; --bg: #0d0d0d; }
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; background: #000; color: #eee; }
@@ -19,6 +19,7 @@
         .style-btn { padding: 8px; background: #222; color: white; border: 1px solid #444; cursor: pointer; border-radius: 4px; font-weight: bold; }
         .smart-label { display: block; margin-top: 15px; font-size: 11px; font-weight: bold; color: var(--main-color); text-transform: uppercase; }
         input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; box-sizing: border-box; }
+        .input-group { display: flex; gap: 10px; }
         .entry-box { background: #151515; padding: 15px; margin-top: 10px; border-left: 4px solid var(--main-color); border-radius: 4px; position: relative; }
         .add-btn { background: #27ae60; color: white; width: 100%; padding: 12px; border: none; margin-top: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .print-btn { background: var(--main-color); color: white; width: 100%; padding: 18px; border: none; margin-top: 25px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; }
@@ -51,7 +52,16 @@
     <div class="input-group">
         <div style="flex:1"><label class="smart-label" id="lbl-city">VÁROS</label><input type="text" id="in-city" oninput="updatePreview()"></div>
         <div style="flex:1"><label class="smart-label" id="lbl-street">UTCA</label><input type="text" id="in-street" oninput="updatePreview()"></div>
-        <div style="width:20%"><label class="smart-label">Hsz.</label><input type="text" id="in-house" oninput="updatePreview()"></div>
+    </div>
+    <div class="input-group">
+        <div style="flex:1"><label class="smart-label" id="lbl-type">≡ TÍPUS</label>
+            <select id="in-street-type" onchange="updatePreview()">
+                <option value="utca">utca / street / straße</option>
+                <option value="út">út / road / straße</option>
+                <option value="tér">tér / square / platz</option>
+            </select>
+        </div>
+        <div style="width:30%"><label class="smart-label">HÁZSZÁM</label><input type="text" id="in-house" oninput="updatePreview()"></div>
     </div>
     <label class="smart-label" id="lbl-phone">TELEFON</label><input type="text" id="in-phone" oninput="updatePreview()">
     <label class="smart-label" id="lbl-email">EMAIL</label><input type="email" id="in-email" oninput="updatePreview()">
@@ -59,21 +69,21 @@
     <label class="smart-label" id="lbl-summaryHeader">BEMUTATKOZÁS VÁLASZTÓ (KORLÁTLAN)</label>
     <select id="sel-summary" onchange="applyMatrixSummary()" style="background: #1a3a5a; color: white;">
         <option value="">-- Hozzáadás / Add / Hinzufügen --</option>
-        <option value="1">🔝 Proaktív Vezető (Management)</option>
-        <option value="2">💻 Tech-Guru (IT / Fejlesztő)</option>
-        <option value="3">🎯 Precíz Adminisztrátor (Office)</option>
-        <option value="4">🤝 Ügyfélmágnes (Sales / Customer Care)</option>
-        <option value="5">🎨 Kreatív Vizionárius (Design / Marketing)</option>
-        <option value="6">🚛 Logisztikai (Szállítás / Raktár)</option>
-        <option value="7">⚡ Gyorsan Tanuló Junior (Pályakezdő)</option>
-        <option value="8">🏗️ Megbízható Szakmunkás (Ipar)</option>
-        <option value="9">🚑 Gondoskodó Profi (Egészségügy / Oktatás)</option>
-        <option value="10">💎 Luxus / Hospitality (Vendéglátás)</option>
-        <option value="11">🚀 Stratégiai Gondolkodó (Business)</option>
-        <option value="12">📉 Elemző Zseni (Finance / Data)</option>
-        <option value="13">🛠️ Karbantartó / Szerviz (Technical)</option>
-        <option value="14">🛡️ Biztonság és Rend (Security)</option>
-        <option value="15">🌟 Általános Motivált (Universal)</option>
+        <option value="1">🔝 Proaktív Vezető</option>
+        <option value="2">💻 Tech-Guru</option>
+        <option value="3">🎯 Adminisztrátor</option>
+        <option value="4">🤝 Ügyfélmágnes</option>
+        <option value="5">🎨 Kreatív Vizionárius</option>
+        <option value="6">🚛 Logisztikai</option>
+        <option value="7">⚡ Junior</option>
+        <option value="8">🏗️ Szakmunkás</option>
+        <option value="9">🚑 Gondoskodó Profi</option>
+        <option value="10">💎 Hospitality</option>
+        <option value="11">🚀 Stratégiai</option>
+        <option value="12">📉 Elemző</option>
+        <option value="13">🛠️ Karbantartó / Szerviz</option>
+        <option value="14">🛡️ Biztonság és Rend</option>
+        <option value="15">🌟 Általános Motivált</option>
     </select>
     <textarea id="in-summary" rows="8" oninput="updatePreview()" placeholder="Válogass össze több stílust..."></textarea>
 
@@ -93,65 +103,20 @@
     </div>
 </div>
 
+<script src="database.js"></script>
+
 <script>
-    const summaryDB = {
-        hu: {
-            "1": "Több éves releváns szakmai és vezetői tapasztalattal rendelkező szakember vagyok. Erősségem a stratégiai tervezés és az eredményorientált csapatvezetés.",
-            "2": "Technológiai fókuszú szakemberként elkötelezett vagyok az innovatív megoldások és a hatékony problémamegoldás iránt. Kiemelkedő rendszerszemlélettel és naprakész technikai tudással rendelkezem.",
-            "3": "Precíz és rendszerszemléletű munkavégzés jellemez. Kimagasló tapasztalattal rendelkezem az adminisztrációs folyamatok kezelésében és a vállalati dokumentáció pontos vezetésében.",
-            "4": "Ügyfélközpontú szemléletmódom és kiváló kommunikációs készségem révén hatékonyan támogatom a hosszú távú üzleti kapcsolatok építését és a professzionális ügyfélkezelést.",
-            "5": "Kreatív szemléletű szakemberként a vizuális kommunikáció és a márkaépítés területén nyújtok támogatást, szem előtt tartva az esztétikum és a funkcionális hatékonyság egyensúlyát.",
-            "6": "A logisztikai folyamatok és az operatív hatékonyság szakértője vagyok. Gyors döntéshozatali képességem és megoldásközpontú attitűdöm segít a komplex feladatok kezelésében.",
-            "7": "Elkötelezett és fejlődésorientált pályakezdőként keresem a szakmai kihívásokat. Gyors tanulási készség és felelősségteljes munkavégzés jellemez.",
-            "8": "Nagy munkabírású, megbízható szakmunkásként a minőségi és pontos kivitelezésre törekszem. Tapasztalattal rendelkezem ipari környezetben és csapatban történő munkavégzésben.",
-            "9": "Empatikus és hivatástudattal rendelkező szakember vagyok. Munkám során a szakmai protokollok szigorú betartására és a legmagasabb szintű ellátásra törekszem.",
-            "10": "A prémium vendéglátás területén szerzett tapasztalataimat a legmagasabb szintű szolgáltatás és a reprezentatív ügyfélélmény biztosításának szolgálatába állítom.",
-            "11": "Stratégiai és elemző látásmódom segíti a komplex üzleti folyamatok átlátásában, a piaci trendek azonosítását és a hatékony döntéselőkészítést.",
-            "12": "Pénzügyi és adatelemzési területen mozgok otthonosan. Precizitásom és logikai készségem a vállalati stabilitást és az adatvezérelt döntéshozatalt támogatja.",
-            "13": "Műszaki orientációjú szakemberként a rendszerek folyamatos üzemeltetése és a hatékonyság biztosítása az elsődleges feladatom.",
-            "14": "Felelősségteljes és fegyelmezett munkavégzés jellemzi szakmai pályafutásomat. Elkötelezett vagyok a biztonsági előírások és a rend maradéktalan betartása iránt.",
-            "15": "Sokoldalú, rugalmas és szakmailag elkötelezett munkatárs vagyok. Kiemelkedő alkalmazkodóképességem segít a hatékony együttműködésben bármely vállalati környezetben."
-        },
-        en: {
-            "1": "I am a professional with several years of relevant management experience. My strengths include strategic planning, process optimization, and result-oriented team leadership.",
-            "2": "As a technology-focused professional, I am committed to innovative solutions and efficient problem-solving. I possess a strong systemic perspective and up-to-date technical knowledge.",
-            "3": "My work is characterized by precision and a systematic approach. I have extensive experience in managing administrative processes and maintaining accurate corporate documentation.",
-            "4": "Through my customer-centric mindset and excellent communication skills, I effectively support the building of long-term business relationships and professional client management.",
-            "5": "As a creative professional, I provide support in visual communication and branding, maintaining a balance between aesthetics and functional efficiency.",
-            "6": "I am an expert in logistical processes and operational efficiency. My quick decision-making ability and solution-oriented attitude help in managing complex tasks.",
-            "7": "As a committed and growth-oriented entry-level professional, I am seeking professional challenges. I am characterized by quick learning and a responsible work ethic.",
-            "8": "As a reliable skilled worker with high stamina, I strive for quality and precise industrial execution. I have experience in industrial environments and teamwork.",
-            "9": "I am an empathetic professional with a strong sense of vocation. In my work, I strive for strict adherence to professional protocols and the highest level of care.",
-            "10": "I apply my experience in premium hospitality to provide the highest level of service and a representative client experience.",
-            "11": "My strategic and analytical vision assists in understanding complex business processes, identifying market trends, and ensuring effective decision preparation.",
-            "12": "I am proficient in the fields of finance and data analysis. My precision and logical skills support corporate stability and data-driven decision-making.",
-            "13": "As a technically oriented professional, system operation and efficient troubleshooting form the core of my expertise.",
-            "14": "My professional career is characterized by responsible and disciplined work. I am committed to the full observance of safety regulations and order.",
-            "15": "I am a versatile, flexible, and professionally committed colleague. My outstanding adaptability assists in effective cooperation within any corporate environment."
-        },
-        de: {
-            "1": "Ich bin eine Fachkraft mit mehrjähriger einschlägiger Managementerfahrung. Meine Stärken liegen in der strategischen Planung, Prozessoptimierung und ergebnisorientierten Teamführung.",
-            "2": "Als technologieorientierter Profi brenne ich für innovative Lösungen und effiziente Problemlösung. Ich verfüge über eine starke systemische Perspektive und aktuelles Fachwissen.",
-            "3": "Meine Arbeit zeichnet sich durch Präzision und einen systematischen Ansatz aus. Ich verfüge über umfangreiche Erfahrung in der Verwaltung von Administrationsprozessen.",
-            "4": "Durch meine kundenorientierte Einstellung und exzellente Kommunikationsfähigkeit unterstütze ich den Aufbau langfristiger Geschäftsbeziehungen und professionelles Kundenmanagement.",
-            "5": "Als kreativer Profi unterstütze ich visuelle Kommunikation und Markenaufbau, wobei ich stets auf das Gleichgewicht zwischen Ästhetik und funktionaler Effizienz achte.",
-            "6": "Ich bin Experte für Logistikprozesse und operative Effizienz. Meine schnelle Entscheidungsfähigkeit und lösungsorientierte Einstellung helfen bei komplexen Aufgaben.",
-            "7": "Als engagierter und wachstumsorientierter Berufseinsteiger freue ich mich auf neue Herausforderungen. Schnelle Auffassungsgabe und Verantwortungsbewusstsein zeichnen mich aus.",
-            "8": "Als zuverlässiger Facharbeiter mit hoher Ausdauer strebe ich nach Qualität und präziser Ausführung. Ich habe Erfahrung in industriellen Umgebungen und Teamarbeit.",
-            "9": "Ich bin ein empathischer Profi mit einer starken Berufung. In meiner Arbeit strebe ich nach strikter Einhaltung fachlicher Protokolle und höchster Versorgungsqualität.",
-            "10": "Ich nutze meine Erfahrung in der Premium-Gastronomie, um erstklassigen Service und ein repräsentatives Kundenerlebnis zu gewährleisten.",
-            "11": "Meine strategische und analytische Vision hilft beim Verständnis komplexer Geschäftsprozesse, der Identifizierung von Markttrends und der effektiven Entscheidungsvorbereitung.",
-            "12": "Ich bin kompetent in den Bereichen Finanzen und Datenanalyse. Meine Präzision und mein logisches Denken unterstützen die Unternehmensstabilität.",
-            "13": "Als technisch versierte Fachkraft bilden der kontinuierliche Systembetrieb und eine effiziente Fehlerbehebung den Kern meiner Expertise.",
-            "14": "Verantwortungsbewusstes und diszipliniertes Arbeiten zeichnet meine Karriere aus. Ich setze mich für die lückenlose Einhaltung aller Sicherheitsvorschriften ein.",
-            "15": "Ich bin ein vielseitiger, flexibler und beruflich engagierter Mitarbeiter. Meine hervorragende Anpassungsfähigkeit hilft bei der effektiven Zusammenarbeit."
-        }
+    // 15 HIVATALOS BEMUTATKOZÁS (API NÉLKÜL)
+    const summariesDB = {
+        hu: { "1": "Több éves szakmai és vezetői tapasztalattal rendelkező szakember vagyok...", "2": "Technológiai fókuszú szakemberként elkötelezett vagyok az innovatív megoldások iránt...", "13": "Műszaki orientációjú szakemberként a rendszerek üzemeltetése alkotja szakterületem magját.", "14": "Felelősségteljes és fegyelmezett munkavégzés jellemzi pályafutásomat.", "15": "Sokoldalú és szakmailag elkötelezett munkatárs vagyok." },
+        en: { "1": "Professional with several years of relevant management experience...", "2": "Tech-focused professional committed to innovative solutions...", "13": "As a technically oriented professional, system operation is the core of my expertise.", "14": "My professional career is characterized by responsible and disciplined work.", "15": "I am a versatile and professionally committed colleague." },
+        de: { "1": "Fachkraft mit mehrjähriger Managementerfahrung...", "2": "Technologieorientierter Profi mit Fokus auf innovative Lösungen...", "13": "Technisch orientierter Profi für Systembetrieb.", "14": "Verantwortungsbewusste und disziplinierte Karriere.", "15": "Vielseitiger und flexibler Mitarbeiter." }
     };
 
     const dictionary = {
-        hu: { engineName: "Career-Engine", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", city: "VÁROS", street: "UTCA", phone: "TELEFON", email: "EMAIL", summaryHeader: "BEMUTATKOZÁS VÁLASZTÓ", summary: "BEMUTATKOZÁS-KÉPESSÉGEK", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím:", colors: "SZÍNEK", styles: "STÍLUSOK" },
-        en: { engineName: "Career-Engine", fName: "FIRST NAME", lName: "LAST NAME", city: "CITY", street: "STREET", phone: "PHONE", email: "EMAIL", summaryHeader: "SUMMARY SELECTOR", summary: "SUMMARY-SKILLS", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address:", colors: "COLORS", styles: "STYLES" },
-        de: { engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summaryHeader: "PROFIL AUSWAHL", summary: "PROFIL-FÄHIGKEITEN", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse:", colors: "FARBEN", styles: "STILE" }
+        hu: { engineName: "Career-Engine", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", city: "VÁROS", street: "UTCA", phone: "TELEFON", email: "EMAIL", summary: "BEMUTATKOZÁS-KÉPESSÉGEK", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "Végzettség", v_job: "Foglalkozás", v_pos: "Beosztás", select_hint: "-- VÁLASSZ --" },
+        en: { engineName: "Career-Engine", fName: "FIRST NAME", lName: "LAST NAME", city: "CITY", street: "STREET", phone: "PHONE", email: "EMAIL", summary: "SUMMARY-SKILLS", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address:", colors: "COLORS", styles: "STYLES", v_deg: "Degree", v_job: "Occupation", v_pos: "Position", select_hint: "-- SELECT --" },
+        de: { engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summary: "PROFIL-FÄHIGKEITEN", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse:", colors: "FARBEN", styles: "STILE", v_deg: "Abschluss", v_job: "Beruf", v_pos: "Position", select_hint: "-- WÄHLEN --" }
     };
 
     let currentLang = 'hu';
@@ -161,6 +126,7 @@
         document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         updateInterface();
+        refreshAllSelects(); // Ez tölti fel a menüket nyelvváltáskor
         updatePreview();
     }
 
@@ -172,24 +138,60 @@
         }
     }
 
+    function refreshAllSelects() {
+        document.querySelectorAll('.entry-box').forEach(box => {
+            const selectDeg = box.querySelector('.e-db');
+            const selectJob = box.querySelector('.e-job');
+            const selectPos = box.querySelector('.e-pos');
+            if (selectDeg) updateSelect(selectDeg, careerDB.eduLevels);
+            if (selectJob) updateSelect(selectJob, careerDB.jobs);
+            if (selectPos) updateSelect(selectPos, careerDB.positions);
+        });
+    }
+
+    function updateSelect(select, list) {
+        const currentVal = select.value;
+        let html = `<option value="">${dictionary[currentLang].select_hint}</option>`;
+        list.forEach(item => {
+            html += `<option value="${item.hu}" ${item.hu === currentVal ? 'selected' : ''}>${item[currentLang]}</option>`;
+        });
+        select.innerHTML = html;
+    }
+
     function addEntry(type) {
         const div = document.createElement('div');
         div.className = 'entry-box';
-        div.innerHTML = `
-            <input type="text" class="e-main" placeholder="Intézmény / Cég" oninput="updatePreview()">
-            <input type="text" class="e-sub" placeholder="Időtartam" oninput="updatePreview()">
-            <input type="text" class="e-desc" placeholder="Beosztás / Leírás" oninput="updatePreview()">
-            <button style="position:absolute; top:5px; right:5px; background:red; color:white; border:none; cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
-        `;
+        const d = dictionary[currentLang];
+        if(type === 'edu') {
+            div.innerHTML = `
+                <input type="text" class="e-main" placeholder="Iskola neve" oninput="updatePreview()">
+                <input type="text" class="e-sub" placeholder="Időtartam" oninput="updatePreview()">
+                <label class="smart-label">${d.v_deg}</label>
+                <select class="e-db" onchange="updatePreview()"></select>
+                <button style="position:absolute; top:5px; right:5px; background:red; color:white; border:none; cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
+            `;
+            updateSelect(div.querySelector('.e-db'), careerDB.eduLevels);
+        } else {
+            div.innerHTML = `
+                <input type="text" class="e-main" placeholder="Cég neve" oninput="updatePreview()">
+                <input type="text" class="e-sub" placeholder="Időtartam" oninput="updatePreview()">
+                <label class="smart-label">${d.v_job}</label>
+                <select class="e-job" onchange="updatePreview()"></select>
+                <label class="smart-label">${d.v_pos}</label>
+                <select class="e-pos" onchange="updatePreview()"></select>
+                <button style="position:absolute; top:5px; right:5px; background:red; color:white; border:none; cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
+            `;
+            updateSelect(div.querySelector('.e-job'), careerDB.jobs);
+            updateSelect(div.querySelector('.e-pos'), careerDB.positions);
+        }
         document.getElementById(type + '-container').appendChild(div);
-        updatePreview();
     }
 
     function applyMatrixSummary() {
         const sel = document.getElementById('sel-summary');
         const target = document.getElementById('in-summary');
-        if (sel.value && summaryDB[currentLang][sel.value]) {
-            target.value += (target.value ? "\n\n" : "") + summaryDB[currentLang][sel.value];
+        if (sel.value && summariesDB[currentLang][sel.value]) {
+            target.value += (target.value ? "\n\n" : "") + summariesDB[currentLang][sel.value];
             sel.value = "";
             updatePreview();
         }
@@ -201,10 +203,13 @@
         const f = document.getElementById('in-firstName').value || "";
         document.getElementById('out-name').innerText = (currentLang === 'hu' ? l + " " + f : f + " " + l).toUpperCase() || "NAME";
         
+        const sTypeSelect = document.getElementById('in-street-type');
+        const sType = sTypeSelect.options[sTypeSelect.selectedIndex].text.split(' / ')[currentLang === 'hu' ? 0 : (currentLang === 'en' ? 1 : 2)];
+
         document.getElementById('out-contact').innerHTML = `
             <b>${d.phone}:</b> ${document.getElementById('in-phone').value}<br>
             <b>EMAIL:</b> ${document.getElementById('in-email').value}<br>
-            <b>${d.addr}</b> ${document.getElementById('in-city').value}, ${document.getElementById('in-street').value} ${document.getElementById('in-house').value}
+            <b>${d.addr}</b> ${document.getElementById('in-city').value}, ${document.getElementById('in-street').value} ${sType} ${document.getElementById('in-house').value}
         `;
 
         let html = `<h3>${d.summary}</h3><p style="white-space: pre-wrap;">${document.getElementById('in-summary').value}</p>`;
@@ -212,10 +217,20 @@
         ['edu', 'work'].forEach(type => {
             let sectionHtml = `<h3>${d[type + 'Header']}</h3>`;
             document.querySelectorAll('#' + type + '-container .entry-box').forEach(box => {
-                const main = box.querySelector('.e-main').value;
+                const m = box.querySelector('.e-main').value;
                 const sub = box.querySelector('.e-sub').value;
-                const desc = box.querySelector('.e-desc').value;
-                if(main) sectionHtml += `<div style="margin-bottom:15px"><b>${main}</b> (${sub})<br><i>${desc}</i></div>`;
+                const dbVal = type === 'edu' ? box.querySelector('.e-db').value : box.querySelector('.e-job').value;
+                const posVal = type === 'work' ? box.querySelector('.e-pos').value : "";
+                
+                let title = "";
+                if(type === 'edu' && dbVal) title = careerDB.eduLevels.find(x => x.hu === dbVal)[currentLang];
+                if(type === 'work' && dbVal) {
+                    const job = careerDB.jobs.find(x => x.hu === dbVal)[currentLang];
+                    const pos = posVal ? careerDB.positions.find(x => x.hu === posVal)[currentLang] : "";
+                    title = job + (pos ? " - " + pos : "");
+                }
+
+                if(m || title) sectionHtml += `<div style="margin-bottom:15px"><b>${m}</b> (${sub})<br><i>${title}</i></div>`;
             });
             html += sectionHtml;
         });
@@ -224,9 +239,8 @@
 
     function loadPhoto(event) {
         const reader = new FileReader();
-        reader.onload = function() {
-            const out = document.getElementById('out-photo');
-            out.src = reader.result;
+        reader.onload = () => {
+            document.getElementById('out-photo').src = reader.result;
             document.getElementById('out-photo-box').style.display = 'block';
         }
         reader.readAsDataURL(event.target.files[0]);
@@ -245,7 +259,6 @@
             document.getElementById('style-picker').appendChild(b);
         }
         updateInterface();
-        updatePreview();
     };
 </script>
 </body>
