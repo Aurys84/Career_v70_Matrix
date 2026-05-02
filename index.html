@@ -59,16 +59,31 @@
         body.style-8 .cv-paper { padding: 60px; background: #f0f0f0; }
         body.style-8 #main-content, body.style-8 .cv-header { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
-        /* 9. Infographic: Kör fotó és színes pontok */
-        body.style-9 #out-photo-box { border-radius: 50% !important; border: 4px solid var(--main-color); overflow: hidden; }
-        body.style-9 #out-photo { border-radius: 50%; }
+        /* 9. Infographic: Kör fotó és színes keret */
+        body.style-9 #out-photo-box { 
+            display: block !important; 
+            border-radius: 50% !important; 
+            border: 4px solid var(--main-color) !important; 
+            overflow: hidden; 
+        }
+        body.style-9 #out-photo { border-radius: 50%; width: 100%; height: 100%; object-fit: cover; }
 
-        /* 10. Sidebar Accent: Oldalsávos szövegkiemelés */
-        body.style-10 #main-content div { border-left: 3px solid var(--main-color); padding-left: 15px; }
+        /* 10. Sidebar Accent: Szakaszok bal oldali kiemelése */
+        body.style-10 #main-content div, body.style-10 #main-content p { 
+            border-left: 4px solid var(--main-color) !important; 
+            padding-left: 15px !important; 
+            margin-left: 5px;
+        }
 
-        /* 11. Bold Typography: Hatalmas név, vékony adatok */
-        body.style-11 #out-name { font-size: 50px; font-weight: 900; line-height: 1; }
-
+        /* 11. Bold Typography: Brutál név, vékony kiegészítők */
+        body.style-11 #out-name { 
+            font-size: 55px !important; 
+            font-weight: 900 !important; 
+            line-height: 0.9 !important; 
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+        }
+        body.style-11 #out-contact { font-weight: 300; text-transform: uppercase; letter-spacing: 2px; }
         /* 12. Geometric: Átlós díszítés a sarokban */
         body.style-12 .cv-paper::after { content: ''; position: absolute; top: 0; right: 0; border-style: solid; border-width: 0 100px 100px 0; border-color: transparent var(--main-color) transparent transparent; }
 
