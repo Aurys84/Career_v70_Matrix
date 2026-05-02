@@ -153,40 +153,36 @@
     }
 
     function addEntry(type) {
-        const container = document.getElementById(type === 'edu' ? 'edu-list' : 'work-list');
-        if (!container) return;
-
         const div = document.createElement('div');
-        div.className = 'entry-item';
-        div.innerHTML = `
-            <input type="text" placeholder="${dictionary[currentLang][type === 'edu' ? 'v_deg' : 'v_job']}" oninput="updatePreview()">
-            <input type="text" placeholder="${dictionary[currentLang][type === 'edu' ? 'v_other' : 'v_pos']}" oninput="updatePreview()">
-            <button class="btn-del" onclick="this.parentElement.remove(); updatePreview();">×</button>
-        `;
-        container.appendChild(div);
-        updatePreview();
-    }
-
-    // Kell egy alap updateInterface is, hogy a feliratok is váltsanak
-    function updateInterface() {
-        const langData = dictionary[currentLang];
-        for (const key in langData) {
-            const el = document.getElementById('lbl-' + key);
-            if (el) el.innerText = langData[key];
+        div.className = 'entry-box';
+        const d = dictionary[currentLang];
+        if(type === 'edu') {
+            div.innerHTML = `
+                <input type="text" class="e-main" placeholder="Iskola neve / School name / Schulname">
+                <input type="text" class="e-sub" placeholder="Év / Year / Jahr">
+                <label class="smart-label dyn-deg">${d.v_deg}</label>
+                <select class="e-db" onchange="updatePreview()"></select>
+                <label class="smart-label dyn-other">${d.v_other}</label>
+                <input type="text" class="e-other" placeholder="Egyéb végzettség / Other degree / Sonstiger Abschluss">
+            `;
+            updateSelect(div.querySelector('.e-db'), careerDB.eduLevels);
+        } else {
+            div.innerHTML = `
+                <input type="text" class="e-main" placeholder="Munkahely neve / Company name / Firmenname">
+                <input type="text" class="e-sub" placeholder="Időtartam / Duration / Dauer">
+                <label class="smart-label dyn-job">${d.v_job}</label>
+                <select class="e-job" onchange="updatePreview()"></select>
+                <input type="text" class="e-job-other" placeholder="Egyéb foglalkozás / Other job / Sonstiger Beruf">
+                <label class="smart-label dyn-pos">${d.v_pos}</label>
+                <select class="e-pos" onchange="updatePreview()"></select>
+                <input type="text" class="e-pos-other" placeholder="Egyéb beosztás / Other position / Sonstige Position">
+            `;
+            updateSelect(div.querySelector('.e-job'), careerDB.jobs);
+            updateSelect(div.querySelector('.e-pos'), careerDB.positions);
         }
-        // A gombok feliratait is frissítjük
-        if(document.getElementById('btn-addEdu')) document.getElementById('btn-addEdu').innerText = langData.addEdu;
-        if(document.getElementById('btn-addWork')) document.getElementById('btn-addWork').innerText = langData.addWork;
-        if(document.getElementById('btn-print')) document.getElementById('btn-print').innerText = langData.printBtn;
-    }
-    }
-
-    function setMode(l, btn) {
-        currentLang = l;
-        document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
-        if (btn) btn.classList.add('active');
+        document.getElementById(type + '-container').appendChild(div);
+        div.querySelectorAll('input').forEach(i => i.oninput = updatePreview);
         updateInterface();
-        updatePreview();
     }
 
     function applyMatrixSummary() {
