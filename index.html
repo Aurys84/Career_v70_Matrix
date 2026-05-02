@@ -118,11 +118,105 @@
 <script src="database.js"></script>
 
 <script>
-    const dictionary = {
-        hu: { engineName: "Career-Engine", atsTitle: "🚀 API TIPPEK:", atsTips: "• Kulcsszavak!\n• Számok!\n• Jó fotó!", guideTitle: "📝 ÚTMUTATÓ:", guide: "Profilba írj 3-4 mondatban.", fName: "KERESZTNÉV / FIRST NAME / VORNAME", lName: "VEZETÉKNÉV / LAST NAME / NACHNAME", city: "VÁROS / CITY / STADT", street: "UTCA / STREET / STRASSE", type: "≡ TÍPUS", phone: "TELEFON / PHONE / TELEFON", email: "EMAIL", summary: "BEMUTATKOZÁS-KÉPESSÉGEK / SUMMARY-SKILLS / PROFIL-FÄHIGKEITEN", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím / Address / Adresse:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "Végzettség", v_job: "Foglalkozás", v_pos: "Beosztás", v_other: "EGYÉB", select_hint: "-- VÁLASSZ / SELECT / WÄHLEN --" },
-        en: { engineName: "Career-Engine", atsTitle: "🚀 API TIPS:", atsTips: "• Keywords!\n• Numbers!\n• Pro Photo!", guideTitle: "📝 GUIDE:", guide: "Describe yourself in 3-4 sentences.", fName: "FIRST NAME / KERESZTNÉV / VORNAME", lName: "LAST NAME / VEZETÉKNÉV / NACHNAME", city: "CITY / VÁROS / STADT", street: "STREET / UTCA / STRASSE", type: "≡ TYPE", phone: "PHONE / TELEFON / TELEFON", email: "EMAIL", summary: "SUMMARY-SKILLS / BEMUTATKOZÁS-KÉPESSÉGEK / PROFIL-FÄHIGKEITEN", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address / Cím / Adresse:", colors: "COLORS", styles: "STYLES", v_deg: "Degree", v_job: "Occupation", v_pos: "Position", v_other: "OTHER", select_hint: "-- SELECT / VÁLASSZ / WÄHLEN --" },
-        de: { engineName: "Career-Engine", atsTitle: "🚀 API TIPPS:", atsTips: "• Keywords!\n• Zahlen!\n• Foto!", guideTitle: "📝 ANLEITUNG:", guide: "Schreiben Sie 3-4 Sätze.", fName: "VORNAME / KERESZTNÉV / FIRST NAME", lName: "NACHNAME / VEZETÉKNÉV / LAST NAME", city: "STADT / VÁROS / CITY", street: "STRASSE / UTCA / STREET", type: "≡ TYP", phone: "TELEFON / TELEFON / PHONE", email: "EMAIL", summary: "PROFIL-FÄHIGKEITEN / BEMUTATKOZÁS-KÉPESSÉGEK / SUMMARY-SKILLS", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse / Address / Cím:", colors: "FARBEN", styles: "STILE", v_deg: "Abschluss", v_job: "Beruf", v_pos: "Position", v_other: "SONSTIGES", select_hint: "-- WÄHLEN / VÁLASSZ / SELECT --" }
+   const dictionary = {
+        hu: { 
+            engineName: "Career-Engine", atsTitle: "🚀 API TIPPEK:", atsTips: "• Kulcsszavak!\n• Számok!\n• Jó fotó!", guideTitle: "📝 ÚTMUTATÓ:", guide: "Profilba írj 3-4 mondatban.", fName: "KERESZTNÉV / FIRST NAME / VORNAME", lName: "VEZETÉKNÉV / LAST NAME / NACHNAME", city: "VÁROS / CITY / STADT", street: "UTCA / STREET / STRASSE", type: "≡ TÍPUS", phone: "TELEFON / PHONE / TELEFON", email: "EMAIL", summary: "BEMUTATKOZÁS-KÉPESSÉGEK / SUMMARY-SKILLS / PROFIL-FÄHIGKEITEN", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím / Address / Adresse:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "Végzettség", v_job: "Foglalkozás", v_pos: "Beosztás", v_other: "EGYÉB", select_hint: "-- VÁLASSZ / SELECT / WÄHLEN --",
+            sum_1: "Több éves vezetői tapasztalattal rendelkező szakember vagyok, aki a stratégiai tervezésben és a csapatok motiválásában hisz. Célom az eredményesség maximalizálása.",
+            sum_2: "Technológiai szemléletű szakemberként szenvedélyem az innováció és a problémamegoldás. Erős technikai alapokkal és folyamatos tanulási vággyal rendelkezem.",
+            sum_3: "Rendszerszemléletű, precíz munkavégzés jellemez. Az adminisztrációs folyamatok optimalizálásában és a pontos dokumentációban vagyok a legerősebb.",
+            sum_4: "Ügyfélközpontú attitűdöm segít a hosszú távú üzleti kapcsolatok építésében. Kiváló kommunikációs készséggel kezelem a konfliktusokat és az értékesítési helyzeteket.",
+            sum_5: "Kreatív gondolkodásmódommal és vizuális látásmódommal segítem a márkák építését. Nem csak a formát, hanem a funkciót is szem előtt tartom.",
+            sum_6: "A logisztika és a hatékonyság megszállottja vagyok. Gyors döntéshozatali képességem segít a váratlan helyzetek megoldásában is.",
+            sum_7: "Lelkes pályakezdőként várom a kihívásokat. Gyorsan tanulok, megbízható vagyok, és elkötelezett a szakmai fejlődés iránt.",
+            sum_8: "Nagy munkabírású szakemberként a minőségi és pontos kivitelezésre törekszem. Tapasztalatom van ipari környezetben és csapatmunkában is.",
+            sum_10: "A vendéglátásban szerzett tapasztalatomat a legmagasabb szintű kiszolgálás és a vendégelégedettség szolgálatába állítom.",
+            sum_11: "Elemző és stratégiai látásmódom segít a komplex üzleti problémák átlátásában és a jövőbeli trendek előrejelzésében.",
+            sum_12: "A számok és adatok világában mozgok otthonosan. Precizitásom és logikai készségem a pénzügyi stabilitást szolgálja.",
+            sum_13: "Műszaki beállítottságú szakemberként a hibaelhárítás és a folyamatos üzemeltetés biztosítása az elsődleges feladatom.",
+            sum_14: "Felelősségteljes és fegyelmezett munkavégzés jellemzi a biztonsági területen szerzett pályafutásomat.",
+            sum_15: "Sokoldalú és rugalmas munkatárs vagyok, aki bármilyen környezetben megtalálja a közös hangot a kollégákkal a közös siker érdekében."
+        },
+        en: { 
+            engineName: "Career-Engine", atsTitle: "🚀 API TIPS:", atsTips: "• Keywords!\n• Numbers!\n• Pro Photo!", guideTitle: "📝 GUIDE:", guide: "Describe yourself in 3-4 sentences.", fName: "FIRST NAME / KERESZTNÉV / VORNAME", lName: "LAST NAME / VEZETÉKNÉV / NACHNAME", city: "CITY / VÁROS / STADT", street: "STREET / UTCA / STRASSE", type: "≡ TYPE", phone: "PHONE / TELEFON / TELEFON", email: "EMAIL", summary: "SUMMARY-SKILLS / BEMUTATKOZÁS-KÉPESSÉGEK / PROFIL-FÄHIGKEITEN", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address / Cím / Adresse:", colors: "COLORS", styles: "STYLES", v_deg: "Degree", v_job: "Occupation", v_pos: "Position", v_other: "OTHER", select_hint: "-- SELECT / VÁLASSZ / WÄHLEN --",
+            sum_1: "I am a professional with several years of leadership experience who believes in strategic planning and team motivation. My goal is to maximize effectiveness.",
+            sum_2: "As a technology-oriented professional, my passion is innovation and problem-solving. I have strong technical foundations and a continuous desire to learn.",
+            sum_3: "I am characterized by a systematic and precise way of working. I am strongest in optimizing administrative processes and accurate documentation.",
+            sum_4: "My customer-oriented attitude helps build long-term business relationships. I handle conflicts and sales situations with excellent communication skills.",
+            sum_5: "I help build brands with my creative thinking and visual perspective. I keep both form and function in mind.",
+            sum_6: "I am obsessed with logistics and efficiency. My quick decision-making ability helps solve unexpected situations.",
+            sum_7: "As an enthusiastic beginner, I look forward to challenges. I learn quickly, am reliable, and committed to professional development.",
+            sum_8: "As a high-capacity professional, I strive for quality and precise execution. I have experience in industrial environments and teamwork.",
+            sum_10: "I put my experience in hospitality at the service of the highest level of service and guest satisfaction.",
+            sum_11: "My analytical and strategic vision helps in understanding complex business problems and forecasting future trends.",
+            sum_12: "I am at home in the world of numbers and data. My precision and logical skills serve financial stability.",
+            sum_13: "As a technically-minded professional, troubleshooting and ensuring continuous operation is my primary task.",
+            sum_14: "Responsible and disciplined work characterizes my career in the security field.",
+            sum_15: "I am a versatile and flexible team member who finds common ground with colleagues in any environment for mutual success."
+        },
+        de: { 
+            engineName: "Career-Engine", atsTitle: "🚀 API TIPPS:", atsTips: "• Keywords!\n• Zahlen!\n• Foto!", guideTitle: "📝 ANLEITUNG:", guide: "Schreiben Sie 3-4 Sätze.", fName: "VORNAME / KERESZTNÉV / FIRST NAME", lName: "NACHNAME / VEZETÉKNÉV / LAST NAME", city: "STADT / VÁROS / CITY", street: "STRASSE / UTCA / STREET", type: "≡ TYP", phone: "TELEFON / TELEFON / PHONE", email: "EMAIL", summary: "PROFIL-FÄHIGKEITEN / BEMUTATKOZÁS-KÉPESSÉGEK / SUMMARY-SKILLS", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse / Address / Cím:", colors: "FARBEN", styles: "STILE", v_deg: "Abschluss", v_job: "Beruf", v_pos: "Position", v_other: "SONSTIGES", select_hint: "-- WÄHLEN / VÁLASSZ / SELECT --",
+            sum_1: "Ich bin eine Führungskraft mit mehrjähriger Erfahrung, die an strategische Planung und Teammotivation glaubt. Mein Ziel ist die Maximierung der Effizienz.",
+            sum_2: "Als technologieorientierte Fachkraft brenne ich für Innovation und Problemlösung. Ich verfüge über fundierte technische Kenntnisse und lerne ständig dazu.",
+            sum_3: "Systematisches und präzises Arbeiten zeichnet mich aus. Meine Stärken liegen in der Optimierung administrativer Prozesse und Dokumentation.",
+            sum_4: "Meine kundenorientierte Einstellung hilft beim Aufbau langfristiger Geschäftsbeziehungen. Ich verfüge über exzellente Kommunikationsfähigkeiten.",
+            sum_5: "Mit kreativem Denken und visuellem Verständnis unterstütze ich den Markenaufbau. Ich achte sowohl auf Form als auch auf Funktion.",
+            sum_6: "Logistik und Effizienz sind meine Leidenschaft. Meine schnelle Entscheidungsfähigkeit hilft bei der Lösung unerwarteter Situationen.",
+            sum_7: "Als motivierter Berufseinsteiger freue ich mich auf Herausforderungen. Ich lerne schnell, bin zuverlässig und engagiert.",
+            sum_8: "Als belastbare Fachkraft strebe ich nach Qualität und Präzision. Ich habe Erfahrung in industriellen Umgebungen und Teamarbeit.",
+            sum_10: "Ich stelle meine Erfahrung in der Gastronomie in den Dienst von bestem Service und höchster Gästezufriedenheit.",
+            sum_11: "Meine analytische und strategische Vision hilft bei komplexen Problemen und der Vorhersage zukünftiger Trends.",
+            sum_12: "In der Welt der Zahlen und Daten fühle ich mich zu Hause. Meine Präzision und Logik dienen der finanziellen Stabilität.",
+            sum_13: "Als technisch versierte Fachkraft sind Fehlerbehebung und Betriebssicherung meine Hauptaufgaben.",
+            sum_14: "Verantwortungsbewusstes und diszipliniertes Arbeiten zeichnet meine Karriere im Sicherheitsbereich aus.",
+            sum_15: "Ich bin ein vielseitiges Teammitglied, das in jeder Umgebung den richtigen Ton trifft, um gemeinsam erfolgreich zu sein."
+        }
     };
+
+    let currentLang = 'hu';
+
+    function apiTranslate(text) { return text; }
+
+    function applyMatrixSummary() {
+        const sel = document.getElementById('sel-summary');
+        const target = document.getElementById('in-summary');
+        if (!sel || !target) return;
+
+        const summaries = {
+            "1": "Több éves vezetői tapasztalattal rendelkező szakember vagyok, aki a stratégiai tervezésben és a csapatok motiválásában hisz. Célom az eredményesség maximalizálása.",
+            "2": "Technológiai szemléletű szakemberként szenvedélyem az innováció és a problémamegoldás. Erős technikai alapokkal és folyamatos tanulási vággyal rendelkezem.",
+            "3": "Rendszerszemléletű, precíz munkavégzés jellemez. Az adminisztrációs folyamatok optimalizálásában és a pontos dokumentációban vagyok a legerősebb.",
+            "4": "Ügyfélközpontú attitűdöm segít a hosszú távú üzleti kapcsolatok építésében. Kiváló kommunikációs készséggel kezelem a konfliktusokat és az értékesítési helyzeteket.",
+            "5": "Kreatív gondolkodásmódommal és vizuális látásmódommal segítem a márkák építését. Nem csak a formát, hanem a funkciót is szem előtt tartom.",
+            "6": "A logisztika és a hatékonyság megszállottja vagyok. Gyors döntéshozatali képességem segít a váratlan helyzetek megoldásában is.",
+            "7": "Lelkes pályakezdőként várom a kihívásokat. Gyorsan tanulok, megbízható vagyok, és elkötelezett a szakmai fejlődés iránt.",
+            "8": "Nagy munkabírású szakemberként a minőségi és pontos kivitelezésre törekszem. Tapasztalatom van ipari környezetben és csapatmunkában is.",
+            "10": "A vendéglátásban szerzett tapasztalatomat a legmagasabb szintű kiszolgálás és a vendégelégedettség szolgálatába állítom.",
+            "11": "Elemző és stratégiai látásmódom segít a komplex üzleti problémák átlátásában és a jövőbeli trendek előrejelzésében.",
+            "12": "A számok és adatok világában mozgok otthonosan. Precizitásom és logikai készségem a pénzügyi stabilitást szolgálja.",
+            "13": "Műszaki beállítottságú szakemberként a hibaelhárítás és a folyamatos üzemeltetés biztosítása az elsődleges feladatom.",
+            "14": "Felelősségteljes és fegyelmezett munkavégzés jellemzi a biztonsági területen szerzett pályafutásomat.",
+            "15": "Sokoldalú és rugalmas munkatárs vagyok, aki bármilyen környezetben megtalálja a közös hangot a kollégákkal a közös siker érdekében."
+        };
+
+        if (sel.value && summaries[sel.value]) {
+            const key = "sum_" + sel.value;
+            if (dictionary[currentLang] && dictionary[currentLang][key]) {
+                target.value = dictionary[currentLang][key];
+            } else {
+                target.value = summaries[sel.value];
+            }
+            if (typeof updatePreview === 'function') updatePreview(); 
+        }
+    }
+
+    function setMode(l, btn) {
+        currentLang = l;
+        document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        if (typeof updateInterface === 'function') updateInterface();
+        if (typeof updatePreview === 'function') updatePreview();
+        if (typeof refreshAllSelects === 'function') refreshAllSelects();
+    }
 
     let currentLang = 'hu';
 
