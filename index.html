@@ -25,4 +25,169 @@
         .cv-paper { width: 210mm; min-height: 297mm; background: white; padding: 40px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); box-sizing: border-box; position: relative; }
         .cv-header { display: flex; gap: 20px; border-bottom: 2px solid var(--main-color); padding-bottom: 20px; margin-bottom: 20px; }
         h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
-        h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom:
+        h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
+
+        /* STÍLUSOK 1-15 */
+        body.style-1 .cv-paper { border-top: 20px solid var(--main-color); }
+        body.style-2 .cv-header { flex-direction: column; text-align: center; }
+        body.style-3 .cv-header { flex-direction: row-reverse; }
+        body.style-4 h3 { background: #f4f4f4; padding: 10px; border-left: 10px solid var(--main-color); border-bottom: none; }
+        body.style-5 .cv-paper { font-family: 'Georgia', serif; }
+        body.style-6 .cv-header { border-bottom: 8px double var(--main-color); }
+        body.style-7 .cv-paper { background: #f9f9f9; border: 1px solid #ddd; }
+        body.style-8 #out-name { letter-spacing: 5px; text-align: center; width: 100%; }
+        body.style-9 .cv-header { align-items: flex-end; border-bottom-width: 5px; }
+        body.style-10 .cv-paper::before { content: ''; position: absolute; top: 0; left: 0; width: 15px; height: 100%; background: var(--main-color); }
+        body.style-11 .cv-paper { background: #2c3e50; color: #ecf0f1; }
+        body.style-11 .cv-paper h3 { color: #3498db; border-bottom-color: #34495e; }
+        body.style-11 .cv-paper h1 { color: #3498db; }
+        body.style-12 .cv-paper { border-left: 25px solid var(--main-color); }
+        body.style-12 h3 { font-size: 1.2em; border-bottom: 2px solid var(--main-color); }
+        body.style-13 .cv-header { border-bottom: none; border-bottom: 3px dashed var(--main-color); }
+        body.style-13 #out-name { font-family: 'Courier New', monospace; text-transform: uppercase; }
+        body.style-14 .cv-paper { background: #fff; }
+        body.style-14 .cv-paper h3 { background: var(--main-color); color: white; padding: 8px; border-radius: 4px; border: none; }
+        body.style-15 .cv-paper { background: #f0f2f5; }
+        body.style-15 .cv-paper::after { content: ''; position: absolute; bottom: 0; right: 0; width: 100px; height: 100px; background: var(--main-color); opacity: 0.1; border-radius: 100px 0 0 0; }
+
+        @media print { .editor-side { display: none; } .preview-side { width: 100%; padding: 0; background: white; } .cv-paper { box-shadow: none; width: 100%; margin: 0; padding: 20mm; } }
+    </style>
+</head>
+<body class="style-1">
+
+<div class="editor-side">
+    <div class="logo-area">
+        <div class="brand-circle">A&N</div>
+        <h1 id="lbl-engineName">Career-Engine</h1>
+    </div>
+
+    <div class="lang-grid">
+        <button class="btn-lang active" onclick="setMode('hu', this)">HU</button>
+        <button class="btn-lang" onclick="setMode('en', this)">EN</button>
+        <button class="btn-lang" onclick="setMode('de', this)">DE</button>
+    </div>
+
+    <div class="picker-row">
+        <label class="smart-label" id="lbl-colors">SZÍNEK / COLORS / FARBEN</label>
+        <div class="color-grid" id="color-picker"></div>
+    </div>
+
+    <div class="picker-row">
+        <label class="smart-label" id="lbl-styles">STÍLUSOK / STYLES / STILE</label>
+        <div class="style-grid" id="style-picker"></div>
+    </div>
+
+    <label class="smart-label" id="lbl-photo">FOTÓ / PHOTO / FOTO</label>
+    <input type="file" onchange="loadPhoto(event)" style="margin-bottom: 15px;">
+
+    <div class="input-group" style="display:flex; gap:10px;">
+        <div style="flex:1">
+            <label class="smart-label" id="lbl-fName">KERESZTNÉV / FIRST NAME</label>
+            <input type="text" id="in-firstName" oninput="updatePreview()">
+        </div>
+        <div style="flex:1">
+            <label class="smart-label" id="lbl-lName">VEZETÉKNÉV / LAST NAME</label>
+            <input type="text" id="in-lastName" oninput="updatePreview()">
+        </div>
+    </div>
+
+    <div class="input-group" style="display:flex; gap:10px;">
+        <div style="flex:1">
+            <label class="smart-label" id="lbl-city">VÁROS / CITY</label>
+            <input type="text" id="in-city" oninput="updatePreview()">
+        </div>
+        <div style="flex:1">
+            <label class="smart-label" id="lbl-street">UTCA / STREET</label>
+            <input type="text" id="in-street" oninput="updatePreview()">
+        </div>
+    </div>
+
+    <div class="input-group" style="display:flex; gap:10px;">
+        <div style="flex:1">
+            <label class="smart-label">≡ TÍPUS / TYPE</label>
+            <select id="in-street-type" onchange="updatePreview()">
+                <option value="utca">utca / street / straße</option>
+                <option value="út">út / road / straße</option>
+                <option value="tér">tér / square / platz</option>
+            </select>
+        </div>
+        <div style="width:30%">
+            <label class="smart-label">HÁZSZÁM / HOUSE NO</label>
+            <input type="text" id="in-house" oninput="updatePreview()">
+        </div>
+    </div>
+
+    <label class="smart-label" id="lbl-phone">TELEFON / PHONE</label>
+    <input type="text" id="in-phone" oninput="updatePreview()">
+
+    <label class="smart-label" id="lbl-email">EMAIL</label>
+    <input type="email" id="in-email" oninput="updatePreview()">
+
+    <label class="smart-label" id="lbl-summaryHeader">BEMUTATKOZÁS VÁLASZTÓ / SUMMARY SELECTOR</label>
+    <select id="sel-summary" onchange="applyMatrixSummary()" style="background: #1a3a5a; color: white; border: 1px solid #007bb5;">
+        <!-- Dinamikus tartalom -->
+    </select>
+
+    <textarea id="in-summary" rows="8" oninput="updatePreview()" placeholder="Válogass össze több stílust..."></textarea>
+
+    <div id="edu-area">
+        <h3 id="lbl-eduHeader">TANULMÁNYOK / EDUCATION</h3>
+        <div id="edu-container"></div>
+        <button onclick="addEntry('edu')" class="add-btn" id="lbl-addEdu">+ ÚJ ISKOLA</button>
+    </div>
+
+    <div id="work-area">
+        <h3 id="lbl-workHeader">TAPASZTALAT / EXPERIENCE</h3>
+        <div id="work-container"></div>
+        <button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY</button>
+    </div>
+
+    <button onclick="window.print()" class="print-btn" id="lbl-printBtn">PDF GENERÁLÁSA</button>
+</div>
+
+<div class="preview-side">
+    <div class="cv-paper" id="cv-paper">
+        <div class="cv-header">
+            <div id="out-photo-box" style="display:none; width:130px; height:160px; overflow:hidden; border: 1px solid #eee; margin-right: 20px;">
+                <img id="out-photo" style="width:100%; height:100%; object-fit: cover;">
+            </div>
+            <div class="header-text">
+                <h1 id="out-name">NAME</h1>
+                <div id="out-contact" style="margin-top:10px; font-size:14px; color:#555;"></div>
+            </div>
+        </div>
+        <div id="main-content"></div>
+    </div>
+</div>
+
+<script>
+    // ADATBÁZISOK (database.js helyett)
+    const careerDB = {
+        eduLevels: [
+            { hu: "BSc", en: "BSc", de: "BSc" },
+            { hu: "MSc", en: "MSc", de: "MSc" },
+            { hu: "Dipl. Ing.", en: "Dipl. Eng.", de: "Dipl.-Ing." },
+            { hu: "PhD", en: "PhD", de: "PhD" },
+            { hu: "Szakirányú továbbképzés", en: "Specialized Training", de: "Fachweiterbildung" },
+            { hu: "Érettségi", en: "High School Diploma", de: "Abitur" }
+        ],
+        jobs: [
+            { hu: "Gépészmérnök", en: "Mechanical Engineer", de: "Maschinenbauingenieur" },
+            { hu: "Szoftverfejlesztő", en: "Software Developer", de: "Softwareentwickler" },
+            { hu: "Gazdasági elemző", en: "Business Analyst", de: "Wirtschaftsanalyst" },
+            { hu: "Marketing szakember", en: "Marketing Specialist", de: "Marketing-Spezialist" },
+            { hu: "Logisztikai vezető", en: "Logistics Manager", de: "Logistikmanager" }
+        ],
+        positions: [
+            { hu: "Junior", en: "Junior", de: "Junior" },
+            { hu: "Senior", en: "Senior", de: "Senior" },
+            { hu: "Vezető", en: "Lead", de: "Leitung" },
+            { hu: "Szakértő", en: "Expert", de: "Experte" }
+        ]
+    };
+
+    const summariesDB = {
+        hu: { 
+            "1": "Több éves szakmai és vezetői tapasztalattal rendelkező szakember vagyok. Erősségem a stratégiai tervezés és az eredményorientált csapatvezetés.",
+            "2": "Technológiai fókuszú szakemberként elkötelezett vagyok az innovatív megoldások és a hatékony problémamegoldás iránt.",
+            "3": "Precíz és rendszerszemléletű munkavégzés jelle
