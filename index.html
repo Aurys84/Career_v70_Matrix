@@ -217,7 +217,7 @@
 </div>
 
 <script src="database.js"></script>
- <script>
+<script>
     let currentLang = 'hu';
     let selectedIndices = [];
 
@@ -240,38 +240,12 @@
             "15": "Sokoldalú és szakmailag elkötelezett munkatárs vagyok, kiemelkedő alkalmazkodóképességgel."
         },
         en: { 
-            "1": "Experienced professional with several years of management experience. Strong strategic planning and results-oriented leadership skills.",
-            "2": "Tech-focused professional committed to innovative solutions and efficient problem-solving.",
-            "3": "Precise and systematic approach to administrative and corporate documentation management.",
-            "4": "Supporting long-term business relationships through a customer-centric mindset.",
-            "5": "Creative professional providing support in visual communication and branding with functional efficiency.",
-            "6": "Expert in logistical processes and operational efficiency with quick decision-making skills.",
-            "7": "Growth-oriented entry-level professional with quick learning skills and a responsible work ethic.",
-            "8": "Reliable skilled worker with high stamina striving for quality and precise industrial execution.",
-            "9": "Empathetic professional committed to strict adherence to protocols and high-level care.",
-            "10": "Leveraging premium hospitality experience to ensure representative client experiences.",
-            "11": "Strategic vision helping understand complex business processes and effective decision preparation.",
-            "12": "Proficient in finance and data analysis, supporting corporate stability and data-driven decisions.",
-            "13": "Technically oriented professional focused on system operation and efficient troubleshooting.",
-            "14": "Responsible and disciplined career committed to safety regulations and order.",
-            "15": "Versatile and professionally committed colleague with outstanding adaptability."
+            "1": "Experienced professional with management experience. Strong strategic planning skills.",
+            "15": "Versatile and professionally committed colleague."
         },
         de: { 
-            "1": "Fachkraft mit mehrjähriger Managementerfahrung, spezialisiert auf strategische Planung und Teamführung.",
-            "2": "Technologieorientierter Profi mit Fokus auf innovative Lösungen und effiziente Problemlösung.",
-            "3": "Präzise und systematische Arbeitsweise in der Verwaltung und Unternehmensdokumentation.",
-            "4": "Kundenorientierte Einstellung zur Unterstützung langfristiger Geschäftsbeziehungen.",
-            "5": "Kreativer Profi für visuelle Kommunikation und Markenaufbau mit funktionaler Effizienz.",
-            "6": "Experte für Logistikprozesse und operative Effizienz mit schneller Entscheidungsfähigkeit.",
-            "7": "Engagierter Berufseinsteiger mit schneller Auffassungsgabe und Verantwortungsbewusstsein.",
-            "8": "Zuverlässiger Facharbeiter mit hoher Ausdauer für qualitätsbewusste industrielle Ausführung.",
-            "9": "Empathischer Profi, der sich der strikten Einhaltung fachlicher Protokolle verschrieben hat.",
-            "10": "Premium-Gastronomieerfahrung zur Gewährleistung erstklassiger Kundenerlebnisse.",
-            "11": "Strategische Vision zum Verständnis komplexer Geschäftsprozesse.",
-            "12": "Kompetent in Finanzen und Datenanalyse zur Unterstützung datengesteuerter Entscheidungen.",
-            "13": "Technisch orientierter Profi für Systembetrieb und effiziente Fehlerbehebung.",
-            "14": "Verantwortungsbewusste und disziplinierte Karriere unter Einhaltung aller Sicherheitsvorschriften.",
-            "15": "Vielseitiger und flexibler Mitarbeiter mit hervorragender Anpassungsfähigkeit."
+            "1": "Fachkraft mit Managementerfahrung, spezialisiert auf strategische Planung.",
+            "15": "Vielseitiger und flexibler Mitarbeiter."
         }
     };
 
@@ -295,7 +269,7 @@
         const f = document.getElementById('in-firstName').value || "";
         const fullName = (currentLang === 'hu') ? (l + " " + f) : (f + " " + l);
         const nameEl = document.getElementById('out-name');
-        if (nameEl) nameEl.innerText = fullName.toUpperCase() || "NÉV / NAME";
+        if (nameEl) nameEl.innerText = fullName.toUpperCase() || "NAME";
 
         const phone = document.getElementById('in-phone').value || "";
         const email = document.getElementById('in-email').value || "";
@@ -311,7 +285,6 @@
             contactEl.innerHTML = `<b>${dictionary[currentLang].phone}:</b> ${phone} | <b>${dictionary[currentLang].email}:</b> ${email}<br><b>${dictionary[currentLang].addr}</b> ${city}, ${street} ${sType} ${house}`;
         }
 
-        // --- BEMUTATKOZÁS FORDÍTÁSA ---
         const summaryText = document.getElementById('in-summary').value || "";
         const mainContent = document.getElementById('main-content');
         if (mainContent) {
@@ -331,13 +304,11 @@
                 <label class="smart-label">${d.v_deg}</label>
                 <select class="e-db" onchange="updatePreview()"></select>
                 <label class="smart-label">${d.v_prof}</label>
-                <!-- MOST MÁR EZ IS MENÜ: -->
                 <select class="e-prof-menu" onchange="updatePreview()"></select>
                 <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%;width:25px;height:25px;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
             `;
             if (window.updateSelect) {
                 updateSelect(div.querySelector('.e-db'), careerDB.eduLevels);
-                // Az iskola szakmáit is a központi jobs listából töltjük fel
                 updateSelect(div.querySelector('.e-prof-menu'), careerDB.jobs);
             }
         } else {
@@ -357,20 +328,12 @@
         document.getElementById(type + '-container').appendChild(div);
         updatePreview();
     }
-        document.getElementById(type + '-container').appendChild(div);
-        updatePreview();
-    }
 
     function setMode(lang, btn) {
         currentLang = lang;
         document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        
-        // --- BEMUTATKOZÁS ÚJRAGENERÁLÁSA NYELV VÁLTÁSKOR ---
-        applyMatrixSummary();
-        refreshMenu(); 
-        updateInterface(); 
-        updatePreview();
+        refreshMenu(); updateInterface(); updatePreview();
     }
 
     function refreshMenu() {
@@ -393,14 +356,10 @@
     function applyMatrixSummary() {
         const sel = document.getElementById('sel-summary');
         if (sel && sel.value) {
-            if (!selectedIndices.includes(sel.value)) {
-                selectedIndices.push(sel.value);
-            }
-            sel.value = ""; 
+            selectedIndices.push(sel.value);
+            document.getElementById('in-summary').value = selectedIndices.map(idx => summariesDB[currentLang][idx] || "").join("\n\n");
+            sel.value = ""; updatePreview();
         }
-        // Frissíti a textarea-t az összes kiválasztott index alapján a jelenlegi nyelven
-        document.getElementById('in-summary').value = selectedIndices.map(idx => summariesDB[currentLang][idx] || "").join("\n\n");
-        updatePreview();
     }
 
     function loadPhoto(event) {
