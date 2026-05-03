@@ -186,16 +186,34 @@
         sel.innerHTML = h;
     }
 
-    function applyMatrixSummary() {
-        const sel = document.getElementById('sel-summary');
-        const target = document.getElementById('in-summary');
-        if (sel && sel.value) {
+   function applyMatrixSummary() {
+    const sel = document.getElementById('sel-summary');
+    const target = document.getElementById('in-summary');
+    
+    if (sel && sel.value) {
+        // Ellenőrizzük, hogy az index már benne van-e, ha nincs, hozzáadjuk
+        if (!selectedIndices.includes(sel.value)) {
             selectedIndices.push(sel.value);
-            target.value = selectedIndices.map(idx => summariesDB[currentLang][idx] || "").join("\n\n");
-            sel.value = "";
-            updatePreview();
         }
+        
+        // Összegyűjtjük a szövegeket a jelenlegi nyelven (currentLang)
+        const texts = selectedIndices.map(idx => {
+            if (summariesDB[currentLang] && summariesDB[currentLang][idx]) {
+                return summariesDB[currentLang][idx];
+            }
+            return "";
+        }).filter(t => t !== "");
+
+        // Beillesztjük a textarea-ba dupla soremeléssel
+        target.value = texts.join("\n\n");
+        
+        // Visszaállítjuk a választót az alaphelyzetbe
+        sel.value = ""; 
+        
+        // Azonnali frissítés a papíron
+        updatePreview();
     }
+}
 
     function updateSelect(select, list) {
         const val = select.value;
