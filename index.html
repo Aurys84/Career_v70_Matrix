@@ -35,8 +35,8 @@
         body.style-5 .cv-paper { font-family: 'Georgia', serif; }
         body.style-6 .cv-header { border-bottom: 8px double var(--main-color); }
         body.style-7 .cv-paper { background: #f9f9f9; border: 1px solid #ddd; }
-        body.style-8 #out-name { letter-spacing: 5px; text-align: center; width: 100%; }
-        body.style-9 .cv-header { align-items: flex-end; border-bottom-width: 5px; }
+        body.style-8 #out-name { letter-spacing: 5px; text-align: center; width: 100%; display: block; }
+        body.style-9 .cv-header { align-items: flex-end; border-bottom: 5px solid var(--main-color); flex-direction: row; }
         body.style-10 .cv-paper::before { content: ''; position: absolute; top: 0; left: 0; width: 15px; height: 100%; background: var(--main-color); }
         body.style-11 .cv-paper { border: 10px solid var(--main-color); border-radius: 30px; }
         body.style-12 h3 { text-align: right; color: #555; }
@@ -142,6 +142,9 @@
 
 <script src="database.js"></script>
 <script>
+    let currentLang = 'hu';
+    let selectedIndices = [];
+
     const summariesDB = {
         hu: { "1": "Több éves szakmai és vezetői tapasztalattal rendelkező szakember vagyok...", "2": "Technológiai fókuszú szakember...", "15": "Sokoldalú és szakmailag elkötelezett munkatárs..." },
         en: { "1": "Experienced professional with several years of management...", "15": "Versatile colleague..." },
@@ -151,11 +154,8 @@
     const dictionary = {
         hu: { engineName: "Career-Engine", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", city: "VÁROS", street: "UTCA", phone: "TELEFON", email: "EMAIL", summaryHeader: "BEMUTATKOZÁS VÁLASZTÓ", summary: "BEMUTATKOZÁS", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "Végzettség", v_prof: "Szakma", select_hint: "-- HOZZÁADÁS --", menu: ["🔝 Vezető", "💻 Tech", "🎯 Admin", "🤝 Ügyfél", "🎨 Kreatív", "🚛 Logisztika", "⚡ Junior", "🏗️ Szakmunkás", "🚑 Egészségügy", "💎 Hospitality", "🚀 Stratégia", "📉 Elemző", "🛠️ Karbantartó", "🛡️ Biztonság", "🌟 Motivált"] },
         en: { engineName: "Career-Engine", fName: "FIRST NAME", lName: "LAST NAME", city: "CITY", street: "STREET", phone: "PHONE", email: "EMAIL", summaryHeader: "SUMMARY SELECTOR", summary: "SUMMARY", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ NEW SCHOOL", addWork: "+ NEW JOB", printBtn: "GENERATE PDF", addr: "Address:", colors: "COLORS", styles: "STYLES", v_deg: "Degree", v_prof: "Profession", select_hint: "-- ADD --", menu: ["🔝 Leader", "💻 Tech", "🎯 Admin", "🤝 Customer", "🎨 Creative", "🚛 Logistics", "⚡ Junior", "🏗️ Industrial", "🚑 Health", "💎 Hospitality", "🚀 Strategic", "📉 Analyst", "🛠️ Service", "🛡️ Security", "🌟 Motivated"] },
-        de: { engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summaryHeader: "PROFIL AUSWAHL", summary: "PROFIL", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse:", colors: "FARBEN", styles: "STILE", v_deg: "Abschluss", v_prof: "Beruf", select_hint: "-- HINZUFÜGEN --", menu: ["🔝 Führung", "💻 Tech", "🎯 Admin", "🤝 Kunden", "🎨 Kreativ", "🚛 Logistik", "⚡ Junior", "🏗️ Facharbeiter", "🚑 Gesundheit", "💎 Hospitality", "🚀 Strategisch", "📉 Analyst", "🛠️ Service", "🛡️ Sicherheit", "🌟 Motiviert"] }
+        de: { engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summaryHeader: "PROFIL AUSWAHL", summary: "PROFIL", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse:", colors: "FARBEN", styles: "STILE", v_deg: "Abschluss", v_prof: "Beruf", select_hint: "-- HINZUFÜGEN --", menu: ["🔝 Führung", "💻 Tech", "🎯 Admin", "🤝 Kunden", "🎨 Kreativ", "🚛 Logistik", "⚡ Junior", "🏗️ Facharbeiter", "🚑 Gesundheit", "💎 Hospitality", "🚀 Strategisch", "📉 Analyst", "🛠️ Technisch / Service", "🛡️ Sicherheit und Ordnung", "🌟 Allgemein Motiviert"] }
     };
-
-    let currentLang = 'hu';
-    let selectedIndices = [];
 
     function setMode(l, btn) {
         currentLang = l;
@@ -163,8 +163,19 @@
         btn.classList.add('active');
         updateInterface();
         refreshMenu();
-        if (selectedIndices.length > 0) document.getElementById('in-summary').value = selectedIndices.map(idx => summariesDB[currentLang][idx]).join("\n\n");
+        if (selectedIndices.length > 0) {
+            document.getElementById('in-summary').value = selectedIndices.map(idx => summariesDB[currentLang][idx] || "").join("\n\n");
+        }
+        refreshAllSelects();
         updatePreview();
+    }
+
+    function updateInterface() {
+        const d = dictionary[currentLang];
+        Object.keys(d).forEach(key => {
+            const el = document.getElementById('lbl-' + key);
+            if (el && key !== 'menu') el.innerText = d[key];
+        });
     }
 
     function refreshMenu() {
@@ -175,19 +186,12 @@
         sel.innerHTML = h;
     }
 
-    function updateInterface() {
-        const d = dictionary[currentLang];
-        for (let key in d) {
-            const el = document.getElementById('lbl-' + key);
-            if (el) el.innerText = (typeof d[key] === 'string') ? d[key] : "";
-        }
-    }
-
     function applyMatrixSummary() {
         const sel = document.getElementById('sel-summary');
-        if (sel.value) {
+        const target = document.getElementById('in-summary');
+        if (sel && sel.value) {
             selectedIndices.push(sel.value);
-            document.getElementById('in-summary').value = selectedIndices.map(idx => summariesDB[currentLang][idx]).join("\n\n");
+            target.value = selectedIndices.map(idx => summariesDB[currentLang][idx] || "").join("\n\n");
             sel.value = "";
             updatePreview();
         }
@@ -198,6 +202,19 @@
         let h = `<option value="">${dictionary[currentLang].select_hint}</option>`;
         list.forEach(i => h += `<option value="${i.hu}" ${i.hu === val ? 'selected' : ''}>${i[currentLang]}</option>`);
         select.innerHTML = h;
+    }
+
+    function refreshAllSelects() {
+        document.querySelectorAll('.entry-box').forEach(box => {
+            const sDeg = box.querySelector('.e-db');
+            const sJob = box.querySelector('.e-job');
+            const sPos = box.querySelector('.e-pos');
+            const sProf = box.querySelector('.e-prof-menu');
+            if(sDeg) updateSelect(sDeg, careerDB.eduLevels);
+            if(sJob) updateSelect(sJob, careerDB.jobs);
+            if(sPos) updateSelect(sPos, careerDB.positions);
+            if(sProf) updateSelect(sProf, careerDB.jobs);
+        });
     }
 
     function addEntry(type) {
