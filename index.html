@@ -213,11 +213,11 @@
 
 <script src="database.js"></script>
 <script>
-    // 1. GLOBÁLIS VÁLTOZÓK ÉS ÁLLAPOT
+    // 1. GLOBÁLIS VÁLTOZÓK
     let currentLang = 'hu';
     let selectedIndices = [];
 
-    // 2. A TELJES 15 DARABOS ADATBÁZIS (HU, EN, DE)
+    // 2. BEMUTATKOZÁS ADATBÁZIS (15 STÍLUS)
     const summariesDB = {
         hu: { 
             "1": "Több éves szakmai és vezetői tapasztalattal rendelkező szakember vagyok. Erősségem a stratégiai tervezés és az eredményorientált csapatvezetés.",
@@ -272,28 +272,27 @@
         }
     };
 
-    // 3. SZÓTÁR - FORDÍTÁSI KULCSOK
+    // 3. SZÓTÁR (FORDÍTÁSOK)
     const dictionary = {
         hu: { 
-            engineName: "Career-Engine", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", city: "VÁROS", street: "UTCA", phone: "TELEFON", email: "EMAIL", summaryHeader: "BEMUTATKOZÁS VÁLASZTÓ", summary: "BEMUTATKOZÁS-KÉPESSÉGEK", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "KÉPESÍTÉS / VÉGZETTSÉG", v_prof: "SZAKMA / MEGNEVEZÉS", select_hint: "-- HOZZÁADÁS --", photo: "FOTÓ FELTÖLTÉSE",
+            engineName: "Career-Engine", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", city: "VÁROS", street: "UTCA", phone: "TELEFON", email: "EMAIL", summaryHeader: "BEMUTATKOZÁS VÁLASZTÓ", summary: "BEMUTATKOZÁS-KÉPESSÉGEK", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA / VÉGZETTSÉG", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "KÉPESÍTÉS / VÉGZETTSÉG", v_prof: "SZAKMA / MEGNEVEZÉS", select_hint: "-- HOZZÁADÁS --", photo: "FOTÓ FELTÖLTÉSE",
             menu: ["🔝 Proaktív Vezető", "💻 Tech-Guru", "🎯 Adminisztrátor", "🤝 Ügyfélmágnes", "🎨 Kreatív Vizionárius", "🚛 Logisztikai", "⚡ Junior", "🏗️ Szakmunkás", "🚑 Egészségügy / Oktatás", "💎 Hospitality / Luxus", "🚀 Stratégiai", "📉 Elemző", "🛠️ Karbantartó / Szerviz", "🛡️ Biztonság és Rend", "🌟 Általános Motivált"]
         },
         en: { 
-            engineName: "Career-Engine", fName: "FIRST NAME", lName: "LAST NAME", city: "CITY", street: "STREET", phone: "PHONE", email: "EMAIL", summaryHeader: "SUMMARY SELECTOR", summary: "SUMMARY-SKILLS", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address:", colors: "COLORS", styles: "STYLES", v_deg: "DEGREE / QUALIFICATION", v_prof: "PROFESSION / SPECIALIZATION", select_hint: "-- ADD --", photo: "UPLOAD PHOTO",
+            engineName: "Career-Engine", fName: "FIRST NAME", lName: "LAST NAME", city: "CITY", street: "STREET", phone: "PHONE", email: "EMAIL", summaryHeader: "SUMMARY SELECTOR", summary: "SUMMARY-SKILLS", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ NEW SCHOOL / DEGREE", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address:", colors: "COLORS", styles: "STYLES", v_deg: "DEGREE / QUALIFICATION", v_prof: "PROFESSION / SPECIALIZATION", select_hint: "-- ADD --", photo: "UPLOAD PHOTO",
             menu: ["🔝 Proactive Leader", "💻 Tech-Guru", "🎯 Administrator", "🤝 Customer Magnet", "🎨 Creative Visionary", "🚛 Logistics", "⚡ Junior", "🏗️ Industrial Worker", "🚑 Health / Education", "💎 Hospitality / Luxury", "🚀 Strategic", "📉 Analyst", "🛠️ Technical / Service", "🛡️ Security and Order", "🌟 General Motivated"]
         },
         de: { 
-            engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summaryHeader: "PROFIL AUSWAHL", summary: "PROFIL-FÄHIGKEITEN", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse:", colors: "FARBEN", styles: "STILE", v_deg: "ABSCHLUSS / QUALIFIKATION", v_prof: "BERUF / FACHRICHTUNG", select_hint: "-- HINZÜFÜGEN --", photo: "FOTO HOCHLADEN",
+            engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summaryHeader: "PROFIL AUSWAHL", summary: "PROFIL-FÄHIGKEITEN", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ NEUE SCHULE / ABSCHLUSS", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse:", colors: "FARBEN", styles: "STILE", v_deg: "ABSCHLUSS / QUALIFIKATION", v_prof: "BERUF / FACHRICHTUNG", select_hint: "-- HINZÜFÜGEN --", photo: "FOTO HOCHLADEN",
             menu: ["🔝 Proaktive Führungskraft", "💻 Tech-Guru", "🎯 Administrator", "🤝 Kundenmagnet", "🎨 Kreativer Visionär", "🚛 Logistik", "⚡ Junior", "🏗️ Facharbeiter", "🚑 Gesundheit / Bildung", "💎 Hospitality / Luxus", "🚀 Strategisch", "📉 Analyst", "🛠️ Technisch / Service", "🛡️ Sicherheit und Ordnung", "🌟 Allgemein Motiviert"]
         }
     };
 
-    // 4. A MOTOR - PREVIEW FRISSÍTÉSE
+    // 4. PREVIEW FRISSÍTÉSE (A MOTOR)
     function updatePreview() {
         const l = document.getElementById('in-lastName').value || "";
         const f = document.getElementById('in-firstName').value || "";
         const fullName = (currentLang === 'hu') ? (l + " " + f) : (f + " " + l);
-        
         const nameEl = document.getElementById('out-name');
         if (nameEl) nameEl.innerText = fullName.toUpperCase() || "NÉV / NAME";
 
@@ -304,10 +303,7 @@
         const house = document.getElementById('in-house').value || "";
         
         const sTypeSelect = document.getElementById('in-street-type');
-        let sType = "";
-        if (sTypeSelect) {
-            sType = sTypeSelect.options[sTypeSelect.selectedIndex].text.split(' / ')[currentLang === 'hu' ? 0 : 1] || "";
-        }
+        let sType = sTypeSelect ? sTypeSelect.options[sTypeSelect.selectedIndex].text.split(' / ')[currentLang === 'hu' ? 0 : 1] : "";
 
         const contactEl = document.getElementById('out-contact');
         if (contactEl) {
@@ -321,14 +317,47 @@
         }
     }
 
-    // 5. KEZELŐFÜGGVÉNYEK
+    // 5. ISKOLA ÉS MUNKAHELY HOZZÁADÁSA (JAVÍTVA!)
+    function addEntry(type) {
+        const div = document.createElement('div');
+        div.className = 'entry-box';
+        const d = dictionary[currentLang];
+        
+        if(type === 'edu') {
+            div.innerHTML = `
+                <input type="text" placeholder="Iskola neve" oninput="updatePreview()">
+                <input type="text" placeholder="Időtartam" oninput="updatePreview()">
+                <label class="smart-label">${d.v_deg}</label>
+                <select class="e-db" onchange="updatePreview()"></select>
+                <label class="smart-label">${d.v_prof}</label>
+                <input type="text" placeholder="Szakma megnevezése" oninput="updatePreview()">
+                <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%;width:25px;height:25px;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
+            `;
+            if (window.updateSelect) updateSelect(div.querySelector('.e-db'), careerDB.eduLevels);
+        } else {
+            div.innerHTML = `
+                <input type="text" placeholder="Cég neve" oninput="updatePreview()">
+                <input type="text" placeholder="Időtartam" oninput="updatePreview()">
+                <label class="smart-label">${d.v_prof}</label>
+                <select class="e-job" onchange="updatePreview()"></select>
+                <select class="e-pos" onchange="updatePreview()"></select>
+                <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%;width:25px;height:25px;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
+            `;
+            if (window.updateSelect) {
+                updateSelect(div.querySelector('.e-job'), careerDB.jobs);
+                updateSelect(div.querySelector('.e-pos'), careerDB.positions);
+            }
+        }
+        document.getElementById(type + '-container').appendChild(div);
+        updatePreview();
+    }
+
+    // 6. EGYÉB FUNKCIÓK (Fordítás, Fotó, Mentés)
     function setMode(lang, btn) {
         currentLang = lang;
         document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        refreshMenu();
-        updateInterface();
-        updatePreview();
+        refreshMenu(); updateInterface(); updatePreview();
     }
 
     function refreshMenu() {
@@ -353,8 +382,7 @@
         if (sel && sel.value) {
             selectedIndices.push(sel.value);
             document.getElementById('in-summary').value = selectedIndices.map(idx => summariesDB[currentLang][idx] || "").join("\n\n");
-            sel.value = "";
-            updatePreview();
+            sel.value = ""; updatePreview();
         }
     }
 
@@ -368,40 +396,7 @@
         if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
     }
 
-    function addEntry(type) {
-        const div = document.createElement('div');
-        div.className = 'entry-box';
-        const d = dictionary[currentLang];
-        
-        if(type === 'edu') {
-            div.innerHTML = `
-                <input type="text" class="e-main" placeholder="Iskola neve" oninput="updatePreview()">
-                <input type="text" class="e-sub" placeholder="Időtartam" oninput="updatePreview()">
-                <label class="smart-label">${d.v_deg}</label>
-                <select class="e-db" onchange="updatePreview()"></select>
-                <label class="smart-label">${d.v_prof}</label>
-                <input type="text" class="e-prof" placeholder="Szakma" oninput="updatePreview()">
-                <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;cursor:pointer;border-radius:50%;width:25px;height:25px;" onclick="this.parentElement.remove(); updatePreview();">×</button>
-            `;
-            if (window.updateSelect) updateSelect(div.querySelector('.e-db'), careerDB.eduLevels);
-        } else {
-            div.innerHTML = `
-                <input type="text" class="e-main" placeholder="Cég neve" oninput="updatePreview()">
-                <input type="text" class="e-sub" placeholder="Időtartam" oninput="updatePreview()">
-                <label class="smart-label">${d.v_prof}</label>
-                <select class="e-job" onchange="updatePreview()"></select>
-                <select class="e-pos" onchange="updatePreview()"></select>
-                <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;cursor:pointer;border-radius:50%;width:25px;height:25px;" onclick="this.parentElement.remove(); updatePreview();">×</button>
-            `;
-            if (window.updateSelect) {
-                updateSelect(div.querySelector('.e-job'), careerDB.jobs);
-                updateSelect(div.querySelector('.e-pos'), careerDB.positions);
-            }
-        }
-        document.getElementById(type + '-container').appendChild(div);
-    }
-
-    // 6. INDÍTÁS
+    // 7. INICIALIZÁLÁS (SZÍNEK, STÍLUSOK, START)
     window.onload = () => {
         const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
         colors.forEach(c => {
@@ -415,12 +410,9 @@
             b.onclick = () => { document.body.className = 'style-' + i; updatePreview(); };
             document.getElementById('style-picker').appendChild(b);
         }
-
-        refreshMenu();
-        updateInterface();
-        updatePreview();
+        refreshMenu(); updateInterface(); updatePreview();
     };
-<script>
+</script>
  
 </body>
 </html>
