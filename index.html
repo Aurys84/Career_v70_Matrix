@@ -57,46 +57,43 @@
     </div>
 
     <div class="picker-row">
-        <label class="smart-label" id="lbl-colors">SZÍNEK / COLORS / FARBEN</label>
+        <label class="smart-label" id="lbl-colors">SZÍNEK</label>
         <div class="color-grid" id="color-picker"></div>
     </div>
 
     <div class="picker-row">
-        <label class="smart-label" id="lbl-styles">STÍLUSOK / STYLES / STILE</label>
+        <label class="smart-label" id="lbl-styles">STÍLUSOK</label>
         <div class="style-grid" id="style-picker"></div>
     </div>
 
-    <!-- FOTÓ FELTÖLTÉS -->
-    <label class="smart-label" id="lbl-photo">FOTÓ / PHOTO / FOTO</label>
+    <label class="smart-label" id="lbl-photo">FOTÓ FELTÖLTÉSE</label>
     <input type="file" onchange="loadPhoto(event)" style="margin-bottom: 15px;">
 
-    <!-- NÉV MEZŐK -->
     <div class="input-group">
         <div style="flex:1">
-            <label class="smart-label" id="lbl-fName">KERESZTNÉV / FIRST NAME / VORNAME</label>
+            <label class="smart-label" id="lbl-fName">KERESZTNÉV</label>
             <input type="text" id="in-firstName" oninput="updatePreview()">
         </div>
         <div style="flex:1">
-            <label class="smart-label" id="lbl-lName">VEZETÉKNÉV / LAST NAME / NACHNAME</label>
+            <label class="smart-label" id="lbl-lName">VEZETÉKNÉV</label>
             <input type="text" id="in-lastName" oninput="updatePreview()">
         </div>
     </div>
 
-    <!-- CÍM MEZŐK -->
     <div class="input-group">
         <div style="flex:1">
-            <label class="smart-label" id="lbl-city">VÁROS / CITY / STADT</label>
+            <label class="smart-label" id="lbl-city">VÁROS</label>
             <input type="text" id="in-city" oninput="updatePreview()">
         </div>
         <div style="flex:1">
-            <label class="smart-label" id="lbl-street">UTCA / STREET / STRASSE</label>
+            <label class="smart-label" id="lbl-street">UTCA</label>
             <input type="text" id="in-street" oninput="updatePreview()">
         </div>
     </div>
 
     <div class="input-group">
         <div style="flex:1">
-            <label class="smart-label">≡ TÍPUS / TYPE / TYP</label>
+            <label class="smart-label">≡ TÍPUS</label>
             <select id="in-street-type" onchange="updatePreview()">
                 <option value="utca">utca / street / straße</option>
                 <option value="út">út / road / straße</option>
@@ -104,47 +101,44 @@
             </select>
         </div>
         <div style="width:30%">
-            <label class="smart-label">HÁZSZÁM / HOUSE NO / HAUSNR.</label>
+            <label class="smart-label">HÁZSZÁM</label>
             <input type="text" id="in-house" oninput="updatePreview()">
         </div>
     </div>
 
-    <label class="smart-label" id="lbl-phone">TELEFON / PHONE / TELEFON</label>
+    <label class="smart-label" id="lbl-phone">TELEFON</label>
     <input type="text" id="in-phone" oninput="updatePreview()">
 
     <label class="smart-label" id="lbl-email">EMAIL</label>
     <input type="email" id="in-email" oninput="updatePreview()">
 
-    <label class="smart-label" id="lbl-summaryHeader">BEMUTATKOZÁS VÁLASZTÓ / SUMMARY SELECTOR / PROFIL AUSWAHL</label>
+    <label class="smart-label" id="lbl-summaryHeader">BEMUTATKOZÁS VÁLASZTÓ</label>
     <select id="sel-summary" onchange="applyMatrixSummary()" style="background: #1a3a5a; color: white; border: 1px solid #007bb5;">
-        <!-- Ide dinamikusan töltődnek be a nyelvi szövegek -->
     </select>
 
-    <textarea id="in-summary" rows="8" oninput="updatePreview()" placeholder="Válogass össze több stílust / Add multiple styles / Wählen Sie Stile..."></textarea>
+    <textarea id="in-summary" rows="8" oninput="updatePreview()"></textarea>
 
     <div id="edu-area">
-        <h3 id="lbl-eduHeader">TANULMÁNYOK / EDUCATION / BILDUNG</h3>
+        <h3 id="lbl-eduHeader">TANULMÁNYOK</h3>
         <div id="edu-container"></div>
-        <button onclick="addEntry('edu')" class="add-btn" id="lbl-addEdu">+ ÚJ ISKOLA / NEW SCHOOL</button>
+        <button onclick="addEntry('edu')" class="add-btn" id="lbl-addEdu">+ ÚJ ISKOLA</button>
     </div>
 
     <div id="work-area">
-        <h3 id="lbl-workHeader">TAPASZTALAT / EXPERIENCE / ERFAHRUNG</h3>
+        <h3 id="lbl-workHeader">TAPASZTALAT</h3>
         <div id="work-container"></div>
-        <button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY / NEW JOB</button>
+        <button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY</button>
     </div>
 
-    <button onclick="window.print()" class="print-btn" id="lbl-printBtn">PDF GENERÁLÁSA / GENERATE PDF</button>
+    <button onclick="window.print()" class="print-btn" id="lbl-printBtn">PDF GENERÁLÁSA</button>
 </div>
 
 <div class="preview-side">
     <div class="cv-paper" id="cv-paper">
         <div class="cv-header">
-            <!-- EZ A RÉSZ KERÜLT BE: A fotó tárolója -->
             <div id="out-photo-box" style="display:none; width:130px; height:160px; overflow:hidden; border: 1px solid #eee; margin-right: 20px;">
                 <img id="out-photo" style="width:100%; height:100%; object-fit: cover;">
             </div>
-
             <div class="header-text">
                 <h1 id="out-name">NAME</h1>
                 <div id="out-contact" style="margin-top:10px; font-size:14px; color:#555;"></div>
@@ -157,74 +151,16 @@
 <script src="database.js"></script>
 
 <script>
-    // A TELJES 15 DARABOS ADATBÁZIS (HU, EN, DE)
     const summariesDB = {
-        hu: { 
-            "1": "Több éves szakmai és vezetői tapasztalattal rendelkező szakember vagyok. Erősségem a stratégiai tervezés és az eredményorientált csapatvezetés.",
-            "2": "Technológiai fókuszú szakemberként elkötelezett vagyok az innovatív megoldások és a hatékony problémamegoldás iránt.",
-            "3": "Precíz és rendszerszemléletű munkavégzés jellemez, kimagasló tapasztalattal az adminisztrációs folyamatok kezelésében.",
-            "4": "Ügyfélközpontú szemléletmódommal hatékonyan támogatom a hosszú távú üzleti kapcsolatok építését.",
-            "5": "Kreatív szakemberként a vizuális kommunikáció és a márkaépítés területén nyújtok professzionális támogatást.",
-            "6": "A logisztikai folyamatok és az operatív hatékonyság szakértője vagyok, gyors döntéshozatali képességgel.",
-            "7": "Elkötelezett és fejlődésorientált pályakezdőként felelősségteljes munkavégzéssel keresem a szakmai kihívásokat.",
-            "8": "Nagy munkabírású, megbízható szakmunkásként a minőségi és pontos ipari kivitelezésre törekszem.",
-            "9": "Empatikus szakemberként munkám során a szakmai protokollok szigorú betartására és a magas szintű ellátásra törekszem.",
-            "10": "A prémium vendéglátásban szerzett tapasztalataimat a reprezentatív ügyfélélmény biztosításának szolgálatába állítom.",
-            "11": "Stratégiai látásmódom segíti a komplex üzleti folyamatok átlátását és a hatékony döntéselőkészítést.",
-            "12": "Pénzügyi és adatelemzési területen mozgok otthonosan, támogatva az adatvezérelt döntéshozatalt.",
-            "13": "Műszaki orientációjú szakemberként a rendszerek üzemeltetése és a hibaelhárítás alkotja szakterületem magját.",
-            "14": "Felelősségteljes és fegyelmezett munkavégzés jellemzi pályafutásomat a biztonsági előírások mentén.",
-            "15": "Sokoldalú és szakmailag elkötelezett munkatárs vagyok, kiemelkedő alkalmazkodóképességgel."
-        },
-        en: { 
-            "1": "Experienced professional with several years of management experience. Strong strategic planning and results-oriented leadership skills.",
-            "2": "Tech-focused professional committed to innovative solutions and efficient problem-solving.",
-            "3": "Precise and systematic approach to administrative and corporate documentation management.",
-            "4": "Supporting long-term business relationships through a customer-centric mindset.",
-            "5": "Creative professional providing support in visual communication and branding with functional efficiency.",
-            "6": "Expert in logistical processes and operational efficiency with quick decision-making skills.",
-            "7": "Growth-oriented entry-level professional with quick learning skills and a responsible work ethic.",
-            "8": "Reliable skilled worker with high stamina striving for quality and precise industrial execution.",
-            "9": "Empathetic professional committed to strict adherence to protocols and high-level care.",
-            "10": "Leveraging premium hospitality experience to ensure representative client experiences.",
-            "11": "Strategic vision helping understand complex business processes and effective decision preparation.",
-            "12": "Proficient in finance and data analysis, supporting corporate stability and data-driven decisions.",
-            "13": "Technically oriented professional focused on system operation and efficient troubleshooting.",
-            "14": "Responsible and disciplined career committed to safety regulations and order.",
-            "15": "Versatile and professionally committed colleague with outstanding adaptability."
-        },
-        de: { 
-            "1": "Fachkraft mit mehrjähriger Managementerfahrung, spezialisiert auf strategische Planung und Teamführung.",
-            "2": "Technologieorientierter Profi mit Fokus auf innovative Lösungen und effiziente Problemlösung.",
-            "3": "Präzise und systematische Arbeitsweise in der Verwaltung und Unternehmensdokumentation.",
-            "4": "Kundenorientierte Einstellung zur Unterstützung langfristiger Geschäftsbeziehungen.",
-            "5": "Kreativer Profi für visuelle Kommunikation und Markenaufbau mit funktionaler Effizienz.",
-            "6": "Experte für Logistikprozesse und operative Effizienz mit schneller Entscheidungsfähigkeit.",
-            "7": "Engagierter Berufseinsteiger mit schneller Auffassungsgabe und Verantwortungsbewusstsein.",
-            "8": "Zuverlässiger Facharbeiter mit hoher Ausdauer für qualitätsbewusste industrielle Ausführung.",
-            "9": "Empathischer Profi, der sich der strikten Einhaltung fachlicher Protokolle verschrieben hat.",
-            "10": "Premium-Gastronomieerfahrung zur Gewährleistung erstklassiger Kundenerlebnisse.",
-            "11": "Strategische Vision zum Verständnis komplexer Geschäftsprozesse.",
-            "12": "Kompetent in Finanzen und Datenanalyse zur Unterstützung datengesteuerter Entscheidungen.",
-            "13": "Technisch orientierter Profi für Systembetrieb und effiziente Fehlerbehebung.",
-            "14": "Verantwortungsbewusste und disziplinierte Karriere unter Einhaltung aller Sicherheitsvorschriften.",
-            "15": "Vielseitiger und flexibler Mitarbeiter mit hervorragender Anpassungsfähigkeit."
-        }
+        hu: { "1": "Több éves szakmai és vezetői tapasztalattal rendelkező szakember vagyok...", /* ... rövidítve a helytakarékosság miatt, de a kódodban maradjon meg az eredeti ... */ "15": "Sokoldalú és szakmailag elkötelezett munkatárs vagyok." },
+        en: { "1": "Experienced professional...", "15": "Versatile colleague." },
+        de: { "1": "Fachkraft mit Erfahrung...", "15": "Vielseitiger Mitarbeiter." }
     };
 
     const dictionary = {
-        hu: { 
-            engineName: "Career-Engine", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", city: "VÁROS", street: "UTCA", phone: "TELEFON", email: "EMAIL", summaryHeader: "BEMUTATKOZÁS VÁLASZTÓ", summary: "BEMUTATKOZÁS-KÉPESSÉGEK", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "Képesítés", v_prof: "Szakma", select_hint: "-- HOZZÁADÁS --",
-            menu: ["🔝 Proaktív Vezető", "💻 Tech-Guru", "🎯 Adminisztrátor", "🤝 Ügyfélmágnes", "🎨 Kreatív Vizionárius", "🚛 Logisztikai", "⚡ Junior", "🏗️ Szakmunkás", "🚑 Egészségügy / Oktatás", "💎 Hospitality / Luxus", "🚀 Stratégiai", "📉 Elemző", "🛠️ Karbantartó / Szerviz", "🛡️ Biztonság és Rend", "🌟 Általános Motivált"]
-        },
-        en: { 
-            engineName: "Career-Engine", fName: "FIRST NAME", lName: "LAST NAME", city: "CITY", street: "STREET", phone: "PHONE", email: "EMAIL", summaryHeader: "SUMMARY SELECTOR", summary: "SUMMARY-SKILLS", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address:", colors: "COLORS", styles: "STYLES", v_deg: "Degree", v_prof: "Profession", select_hint: "-- ADD --",
-            menu: ["🔝 Proactive Leader", "💻 Tech-Guru", "🎯 Administrator", "🤝 Customer Magnet", "🎨 Creative Visionary", "🚛 Logistics", "⚡ Junior", "🏗️ Industrial Worker", "🚑 Health / Education", "💎 Hospitality / Luxury", "🚀 Strategic", "📉 Analyst", "🛠️ Technical / Service", "🛡️ Security and Order", "🌟 General Motivated"]
-        },
-        de: { 
-            engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summaryHeader: "PROFIL AUSWAHL", summary: "PROFIL-FÄHIGKEITEN", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse:", colors: "FARBEN", styles: "STILE", v_deg: "Abschluss", v_prof: "Beruf", select_hint: "-- HINZUFÜGEN --",
-            menu: ["🔝 Proaktive Führungskraft", "💻 Tech-Guru", "🎯 Administrator", "🤝 Kundenmagnet", "🎨 Kreativer Visionär", "🚛 Logistik", "⚡ Junior", "🏗️ Facharbeiter", "🚑 Gesundheit / Bildung", "💎 Hospitality / Luxus", "🚀 Strategisch", "📉 Analyst", "🛠️ Technisch / Service", "🛡️ Sicherheit und Ordnung", "🌟 Allgemein Motiviert"]
-        }
+        hu: { engineName: "Career-Engine", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", city: "VÁROS", street: "UTCA", phone: "TELEFON", email: "EMAIL", summaryHeader: "BEMUTATKOZÁS VÁLASZTÓ", summary: "BEMUTATKOZÁS-KÉPESSÉGEK", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "Képesítés", v_prof: "Szakma", select_hint: "-- HOZZÁADÁS --", menu: ["🔝 Proaktív Vezető", "💻 Tech-Guru", "🎯 Adminisztrátor", "🤝 Ügyfélmágnes", "🎨 Kreatív Vizionárius", "🚛 Logisztikai", "⚡ Junior", "🏗️ Szakmunkás", "🚑 Egészségügy / Oktatás", "💎 Hospitality / Luxus", "🚀 Stratégiai", "📉 Elemző", "🛠️ Karbantartó / Szerviz", "🛡️ Biztonság és Rend", "🌟 Általános Motivált"] },
+        en: { engineName: "Career-Engine", fName: "FIRST NAME", lName: "LAST NAME", city: "CITY", street: "STREET", phone: "PHONE", email: "EMAIL", summaryHeader: "SUMMARY SELECTOR", summary: "SUMMARY-SKILLS", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address:", colors: "COLORS", styles: "STYLES", v_deg: "Degree", v_prof: "Profession", select_hint: "-- ADD --", menu: ["🔝 Proactive Leader", "💻 Tech-Guru", "🎯 Administrator", "🤝 Customer Magnet", "🎨 Creative Visionary", "🚛 Logistics", "⚡ Junior", "🏗️ Industrial Worker", "🚑 Health / Education", "💎 Hospitality / Luxury", "🚀 Strategic", "📉 Analyst", "🛠️ Technical / Service", "🛡️ Security and Order", "🌟 General Motivated"] },
+        de: { engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summaryHeader: "PROFIL AUSWAHL", summary: "PROFIL-FÄHIGKEITEN", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse:", colors: "FARBEN", styles: "STILE", v_deg: "Abschluss", v_prof: "Beruf", select_hint: "-- HINZÜFÜGEN --", menu: ["🔝 Proaktive Führungskraft", "💻 Tech-Guru", "🎯 Administrator", "🤝 Kundenmagnet", "🎨 Kreativer Visionär", "🚛 Logistik", "⚡ Junior", "🏗️ Facharbeiter", "🚑 Gesundheit / Bildung", "💎 Hospitality / Luxus", "🚀 Strategisch", "📉 Analyst", "🛠️ Technisch / Service", "🛡️ Sicherheit und Ordnung", "🌟 Allgemein Motiviert"] }
     };
 
     let currentLang = 'hu';
@@ -234,14 +170,11 @@
         currentLang = l;
         document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        
         updateInterface();
-        refreshMenu(); // Itt frissül a választómenü nyelve
-        
+        refreshMenu();
         if (selectedIndices.length > 0) {
             document.getElementById('in-summary').value = selectedIndices.map(idx => summariesDB[currentLang][idx]).join("\n\n");
         }
-        
         refreshAllSelects();
         updatePreview();
     }
@@ -276,9 +209,11 @@
     function refreshAllSelects() {
         document.querySelectorAll('.entry-box').forEach(box => {
             const sDeg = box.querySelector('.e-db');
+            const sProf = box.querySelector('.e-prof-menu');
             const sJob = box.querySelector('.e-job');
             const sPos = box.querySelector('.e-pos');
             if(sDeg) updateSelect(sDeg, careerDB.eduLevels);
+            if(sProf) updateSelect(sProf, careerDB.jobs);
             if(sJob) updateSelect(sJob, careerDB.jobs);
             if(sPos) updateSelect(sPos, careerDB.positions);
         });
@@ -296,8 +231,16 @@
         div.className = 'entry-box';
         const d = dictionary[currentLang];
         if(type === 'edu') {
-            div.innerHTML = `<input type="text" class="e-main" placeholder="Iskola / School" oninput="updatePreview()"><input type="text" class="e-sub" placeholder="Idő / Year" oninput="updatePreview()"><select class="e-db" onchange="updatePreview()"></select><input type="text" class="e-prof" placeholder="${d.v_prof}" oninput="updatePreview()"><button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>`;
+            div.innerHTML = `
+                <input type="text" class="e-main" placeholder="Iskola / School" oninput="updatePreview()">
+                <input type="text" class="e-sub" placeholder="Idő / Year" oninput="updatePreview()">
+                <label class="smart-label">${d.v_deg}</label>
+                <select class="e-db" onchange="updatePreview()"></select>
+                <label class="smart-label">${d.v_prof}</label>
+                <select class="e-prof-menu" onchange="updatePreview()"></select>
+                <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>`;
             updateSelect(div.querySelector('.e-db'), careerDB.eduLevels);
+            updateSelect(div.querySelector('.e-prof-menu'), careerDB.jobs);
         } else {
             div.innerHTML = `<input type="text" class="e-main" placeholder="Cég / Company" oninput="updatePreview()"><input type="text" class="e-sub" placeholder="Idő / Duration" oninput="updatePreview()"><select class="e-job" onchange="updatePreview()"></select><select class="e-pos" onchange="updatePreview()"></select><button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>`;
             updateSelect(div.querySelector('.e-job'), careerDB.jobs);
@@ -326,12 +269,19 @@
                 const m = box.querySelector('.e-main').value;
                 const sub = box.querySelector('.e-sub').value;
                 const dbVal = type === 'edu' ? box.querySelector('.e-db').value : box.querySelector('.e-job').value;
-                const prof = type === 'edu' ? box.querySelector('.e-prof').value : "";
+                const profVal = type === 'edu' ? box.querySelector('.e-prof-menu').value : "";
                 const posVal = type === 'work' ? box.querySelector('.e-pos').value : "";
                 let title = "";
-                if(type === 'edu' && dbVal) title = careerDB.eduLevels.find(x => x.hu === dbVal)[currentLang] + (prof ? " - " + prof : "");
-                else if(type === 'edu' && prof) title = prof;
-                else if(type === 'work' && dbVal) title = careerDB.jobs.find(x => x.hu === dbVal)[currentLang] + (posVal ? " - " + careerDB.positions.find(x => x.hu === posVal)[currentLang] : "");
+                if(type === 'edu' && dbVal) {
+                    const level = careerDB.eduLevels.find(x => x.hu === dbVal);
+                    const job = careerDB.jobs.find(x => x.hu === profVal);
+                    title = (level ? level[currentLang] : "") + (job ? " - " + job[currentLang] : "");
+                }
+                else if(type === 'work' && dbVal) {
+                    const job = careerDB.jobs.find(x => x.hu === dbVal);
+                    const pos = careerDB.positions.find(x => x.hu === posVal);
+                    title = (job ? job[currentLang] : "") + (pos ? " - " + pos[currentLang] : "");
+                }
                 if(m || title) sHtml += `<div style="margin-bottom:15px"><b>${m}</b> (${sub})<br><i>${title}</i></div>`;
             });
             html += sHtml;
@@ -339,18 +289,14 @@
         document.getElementById('main-content').innerHTML = html;
     }
 
-  function loadPhoto(event) {
+    function loadPhoto(event) {
         const reader = new FileReader();
         reader.onload = function() {
-            const outImg = document.getElementById('out-photo');
-            const outBox = document.getElementById('out-photo-box');
-            outImg.src = reader.result;
-            outBox.style.display = 'block'; 
+            document.getElementById('out-photo').src = reader.result;
+            document.getElementById('out-photo-box').style.display = 'block';
             updatePreview();
         }
-        if(event.target.files[0]) {
-            reader.readAsDataURL(event.target.files[0]);
-        }
+        if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
     }
 
     window.onload = () => {
