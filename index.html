@@ -2,7 +2,7 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Career-Engine v72.0 - A&N Visual - GLOBAL MATRIX</title>
+    <title>Career-Engine v72.0 - A&N Visual</title>
     <style>
         :root { --main-color: #007bb5; }
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; background: #000; color: #eee; transition: 0.3s; }
@@ -68,76 +68,76 @@
     </div>
 
     <div class="picker-row">
-        <label class="smart-label" id="lbl-colors">SZÍNEK / COLORS / FARBEN</label>
+        <label class="smart-label" id="lbl-colors">SZÍNEK / COLORS</label>
         <div class="color-grid" id="color-picker"></div>
     </div>
 
     <div class="picker-row">
-        <label class="smart-label" id="lbl-styles">STÍLUSOK / STYLES / STILE</label>
+        <label class="smart-label" id="lbl-styles">STÍLUSOK / STYLES</label>
         <div class="style-grid" id="style-picker"></div>
     </div>
 
-    <label class="smart-label" id="lbl-photo">FOTÓ / PHOTO / FOTO</label>
+    <label class="smart-label" id="lbl-photo">FOTÓ / PHOTO</label>
     <input type="file" onchange="loadPhoto(event)" style="margin-bottom: 15px;">
 
     <div class="input-group" style="display:flex; gap:10px;">
         <div style="flex:1">
-            <label class="smart-label" id="lbl-fName">KERESZTNÉV / FIRST NAME</label>
+            <label class="smart-label" id="lbl-fName">KERESZTNÉV</label>
             <input type="text" id="in-firstName" oninput="updatePreview()">
         </div>
         <div style="flex:1">
-            <label class="smart-label" id="lbl-lName">VEZETÉKNÉV / LAST NAME</label>
+            <label class="smart-label" id="lbl-lName">VEZETÉKNÉV</label>
             <input type="text" id="in-lastName" oninput="updatePreview()">
         </div>
     </div>
 
     <div class="input-group" style="display:flex; gap:10px;">
         <div style="flex:1">
-            <label class="smart-label" id="lbl-city">VÁROS / CITY</label>
+            <label class="smart-label" id="lbl-city">VÁROS</label>
             <input type="text" id="in-city" oninput="updatePreview()">
         </div>
         <div style="flex:1">
-            <label class="smart-label" id="lbl-street">UTCA / STREET</label>
+            <label class="smart-label" id="lbl-street">UTCA</label>
             <input type="text" id="in-street" oninput="updatePreview()">
         </div>
     </div>
 
     <div class="input-group" style="display:flex; gap:10px;">
         <div style="flex:1">
-            <label class="smart-label">≡ TÍPUS / TYPE</label>
+            <label class="smart-label">TÍPUS</label>
             <select id="in-street-type" onchange="updatePreview()">
-                <option value="utca">utca / street / straße</option>
-                <option value="út">út / road / straße</option>
-                <option value="tér">tér / square / platz</option>
+                <option value="utca">utca / street</option>
+                <option value="út">út / road</option>
+                <option value="tér">tér / square</option>
             </select>
         </div>
         <div style="width:30%">
-            <label class="smart-label">HÁZSZÁM / HOUSE NO</label>
+            <label class="smart-label">HÁZSZÁM</label>
             <input type="text" id="in-house" oninput="updatePreview()">
         </div>
     </div>
 
-    <label class="smart-label" id="lbl-phone">TELEFON / PHONE</label>
+    <label class="smart-label" id="lbl-phone">TELEFON</label>
     <input type="text" id="in-phone" oninput="updatePreview()">
 
     <label class="smart-label" id="lbl-email">EMAIL</label>
     <input type="email" id="in-email" oninput="updatePreview()">
 
-    <label class="smart-label" id="lbl-summaryHeader">BEMUTATKOZÁS VÁLASZTÓ / SUMMARY SELECTOR</label>
+    <label class="smart-label" id="lbl-summaryHeader">BEMUTATKOZÁS VÁLASZTÓ</label>
     <select id="sel-summary" onchange="applyMatrixSummary()" style="background: #1a3a5a; color: white; border: 1px solid #007bb5;">
-        <!-- Dinamikus tartalom -->
+        <option value="">-- HOZZÁADÁS --</option>
     </select>
 
-    <textarea id="in-summary" rows="8" oninput="updatePreview()" placeholder="Válogass össze több stílust..."></textarea>
+    <textarea id="in-summary" rows="8" oninput="updatePreview()" placeholder="Írj ide vagy válassz a menüből..."></textarea>
 
     <div id="edu-area">
-        <h3 id="lbl-eduHeader">TANULMÁNYOK / EDUCATION</h3>
+        <h3 id="lbl-eduHeader">TANULMÁNYOK</h3>
         <div id="edu-container"></div>
         <button onclick="addEntry('edu')" class="add-btn" id="lbl-addEdu">+ ÚJ ISKOLA</button>
     </div>
 
     <div id="work-area">
-        <h3 id="lbl-workHeader">TAPASZTALAT / EXPERIENCE</h3>
+        <h3 id="lbl-workHeader">TAPASZTALAT</h3>
         <div id="work-container"></div>
         <button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY</button>
     </div>
@@ -161,7 +161,7 @@
 </div>
 
 <script>
-    // ADATBÁZISOK (database.js helyett)
+    // ADATBÁZISOK
     const careerDB = {
         eduLevels: [
             { hu: "BSc", en: "BSc", de: "BSc" },
@@ -190,4 +190,13 @@
         hu: { 
             "1": "Több éves szakmai és vezetői tapasztalattal rendelkező szakember vagyok. Erősségem a stratégiai tervezés és az eredményorientált csapatvezetés.",
             "2": "Technológiai fókuszú szakemberként elkötelezett vagyok az innovatív megoldások és a hatékony problémamegoldás iránt.",
-            "3": "Precíz és rendszerszemléletű munkavégzés jelle
+            "3": "Precíz és rendszerszemléletű munkavégzés jellemez, kimagasló tapasztalattal az adminisztrációs folyamatok kezelésében.",
+            "4": "Ügyfélközpontú szemléletmódommal hatékonyan támogatom a hosszú távú üzleti kapcsolatok építését.",
+            "5": "Kreatív szakemberként a vizuális kommunikáció és a márkaépítés területén nyújtok professzionális támogatást."
+        },
+        en: { 
+            "1": "Experienced professional with several years of management experience. Strong strategic planning and results-oriented leadership skills.",
+            "2": "Tech-focused professional committed to innovative solutions and efficient problem-solving.",
+            "3": "Precise and systematic approach to administrative and corporate documentation management.",
+            "4": "Supporting long-term business relationships through a customer-centric mindset.",
+            "5": "Creative professional providing support in visual communication
