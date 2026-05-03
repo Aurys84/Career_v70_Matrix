@@ -40,8 +40,12 @@
         body.style-10 .cv-paper::before { content: ''; position: absolute; top: 0; left: 0; width: 15px; height: 100%; background: var(--main-color); }
         body.style-11 .cv-paper { border: 10px solid var(--main-color); border-radius: 30px; }
         body.style-12 h3 { text-align: right; color: #555; }
-        body.style-13 .cv-paper { background: #fffdf0; }
-        body.style-14 #out-name { text-shadow: 2px 2px #ccc; }
+        /* 13. Stílus: Vintage/Beige stílus sötétebb fejléccel */
+        body.style-13 .cv-paper { background: #fffdf0; border: 1px solid #dcd7af; }
+        body.style-13 h3 { color: #5d5b4a; border-bottom: 2px solid #5d5b4a; }
+        /* 14. Stílus: Modern Minimalista árnyékolt névvel */
+        body.style-14 #out-name { text-shadow: 3px 3px 0px rgba(0,0,0,0.1); letter-spacing: 2px; }
+        body.style-14 .cv-header { border-bottom: 4px solid var(--main-color); padding-bottom: 10px; }
         body.style-15 .cv-header { background: var(--main-color); color: white; padding: 30px; margin: -40px -40px 20px -40px; }
         body.style-15 #out-name { color: white; }
 
@@ -186,31 +190,27 @@
         sel.innerHTML = h;
     }
 
-   function applyMatrixSummary() {
+  function applyMatrixSummary() {
     const sel = document.getElementById('sel-summary');
     const target = document.getElementById('in-summary');
     
     if (sel && sel.value) {
-        // Ellenőrizzük, hogy az index már benne van-e, ha nincs, hozzáadjuk
+        // Hozzáadjuk a listához, ha még nincs benne
         if (!selectedIndices.includes(sel.value)) {
             selectedIndices.push(sel.value);
         }
         
-        // Összegyűjtjük a szövegeket a jelenlegi nyelven (currentLang)
-        const texts = selectedIndices.map(idx => {
+        // Kényszerített szöveg-összeállítás
+        let fullText = "";
+        selectedIndices.forEach(idx => {
             if (summariesDB[currentLang] && summariesDB[currentLang][idx]) {
-                return summariesDB[currentLang][idx];
+                fullText += summariesDB[currentLang][idx] + "\n\n";
             }
-            return "";
-        }).filter(t => t !== "");
+        });
 
-        // Beillesztjük a textarea-ba dupla soremeléssel
-        target.value = texts.join("\n\n");
-        
-        // Visszaállítjuk a választót az alaphelyzetbe
+        // Beillesztjük a dobozba és frissítjük az előnézetet
+        target.value = fullText.trim();
         sel.value = ""; 
-        
-        // Azonnali frissítés a papíron
         updatePreview();
     }
 }
