@@ -251,15 +251,24 @@
         document.getElementById(type + '-container').appendChild(div);
     }
 
-    function updatePreview() {
+function updatePreview() {
         const d = dictionary[currentLang];
+        
+        // NÉV ÉS KONTAKT ADATOK FRISSÍTÉSE
         const l = document.getElementById('in-lastName').value || "";
         const f = document.getElementById('in-firstName').value || "";
         document.getElementById('out-name').innerText = (currentLang === 'hu' ? l + " " + f : f + " " + l).toUpperCase() || "NAME";
+        
         const sTypeSelect = document.getElementById('in-street-type');
         const sType = sTypeSelect.options[sTypeSelect.selectedIndex].text.split(' / ')[currentLang === 'hu' ? 0 : (currentLang === 'en' ? 1 : 2)];
+        
         document.getElementById('out-contact').innerHTML = `<b>${d.phone}</b> ${document.getElementById('in-phone').value} | <b>EMAIL:</b> ${document.getElementById('in-email').value}<br><b>${d.addr}</b> ${document.getElementById('in-city').value}, ${document.getElementById('in-street').value} ${sType} ${document.getElementById('in-house').value}`;
-        let html = `<h3>${d.summary}</h3><p style="white-space: pre-wrap;">${document.getElementById('in-summary').value}</p>`;
+
+        // BEMUTATKOZÁS (Kiolvassuk a dobozból a választott stílusokat)
+        const summaryValue = document.getElementById('in-summary').value || "";
+        let html = `<h3>${d.summary || "BEMUTATKOZÁS"}</h3><p style="white-space: pre-wrap;">${summaryValue}</p>`;
+        
+        // TANULMÁNYOK ÉS TAPASZTALAT (A konténerek feldolgozása)
         ['edu', 'work'].forEach(type => {
             let sHtml = `<h3>${d[type + 'Header']}</h3>`;
             document.querySelectorAll('#' + type + '-container .entry-box').forEach(box => {
@@ -268,16 +277,36 @@
                 const dbVal = type === 'edu' ? box.querySelector('.e-db').value : box.querySelector('.e-job').value;
                 const profVal = type === 'edu' ? box.querySelector('.e-prof-menu').value : "";
                 const posVal = type === 'work' ? box.querySelector('.e-pos').value : "";
+                
                 let title = "";
-                if(type === 'edu' && dbVal) title = careerDB.eduLevels.find(x => x.hu === dbVal)[currentLang] + (profVal ? " - " + careerDB.jobs.find(x => x.hu === profVal)[currentLang] : "");
-                else if(type === 'work' && dbVal) title = careerDB.jobs.find(x => x.hu === dbVal)[currentLang] + (posVal ? " - " + careerDB.positions.find(x => x.hu === posVal)[currentLang] : "");
+                if(type === 'edu' && dbVal) {
+                    const level = careerDB.eduLevels.find(x => x.hu === dbVal);
+                    const prof = careerDB.jobs.find(x => x.hu === profVal);
+                    title = (level ? level[currentLang] : "") + (prof ? " - " + prof[currentLang] : "");
+                } 
+                else if(type === 'work' && dbVal) {
+                    const job = careerDB.jobs.find(x => x.hu === dbVal);
+                    const pos = careerDB.positions.find(x => x.hu === posVal);
+                    title = (job ? job[currentLang] : "") + (pos ? " - " + pos[currentLang] : "");
+                }
+                
                 if(m || title) sHtml += `<div style="margin-bottom:15px"><b>${m}</b> (${sub})<br><i>${title}</i></div>`;
             });
             html += sHtml;
         });
+
+        // A TELJES TARTALOM ÁTADÁSA A PAPÍRNAK
         document.getElementById('main-content').innerHTML = html;
     }
+                
+                if(m || title) sHtml += `<div style="margin-bottom:15px"><b>${m}</b> (${sub})<br><i>${title}</i></div>`;
+            });
+            html += sHtml;
+        });
 
+        // VÉGLEGES TARTALOM ÁTADÁSA A PAPÍRNAK
+        document.getElementById('main-content').innerHTML = html;
+    }
     function loadPhoto(event) {
         const reader = new FileReader();
         reader.onload = function() {
