@@ -241,10 +241,36 @@
         },
         en: { 
             "1": "Experienced professional with management experience. Strong strategic planning skills.",
+            "2": "Tech-focused professional committed to innovative solutions.",
+            "3": "Precise and systematic approach to administrative management.",
+            "4": "Supporting business relationships through a customer-centric mindset.",
+            "5": "Creative professional providing support in visual communication.",
+            "6": "Expert in logistical processes and operational efficiency.",
+            "7": "Growth-oriented entry-level professional with quick learning skills.",
+            "8": "Reliable skilled worker striving for quality industrial execution.",
+            "9": "Empathetic professional committed to high-level care.",
+            "10": "Leveraging premium hospitality experience for client satisfaction.",
+            "11": "Strategic vision helping understand complex business processes.",
+            "12": "Proficient in finance and data analysis.",
+            "13": "Technically oriented professional focused on system operation.",
+            "14": "Responsible career committed to safety regulations.",
             "15": "Versatile and professionally committed colleague."
         },
         de: { 
             "1": "Fachkraft mit Managementerfahrung, spezialisiert auf strategische Planung.",
+            "2": "Technologieorientierter Profi mit Fokus auf innovative Lösungen.",
+            "3": "Präzise Arbeitsweise in der Verwaltung und Dokumentation.",
+            "4": "Kundenorientierte Einstellung zur Unterstützung von Geschäftsbeziehungen.",
+            "5": "Kreativer Profi für visuelle Kommunikation.",
+            "6": "Experte für Logistikprozesse und operative Effizienz.",
+            "7": "Engagierter Berufseinsteiger mit schneller Auffassungsgabe.",
+            "8": "Zuverlässiger Facharbeiter für industrielle Ausführung.",
+            "9": "Empathischer Profi für hochwertige Versorgung.",
+            "10": "Premium-Gastronomieerfahrung für Kundenerlebnisse.",
+            "11": "Strategische Vision zum Verständnis von Geschäftsprozessen.",
+            "12": "Kompetent in Finanzen und Datenanalyse.",
+            "13": "Technisch orientierter Profi für Systembetrieb.",
+            "14": "Verantwortungsbewusste Karriere unter Einhaltung von Vorschriften.",
             "15": "Vielseitiger und flexibler Mitarbeiter."
         }
     };
@@ -292,43 +318,39 @@
         }
     }
 
-   function addEntry(type) {
-    const div = document.createElement('div');
-    div.className = 'entry-box';
-    const d = dictionary[currentLang];
-    
-    if(type === 'edu') {
-        div.innerHTML = `
-            <input type="text" placeholder="Iskola neve" oninput="updatePreview()">
-            <input type="text" placeholder="Időtartam" oninput="updatePreview()">
-            <label class="smart-label">${d.v_deg}</label>
-            <select class="e-db" onchange="updatePreview()"></select>
-            <label class="smart-label">${d.v_prof}</label>
-            <!-- MENÜSÍTETT SZAKMA AZ ISKOLÁNÁL -->
-            <select class="e-prof-menu" onchange="updatePreview()"></select>
-            <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%;width:25px;height:25px;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
-        `;
-        if (window.updateSelect) {
-            updateSelect(div.querySelector('.e-db'), careerDB.eduLevels);
-            updateSelect(div.querySelector('.e-prof-menu'), careerDB.jobs);
+    function addEntry(type) {
+        const div = document.createElement('div');
+        div.className = 'entry-box';
+        const d = dictionary[currentLang];
+        
+        if(type === 'edu') {
+            div.innerHTML = `
+                <input type="text" placeholder="Iskola neve" oninput="updatePreview()">
+                <input type="text" placeholder="Időtartam" oninput="updatePreview()">
+                <label class="smart-label">${d.v_deg}</label>
+                <select class="e-db" onchange="updatePreview()"></select>
+                <label class="smart-label">${d.v_prof}</label>
+                <select class="e-prof-menu" onchange="updatePreview()"></select>
+                <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%;width:25px;height:25px;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
+            `;
+            if (window.updateSelect) {
+                updateSelect(div.querySelector('.e-db'), careerDB.eduLevels);
+                updateSelect(div.querySelector('.e-prof-menu'), careerDB.jobs);
+            }
+        } else {
+            div.innerHTML = `
+                <input type="text" placeholder="Cég neve" oninput="updatePreview()">
+                <input type="text" placeholder="Időtartam" oninput="updatePreview()">
+                <label class="smart-label">${d.v_prof}</label>
+                <select class="e-job" onchange="updatePreview()"></select>
+                <select class="e-pos" onchange="updatePreview()"></select>
+                <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%;width:25px;height:25px;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
+            `;
+            if (window.updateSelect) {
+                updateSelect(div.querySelector('.e-job'), careerDB.jobs);
+                updateSelect(div.querySelector('.e-pos'), careerDB.positions);
+            }
         }
-    } else {
-        div.innerHTML = `
-            <input type="text" placeholder="Cég neve" oninput="updatePreview()">
-            <input type="text" placeholder="Időtartam" oninput="updatePreview()">
-            <label class="smart-label">${d.v_prof}</label>
-            <select class="e-job" onchange="updatePreview()"></select>
-            <select class="e-pos" onchange="updatePreview()"></select>
-            <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%;width:25px;height:25px;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
-        `;
-        if (window.updateSelect) {
-            updateSelect(div.querySelector('.e-job'), careerDB.jobs);
-            updateSelect(div.querySelector('.e-pos'), careerDB.positions);
-        }
-    }
-    document.getElementById(type + '-container').appendChild(div);
-    updatePreview();
-}
         document.getElementById(type + '-container').appendChild(div);
         updatePreview();
     }
@@ -337,7 +359,10 @@
         currentLang = lang;
         document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        refreshMenu(); updateInterface(); updatePreview();
+        applyMatrixSummary();
+        refreshMenu();
+        updateInterface();
+        updatePreview();
     }
 
     function refreshMenu() {
@@ -360,10 +385,13 @@
     function applyMatrixSummary() {
         const sel = document.getElementById('sel-summary');
         if (sel && sel.value) {
-            selectedIndices.push(sel.value);
-            document.getElementById('in-summary').value = selectedIndices.map(idx => summariesDB[currentLang][idx] || "").join("\n\n");
-            sel.value = ""; updatePreview();
+            if (!selectedIndices.includes(sel.value)) {
+                selectedIndices.push(sel.value);
+            }
+            sel.value = "";
         }
+        document.getElementById('in-summary').value = selectedIndices.map(idx => summariesDB[currentLang][idx] || "").join("\n\n");
+        updatePreview();
     }
 
     function loadPhoto(event) {
@@ -389,8 +417,11 @@
             b.onclick = () => { document.body.className = 'style-' + i; updatePreview(); };
             document.getElementById('style-picker').appendChild(b);
         }
-        refreshMenu(); updateInterface(); updatePreview();
+        refreshMenu();
+        updateInterface();
+        updatePreview();
     };
+</script>
 </script>
 </body>
 </html>
