@@ -318,37 +318,42 @@
         }
     }
 
-    function addEntry(type) {
-        const div = document.createElement('div');
-        div.className = 'entry-box';
-        const d = dictionary[currentLang];
-        
-        if(type === 'edu') {
-            div.innerHTML = `
-                <input type="text" placeholder="Iskola neve" oninput="updatePreview()">
-                <input type="text" placeholder="Időtartam" oninput="updatePreview()">
-                <label class="smart-label">${d.v_deg}</label>
-                <select class="e-db" onchange="updatePreview()"></select>
-                <label class="smart-label">${d.v_prof}</label>
-                <select class="e-prof-menu" onchange="updatePreview()"></select>
-                <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%;width:25px;height:25px;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
-            `;
-            if (window.updateSelect) {
-                updateSelect(div.querySelector('.e-db'), careerDB.eduLevels);
-                updateSelect(div.querySelector('.e-prof-menu'), careerDB.jobs);
-            }
-        } else {
-            div.innerHTML = `
-                <input type="text" placeholder="Cég neve" oninput="updatePreview()">
-                <input type="text" placeholder="Időtartam" oninput="updatePreview()">
-                <label class="smart-label">${d.v_prof}</label>
-                <select class="e-job" onchange="updatePreview()"></select>
-                <select class="e-pos" onchange="updatePreview()"></select>
-                <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%;width:25px;height:25px;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
-            `;
-            if (window.updateSelect) {
-                updateSelect(div.querySelector('.e-job'), careerDB.jobs);
-                updateSelect(div.querySelector('.e-pos'), careerDB.positions);
+   function addEntry(type) {
+    const div = document.createElement('div');
+    div.className = 'entry-box';
+    const d = dictionary[currentLang];
+    
+    if(type === 'edu') {
+        div.innerHTML = `
+            <input type="text" placeholder="Iskola neve" oninput="updatePreview()">
+            <input type="text" placeholder="Időtartam" oninput="updatePreview()">
+            <label class="smart-label">${d.v_deg}</label>
+            <select class="e-db" onchange="updatePreview()"></select>
+            <label class="smart-label">${d.v_prof}</label>
+            <select class="e-prof-menu" onchange="updatePreview()"></select>
+            <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%;width:25px;height:25px;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
+        `;
+        if (window.updateSelect) {
+            updateSelect(div.querySelector('.e-db'), careerDB.eduLevels);
+            updateSelect(div.querySelector('.e-prof-menu'), careerDB.jobs);
+        }
+    } else {
+        div.innerHTML = `
+            <input type="text" placeholder="Cég neve" oninput="updatePreview()">
+            <input type="text" placeholder="Időtartam" oninput="updatePreview()">
+            <label class="smart-label">${d.v_prof}</label>
+            <select class="e-job" onchange="updatePreview()"></select>
+            <select class="e-pos" onchange="updatePreview()"></select>
+            <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%;width:25px;height:25px;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
+        `;
+        if (window.updateSelect) {
+            updateSelect(div.querySelector('.e-job'), careerDB.jobs);
+            updateSelect(div.querySelector('.e-pos'), careerDB.positions);
+        }
+    }
+    document.getElementById(type + '-container').appendChild(div);
+    updatePreview();
+}
             }
         }
         document.getElementById(type + '-container').appendChild(div);
