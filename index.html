@@ -318,7 +318,7 @@
         }
     }
 
-   function addEntry(type) {
+function addEntry(type) {
     const div = document.createElement('div');
     div.className = 'entry-box';
     const d = dictionary[currentLang];
@@ -354,11 +354,6 @@
     document.getElementById(type + '-container').appendChild(div);
     updatePreview();
 }
-            }
-        }
-        document.getElementById(type + '-container').appendChild(div);
-        updatePreview();
-    }
 
     function setMode(lang, btn) {
         currentLang = lang;
@@ -387,17 +382,17 @@
         }
     }
 
-    function applyMatrixSummary() {
-        const sel = document.getElementById('sel-summary');
-        if (sel && sel.value) {
-            if (!selectedIndices.includes(sel.value)) {
-                selectedIndices.push(sel.value);
-            }
-            sel.value = "";
+   function applyMatrixSummary() {
+    const sel = document.getElementById('sel-summary');
+    if (sel && sel.value) {
+        if (!selectedIndices.includes(sel.value)) {
+            selectedIndices.push(sel.value);
         }
-        document.getElementById('in-summary').value = selectedIndices.map(idx => summariesDB[currentLang][idx] || "").join("\n\n");
-        updatePreview();
+        sel.value = ""; 
     }
+    document.getElementById('in-summary').value = selectedIndices.map(idx => summariesDB[currentLang][idx] || "").join("\n\n");
+    updatePreview();
+}
 
     function loadPhoto(event) {
         const reader = new FileReader();
