@@ -96,7 +96,12 @@
         /* 15. Premium Border: Dupla színes keret az egész papír körül */
         body.style-15 .cv-paper { border: 10px double var(--main-color); }
 
-        @media print { .editor-side { display: none; } .preview-side { width: 100%; padding: 0; background: white; } .cv-paper { box-shadow: none; width: 100%; } }
+      @media print { 
+    .editor-side { display: none; } 
+    .preview-side { width: 100%; padding: 0; background: white; overflow: hidden; } 
+    .cv-paper { box-shadow: none; width: 100%; margin: 0; border: none; } 
+    body { overflow: hidden; }
+}    
     </style>
 </head>
 <body class="style-1">
@@ -339,6 +344,7 @@
                 <input type="text" placeholder="Cég neve" oninput="updatePreview()">
                 <input type="text" placeholder="Időtartam" oninput="updatePreview()">
                 <label class="smart-label">${d.v_prof}</label>
+                <!-- MENÜSÍTETT SZAKMA ÉS POZÍCIÓ -->
                 <select class="e-job" onchange="updatePreview()"></select>
                 <select class="e-pos" onchange="updatePreview()"></select>
                 <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%;width:25px;height:25px;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>
