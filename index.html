@@ -2,7 +2,7 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Career-Engine v73.0 - A&N Visual</title>
+    <title>Career-Engine v74.0 - A&N Visual - FULL VERSION</title>
     <style>
         :root { --main-color: #007bb5; }
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; background: #000; color: #eee; transition: 0.3s; }
@@ -15,8 +15,10 @@
         .btn-lang.active { background: var(--main-color); box-shadow: 0 0 10px var(--main-color); }
         .picker-row { margin-bottom: 15px; }
         .color-grid, .style-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 5px; }
-        .color-btn { width: 100%; height: 30px; cursor: pointer; border-radius: 4px; border: 1px solid #444; }
-        .style-btn { padding: 8px; background: #222; color: white; border: 1px solid #444; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .color-btn { width: 100%; height: 30px; cursor: pointer; border-radius: 4px; border: 1px solid #444; transition: transform 0.2s; }
+        .color-btn:hover { transform: scale(1.1); }
+        .style-btn { padding: 8px; background: #222; color: white; border: 1px solid #444; cursor: pointer; border-radius: 4px; font-weight: bold; transition: background 0.2s; }
+        .style-btn:hover { background: #333; }
         .smart-label { display: block; margin-top: 15px; font-size: 11px; font-weight: bold; color: var(--main-color); text-transform: uppercase; }
         input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; box-sizing: border-box; }
         .entry-box { background: #151515; padding: 15px; margin-top: 10px; border-left: 4px solid var(--main-color); border-radius: 4px; position: relative; }
@@ -38,19 +40,31 @@
         body.style-8 #out-name { letter-spacing: 5px; text-align: center; width: 100%; }
         body.style-9 .cv-header { align-items: flex-end; border-bottom-width: 5px; }
         body.style-10 .cv-paper::before { content: ''; position: absolute; top: 0; left: 0; width: 15px; height: 100%; background: var(--main-color); }
+        
+        /* ÚJ STÍLUSOK 11-15 */
         body.style-11 .cv-paper { background: #2c3e50; color: #ecf0f1; }
         body.style-11 .cv-paper h3 { color: #3498db; border-bottom-color: #34495e; }
         body.style-11 .cv-paper h1 { color: #3498db; }
+        body.style-11 .cv-paper .entry-box { background: #34495e; border-left-color: #3498db; }
+        body.style-11 .cv-paper h3 { border-bottom: 1px solid #7f8c8d; }
+        
         body.style-12 .cv-paper { border-left: 25px solid var(--main-color); }
         body.style-12 h3 { font-size: 1.2em; border-bottom: 2px solid var(--main-color); }
+        
         body.style-13 .cv-header { border-bottom: none; border-bottom: 3px dashed var(--main-color); }
         body.style-13 #out-name { font-family: 'Courier New', monospace; text-transform: uppercase; }
+        
         body.style-14 .cv-paper { background: #fff; }
         body.style-14 .cv-paper h3 { background: var(--main-color); color: white; padding: 8px; border-radius: 4px; border: none; }
+        
         body.style-15 .cv-paper { background: #f0f2f5; }
         body.style-15 .cv-paper::after { content: ''; position: absolute; bottom: 0; right: 0; width: 100px; height: 100px; background: var(--main-color); opacity: 0.1; border-radius: 100px 0 0 0; }
 
-        @media print { .editor-side { display: none; } .preview-side { width: 100%; padding: 0; background: white; } .cv-paper { box-shadow: none; width: 100%; margin: 0; padding: 20mm; } }
+        @media print { 
+            .editor-side { display: none; } 
+            .preview-side { width: 100%; padding: 0; background: white; } 
+            .cv-paper { box-shadow: none; width: 100%; margin: 0; padding: 20mm; } 
+        }
     </style>
 </head>
 <body class="style-1">
@@ -161,7 +175,7 @@
 </div>
 
 <script>
-    // ADATBÁZISOK
+    // --- ADATBÁZISOK ---
     const careerDB = {
         eduLevels: [
             { hu: "BSc", en: "BSc", de: "BSc" },
@@ -176,9 +190,8 @@
             { hu: "Szoftverfejlesztő", en: "Software Developer", de: "Softwareentwickler" },
             { hu: "Gazdasági elemző", en: "Business Analyst", de: "Wirtschaftsanalyst" },
             { hu: "Marketing szakember", en: "Marketing Specialist", de: "Marketing-Spezialist" },
-            { hu: "Logisztikai vezető", en: "Logistics Manager", de: "Logistikmanager" }
+            { hu: "Logisztikai vezető", en: "Logistics Manager", de: "Logistikmanager" },
+            { hu: "HR szakember", en: "HR Specialist", de: "HR-Spezialist" },
+            { hu: "Projektmenedzser", en: "Project Manager", de: "Projektmanager" }
         ],
-        positions: [
-            { hu: "Junior", en: "Junior", de: "Junior" },
-            { hu: "Senior", en: "Senior", de: "Senior" },
-            { hu: "Vezető", en: "Lead", de: "Leitung
+        positions
