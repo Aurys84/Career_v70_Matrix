@@ -3,10 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Career-Engine v70.0 - A&N Visual - GLOBAL MATRIX</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#007bb5">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <style>
         :root { --main-color: #007bb5; }
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; background: #000; color: #eee; transition: 0.3s; }
@@ -155,10 +151,58 @@
 <script src="database.js"></script>
 
 <script>
-    const summariesDB = {
-        hu: { "1": "Több éves szakmai és vezetői tapasztalattal rendelkező szakember vagyok...", /* ... rövidítve a helytakarékosság miatt, de a kódodban maradjon meg az eredeti ... */ "15": "Sokoldalú és szakmailag elkötelezett munkatárs vagyok." },
-        en: { "1": "Experienced professional...", "15": "Versatile colleague." },
-        de: { "1": "Fachkraft mit Erfahrung...", "15": "Vielseitiger Mitarbeiter." }
+const summariesDB = {
+        hu: { 
+            "1": "Több éves szakmai és vezetői tapasztalattal rendelkező szakember vagyok, aki elkötelezett a hatékonyság és a csapatszellem mellett.",
+            "2": "Technológiai fókuszú szakemberként célom a bonyolult rendszerek optimalizálása és a digitális fejlődés elősegítése.",
+            "3": "Precíziós adminisztrációs és szervezési feladatokban vagyok jártas, ahol a pontosság és a rendszerszemlélet alapkövetelmény.",
+            "4": "Ügyfélközpontú szemlélettel és kiváló kommunikációs készséggel segítem a kereskedelmi és értékesítési folyamatokat.",
+            "5": "Kreatív megoldásokkal és vizuális látásmóddal támogatom a projekteket, legyen szó marketingről vagy tervezésről.",
+            "6": "Logisztikai és ellátási lánc folyamatokban szerzett tapasztalatommal biztosítom az áruk és információk zavartalan áramlását.",
+            "7": "Lelkes pályakezdőként keresem a fejlődési lehetőségeket, ahol gyors tanulási készségemet kamatoztathatom.",
+            "8": "Szakipari területen végzett pontos és megbízható munkát garantálok, nagy hangsúlyt fektetve a minőségi kivitelezésre.",
+            "9": "Az oktatási és egészségügyi szektorban elkötelezetten dolgozom az emberek segítése és fejlődése érdekében.",
+            "10": "A vendéglátás és luxusszolgáltatások terén nyújtok prémium minőségű kiszolgálást és vendégélményt.",
+            "11": "Stratégiai tervezéssel és hosszú távú célok módszeres megvalósításával segítem a szervezeti sikereket.",
+            "12": "Adatalapú elemzésekkel és pontos riportálással támogatom a vezetés döntéshozatali folyamatait.",
+            "13": "Műszaki karbantartási és szervizelési feladatokat látok el, biztosítva az eszközök folyamatos és üzembiztos működését.",
+            "14": "A biztonság és rendvédelem területén fegyelmezett, felelősségteljes és éber munkát végzek.",
+            "15": "Sokoldalú és szakmailag elkötelezett munkatárs vagyok, aki rugalmasan alkalmazkodik a változó kihívásokhoz." 
+        },
+        en: { 
+            "1": "Experienced professional with leadership skills, dedicated to efficiency and team spirit.",
+            "2": "Technology-focused professional aiming to optimize complex systems and promote digital progress.",
+            "3": "Skilled in precision administration and organizational tasks where accuracy is a core requirement.",
+            "4": "Supporting sales processes with a customer-centric approach and excellent communication skills.",
+            "5": "Supporting projects with creative solutions and visual perspective in marketing or design.",
+            "6": "Ensuring smooth flow of goods and information through logistics and supply chain experience.",
+            "7": "Motivated junior looking for growth opportunities to utilize fast learning skills.",
+            "8": "Guaranteeing precise and reliable work in industrial fields with a focus on quality.",
+            "9": "Dedicated to helping people and supporting development in education and healthcare.",
+            "10": "Providing premium service and guest experience in hospitality and luxury sectors.",
+            "11": "Methodically implementing long-term goals through strategic planning for organizational success.",
+            "12": "Supporting leadership decisions through data-driven analysis and accurate reporting.",
+            "13": "Performing technical maintenance and service to ensure reliable equipment operation.",
+            "14": "Performing disciplined and responsible work in security and law enforcement.",
+            "15": "Versatile and professionally committed colleague who adapts flexibly to challenges."
+        },
+        de: { 
+            "1": "Fachkraft mit langjähriger Führungserfahrung, engagiert für Effizienz und Teamgeist.",
+            "2": "Technologieorientierter Experte mit dem Ziel, komplexe Systeme zu optimieren.",
+            "3": "Erfahren in präziser Administration, wobei Genauigkeit eine Grundvoraussetzung ist.",
+            "4": "Unterstützung von Vertriebsprozessen mit kundenorientiertem Denken.",
+            "5": "Unterstützung von Projekten mit kreativen Lösungen und visueller Sichtweise.",
+            "6": "Sicherung des Warenflusses durch Erfahrung in Logistik und Lieferketten.",
+            "7": "Motivierter Berufseinsteiger auf der Suche nach Entwicklungsmöglichkeiten.",
+            "8": "Garantie für präzise und zuverlässige Arbeit im handwerklichen Bereich.",
+            "9": "Engagiert im Bildungs- und Gesundheitswesen zur Unterstützung von Menschen.",
+            "10": "Erstklassiger Service und Gästeerlebnisse in Gastronomie und Luxusbereichen.",
+            "11": "Methodische Umsetzung langfristiger Ziele durch strategische Planung.",
+            "12": "Unterstützung von Managemententscheidungen durch datengestützte Analysen.",
+            "13": "Technische Wartung und Service für den sicheren Betrieb von Geräten.",
+            "14": "Disziplinierte und verantwortungsbewusste Arbeit im Bereich Sicherheit.",
+            "15": "Vielseitiger Mitarbeiter, der sich flexibel an neue Herausforderungen anpasst."
+        }
     };
 
     const dictionary = {
@@ -177,12 +221,11 @@
         updateInterface();
         refreshMenu();
         if (selectedIndices.length > 0) {
-            document.getElementById('in-summary').value = selectedIndices.map(idx => summariesDB[currentLang][idx]).join("\n\n");
+            document.getElementById('in-summary').value = selectedIndices.map(idx => summariesDB[currentLang][idx] || "").join("\n\n");
         }
         refreshAllSelects();
         updatePreview();
     }
-
     function refreshMenu() {
         const sel = document.getElementById('sel-summary');
         const d = dictionary[currentLang];
