@@ -23,7 +23,6 @@ self.addEventListener('fetch', event => {
 
 // --- Értesítési Logika START ---
 
-// 1. Az értesítés megjelenítése a kijelzőn
 self.addEventListener('push', function(event) {
     let data = { title: 'Mátrix Labor', body: 'Rendszerüzenet érkezett!' };
     
@@ -35,13 +34,13 @@ self.addEventListener('push', function(event) {
         }
     }
     
-const options = {
-    body: data.body,
-    icon: 'store_icon.png', // JAVÍTVA: Ez legyen ugyanaz, ami a mappában van!
-    badge: 'store_icon.png',
-    vibrate: [200, 100, 200],
-    data: { url: self.registration.scope }
-  };
+    const options = {
+        body: data.body,
+        icon: 'store_icon.png',
+        badge: 'store_icon.png',
+        vibrate: [200, 100, 200],
+        data: {
+            url: self.registration.scope
         }
     };
 
@@ -50,19 +49,16 @@ const options = {
     );
 });
 
-// 2. Mi történjen, ha a júzer rákattint az értesítésre
 self.addEventListener('notificationclick', function(event) {
-    event.notification.close(); // Bezárja a kis ablakot
+    event.notification.close();
     
     event.waitUntil(
         clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(clientList) {
-            // Ha már nyitva van az app, csak fókuszálunk rá
             for (let client of clientList) {
                 if (client.url === event.notification.data.url && 'focus' in client) {
                     return client.focus();
                 }
             }
-            // Ha nincs nyitva, megnyitjuk
             if (clients.openWindow) {
                 return clients.openWindow(event.notification.data.url);
             }
