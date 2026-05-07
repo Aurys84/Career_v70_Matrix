@@ -35,13 +35,13 @@ self.addEventListener('push', function(event) {
         }
     }
     
-    const options = {
-        body: data.body,
-        icon: 'icon-192x192.png', // Ellenőrizd, hogy ez a fájl létezik-e!
-        badge: 'icon-192x192.png',
-        vibrate: [200, 100, 200],
-        data: {
-            url: self.registration.scope // Megnyitja az appot, ha rákattintanak
+const options = {
+    body: data.body,
+    icon: 'store_icon.png', // JAVÍTVA: Ez legyen ugyanaz, ami a mappában van!
+    badge: 'store_icon.png',
+    vibrate: [200, 100, 200],
+    data: { url: self.registration.scope }
+  };
         }
     };
 
