@@ -173,35 +173,31 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<script src="database.js"></script>
-
 <script>
-    // A VÉGLEGES, PÁR SOROS NYOMTATÓ
     window.generatePDF = function() {
-        console.log("Mátrix: Brave nyomtatási nézet indítása...");
+        const element = document.getElementById('cv-paper');
         
-        // 1. Frissítünk, hogy minden adat ott legyen a lapon
+        // 1. Frissítjük a nézetet (hogy legyen előlap)
         if(typeof updatePreview === "function") updatePreview();
-        
-        // 2. Felugrasztjuk a Brave saját ablakát
-        window.print();
+
+        // 2. A Független Mentés (Nem kell hozzá böngészőpanel!)
+        const opt = {
+            margin: 0,
+            filename: 'Career-Engine-CV.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Közvetlen mentés a háttérben
+        html2pdf().set(opt).from(element).save();
     };
 
-    // RENDSZER INDÍTÁSA
+    // Rendszer indítása az adatokkal
     window.onload = () => {
-        // GitHub Pajzs takarítás
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(regs => {
-                for(let r of regs) r.unregister();
-            });
-        }
-
-        // Színek/Stílusok (marad a régi, működő részed)
-        // ... (szín és stílus generáló ciklusok) ...
-
         if (typeof refreshMenu === "function") refreshMenu();
         if (typeof updateInterface === "function") updateInterface();
-        if (typeof updatePreview === "function") updatePreview(); 
+        if (typeof updatePreview === "function") updatePreview();
     };
 </script>
 </body>
