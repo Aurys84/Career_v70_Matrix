@@ -135,37 +135,38 @@
 <script src="database.js"></script>
 
 <script>
-    // 1. A VALÓDI NYOMTATÁSI NÉZET (Visszahozza az előlapot, sávok nélkül!)
+    // 1. A NYOMTATÁSI MOTOR - Kényszerített ablaknyitással
     window.generatePDF = function() {
-        // Frissítjük a nézetet a biztonság kedvéért
+        console.log("Mátrix: Nyomtatási parancs kiadva...");
+        
+        // Először frissítjük a nézetet
         if(typeof updatePreview === "function") updatePreview();
         
-        // Meghívjuk a gyári nyomtatási ablakot, amit kerestél
-        window.print();
+        // Ha a PC/Browser blokkolná a print-et, ez a kerülőút:
+        setTimeout(() => {
+            window.print();
+        }, 100);
     };
 
     // 2. RENDSZER INDÍTÁSA
     window.onload = () => {
+        // Színek és stílusok generálása
         const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
-        const colorPicker = document.getElementById('color-picker');
-        if(colorPicker) {
+        const cp = document.getElementById('color-picker');
+        if(cp) {
             colors.forEach(c => {
-                let b = document.createElement('div'); 
-                b.className = 'color-btn'; 
-                b.style.background = c;
+                let b = document.createElement('div'); b.className = 'color-btn'; b.style.background = c;
                 b.onclick = () => { document.documentElement.style.setProperty('--main-color', c); updatePreview(); };
-                colorPicker.appendChild(b);
+                cp.appendChild(b);
             });
         }
 
-        const stylePicker = document.getElementById('style-picker');
-        if(stylePicker) {
+        const sp = document.getElementById('style-picker');
+        if(sp) {
             for(let i=1; i<=10; i++) {
-                let b = document.createElement('button'); 
-                b.className = 'style-btn'; 
-                b.innerText = i;
+                let b = document.createElement('button'); b.className = 'style-btn'; b.innerText = i;
                 b.onclick = () => { document.body.className = 'style-' + i; updatePreview(); };
-                stylePicker.appendChild(b);
+                sp.appendChild(b);
             }
         }
         
@@ -173,12 +174,13 @@
         if (typeof updateInterface === "function") updateInterface();
         if (typeof updatePreview === "function") updatePreview(); 
 
+        // 3. PAJZS FRISSÍTÉS - Ez kényszeríti a GitHub-ot, hogy az ÚJ kódot használja!
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('service-worker.js', { scope: './' })
-                .then(reg => {
-                    console.log('Mátrix Pajzs: Üzemkész!');
-                })
-                .catch(err => console.error('Pajzs hiba:', err));
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    registration.update(); // Kényszerített frissítés a legújabb fájlra
+                }
+            });
         }
     };
 </script>   
