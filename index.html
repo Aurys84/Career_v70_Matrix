@@ -135,22 +135,24 @@
 <script src="database.js"></script>
 
 <script>
-    // 1. A NYOMTATÁSI MOTOR - Kényszerített ablaknyitással
+    // 1. KÉNYSZERÍTETT NYOMTATÁS
     window.generatePDF = function() {
-        console.log("Mátrix: Nyomtatási parancs kiadva...");
-        
-        // Először frissítjük a nézetet
         if(typeof updatePreview === "function") updatePreview();
-        
-        // Ha a PC/Browser blokkolná a print-et, ez a kerülőút:
-        setTimeout(() => {
-            window.print();
-        }, 100);
+        window.print();
     };
 
-    // 2. RENDSZER INDÍTÁSA
+    // 2. RENDSZER INDÍTÁSA + PAJZS-RESET
     window.onload = () => {
-        // Színek és stílusok generálása
+        // AZONNALI PAJZS TÖRLÉS (Hogy a GitHub frissüljön!)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    registration.unregister(); // Kidobjuk a régit a francba
+                }
+            });
+        }
+
+        // Színválasztó
         const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
         const cp = document.getElementById('color-picker');
         if(cp) {
@@ -161,6 +163,7 @@
             });
         }
 
+        // Stílusválasztó
         const sp = document.getElementById('style-picker');
         if(sp) {
             for(let i=1; i<=10; i++) {
@@ -173,15 +176,6 @@
         if (typeof refreshMenu === "function") refreshMenu();
         if (typeof updateInterface === "function") updateInterface();
         if (typeof updatePreview === "function") updatePreview(); 
-
-        // 3. PAJZS FRISSÍTÉS - Ez kényszeríti a GitHub-ot, hogy az ÚJ kódot használja!
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                for(let registration of registrations) {
-                    registration.update(); // Kényszerített frissítés a legújabb fájlra
-                }
-            });
-        }
     };
 </script>   
 </body>
