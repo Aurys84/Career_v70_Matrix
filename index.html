@@ -38,37 +38,41 @@
         body.style-8 #out-name { letter-spacing: 5px; text-align: center; width: 100%; }
         body.style-9 .cv-header { align-items: flex-end; border-bottom-width: 5px; }
         body.style-10 .cv-paper::before { content: ''; position: absolute; top: 0; left: 0; width: 15px; height: 100%; background: var(--main-color); }
-      @media print {
-            /* 1. ELTÜNTETI A GÖRGETŐSÁVOT ÉS A CSÍKOKAT */
-            html, body { 
-                overflow: visible !important; 
-                height: auto !important; 
-                margin: 0 !important; 
-                padding: 0 !important; 
-            }
-            
-            ::-webkit-scrollbar { display: none !important; } /* Ez öli meg a csíkot! */
-            
-            * { -ms-overflow-style: none !important; scrollbar-width: none !important; }
-
-            /* 2. CSAK A PAPÍR MARADJON */
-            .editor-side { display: none !important; }
-            .preview-side { 
-                width: 100% !important; 
-                padding: 0 !important; 
-                margin: 0 !important; 
-                overflow: visible !important; 
-                background: white !important; 
-            }
-            
-            .cv-paper { 
-                box-shadow: none !important; 
-                width: 100% !important; 
-                border: none !important;
-                margin: 0 !important;
-                padding: 40px !important; /* Hogy ne érjen a széléhez a szöveg */
-            }
+  @media print {
+        /* 1. KÉNYSZERÍTETT TISZTÍTÁS - HIDDEN kell, nem visible! */
+        html, body { 
+            overflow: hidden !important; 
+            height: 100% !important; 
+            margin: 0 !important; 
+            padding: 0 !important; 
         }
+        
+        ::-webkit-scrollbar { display: none !important; width: 0 !important; }
+        * { -ms-overflow-style: none !important; scrollbar-width: none !important; }
+
+        /* 2. CSAK A PAPÍR MARADJON */
+        .editor-side { display: none !important; }
+        .preview-side { 
+            width: 100% !important; 
+            height: 100% !important;
+            padding: 0 !important; 
+            margin: 0 !important; 
+            overflow: hidden !important; /* EZ ÖLI MEG A GÖRGETŐSÁVOT! */
+            background: white !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+        }
+        
+        .cv-paper { 
+            box-shadow: none !important; 
+            width: 210mm !important; /* Fix A4 méret */
+            height: 297mm !important;
+            border: none !important;
+            margin: 0 auto !important;
+            padding: 40px !important;
+        }
+    }
     </style>
 </head>
 <body class="style-1">
