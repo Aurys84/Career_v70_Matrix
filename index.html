@@ -379,7 +379,15 @@ const summariesDB = {
                     .catch(err => console.log('Hiba a páncélozásnál:', err));
             });
         }
-    }; // Itt zárul le a window.onload
+   }; // Itt zárul le a window.onload
+
+    // Ez az egyetlen funkció kell a gombodnak, se több, se kevesebb
+    window.generatePDF = function() {
+        updatePreview();
+        window.scrollTo(0,0);
+        window.print();
+    };
+
 </script> 
 </body>
 </html>
