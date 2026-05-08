@@ -135,27 +135,17 @@
 <script src="database.js"></script>
 
 <script>
-    // 1. PDF GENERÁTOR (Kívül a load-on, hogy a gomb azonnal lássa!)
+    // 1. A VALÓDI NYOMTATÁSI NÉZET (Visszahozza az előlapot, sávok nélkül!)
     window.generatePDF = function() {
-        const element = document.getElementById('cv-paper');
-        const opt = {
-            margin:       0,
-            filename:     'Career-Engine-CV.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { 
-                scale: 2, 
-                useCORS: true,
-                delay: 500 // Kell a delay, hogy az .exe-ben is legyen előlap!
-            },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-        // Itt mentjük a fájlt
-        html2pdf().set(opt).from(element).save();
+        // Frissítjük a nézetet a biztonság kedvéért
+        if(typeof updatePreview === "function") updatePreview();
+        
+        // Meghívjuk a gyári nyomtatási ablakot, amit kerestél
+        window.print();
     };
 
-    // 2. RENDSZER INDÍTÁSA ÉS VEZÉRLÉSE
+    // 2. RENDSZER INDÍTÁSA
     window.onload = () => {
-        // Színválasztó feltöltése
         const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
         const colorPicker = document.getElementById('color-picker');
         if(colorPicker) {
@@ -168,7 +158,6 @@
             });
         }
 
-        // Stílusválasztó feltöltése (1-10)
         const stylePicker = document.getElementById('style-picker');
         if(stylePicker) {
             for(let i=1; i<=10; i++) {
@@ -180,17 +169,14 @@
             }
         }
         
-        // Alapfunkciók és az ELŐLAP kirajzolása
         if (typeof refreshMenu === "function") refreshMenu();
         if (typeof updateInterface === "function") updateInterface();
-        if (typeof updatePreview === "function") updatePreview(); // Ez hozza be a nézetet azonnal!
+        if (typeof updatePreview === "function") updatePreview(); 
 
-        // 3. MÁTRIX PAJZS (Service Worker)
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('service-worker.js', { scope: './' })
                 .then(reg => {
-                    console.log('Mátrix Pajzs: AKTÍV!');
-                    if ('Notification' in window) { Notification.requestPermission(); }
+                    console.log('Mátrix Pajzs: Üzemkész!');
                 })
                 .catch(err => console.error('Pajzs hiba:', err));
         }
