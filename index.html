@@ -135,12 +135,18 @@
 <script src="database.js"></script>
 
 <script>
-    // 1. PDF MOTOR - Ami elünteti a csíkot és PC-n is nyit ablakot
+    // 1. A "BRUTÁLIS" PDF GENERÁTOR - Nincs ablak, csak mentés!
     window.generatePDF = function() {
+        console.log("Mátrix: Kényszerített mentés indítva...");
         const element = document.getElementById('cv-paper');
         
-        // Frissítjük a nézetet
+        // Előnézet frissítése
         if(typeof updatePreview === "function") updatePreview();
+
+        // Kényszerített stílus a görgetősáv ellen a mentés idejére
+        const style = document.createElement('style');
+        style.innerHTML = '*::-webkit-scrollbar { display: none !important; }';
+        document.head.appendChild(style);
 
         const opt = {
             margin:       0,
@@ -149,27 +155,33 @@
             html2canvas:  { 
                 scale: 2, 
                 useCORS: true,
-                scrollY: -window.scrollY, // Fixálja a Brave-csík hibát
+                logging: false,
+                scrollY: 0,
                 scrollX: 0
             },
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
-        // EZ A MEGOLDÁS: Megnyitjuk egy tiszta ablakban, görgetősáv NÉLKÜL
-        html2pdf().set(opt).from(element).toPdf().get('pdf').then(function (pdf) {
-            const pdfUrl = pdf.output('bloburl');
-            const win = window.open(pdfUrl, '_blank');
-            if(!win) alert("Kérlek engedélyezd a felugró ablakokat!");
+        // KÖZVETLEN MENTÉS - Ez megkerüli a Brave ablakait
+        html2pdf().set(opt).from(element).save().then(() => {
+            style.remove(); // Mentés után visszaállítjuk a stílust
+            console.log("Mátrix: Kész!");
+        }).catch(err => {
+            alert("Hiba a mentésnél! Próbáld meg újra.");
+            console.error(err);
         });
     };
 
-    // 2. RENDSZER INDÍTÁSA + PAJZS TÖRLÉS
+    // 2. RENDSZER INDÍTÁSA + TELJES PAJZS GYALULÁS
     window.onload = () => {
-        // Kipucoljuk a régi GitHub-os szemetet
+        // GitHub/Pajzs kényszerített takarítás
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
+            navigator.serviceWorker.getRegistrations().then(regs => {
+                for(let r of regs) r.unregister();
+            });
         }
 
+        // Színválasztó
         const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
         const cp = document.getElementById('color-picker');
         if(cp) {
@@ -180,6 +192,7 @@
             });
         }
 
+        // Stílusválasztó
         const sp = document.getElementById('style-picker');
         if(sp) {
             for(let i=1; i<=10; i++) {
@@ -188,6 +201,14 @@
                 sp.appendChild(b);
             }
         }
+        
+        refreshMenu();
+        updateInterface();
+        updatePreview(); 
+    };
+</script>   
+</body>
+</html>
         
         if (typeof refreshMenu === "function") refreshMenu();
         if (typeof updateInterface === "function") updateInterface();
