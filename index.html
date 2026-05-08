@@ -135,24 +135,41 @@
 <script src="database.js"></script>
 
 <script>
-    // 1. KÉNYSZERÍTETT NYOMTATÁS
+    // 1. PDF MOTOR - Ami elünteti a csíkot és PC-n is nyit ablakot
     window.generatePDF = function() {
+        const element = document.getElementById('cv-paper');
+        
+        // Frissítjük a nézetet
         if(typeof updatePreview === "function") updatePreview();
-        window.print();
+
+        const opt = {
+            margin:       0,
+            filename:     'Career-Engine-CV.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { 
+                scale: 2, 
+                useCORS: true,
+                scrollY: -window.scrollY, // Fixálja a Brave-csík hibát
+                scrollX: 0
+            },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // EZ A MEGOLDÁS: Megnyitjuk egy tiszta ablakban, görgetősáv NÉLKÜL
+        html2pdf().set(opt).from(element).toPdf().get('pdf').then(function (pdf) {
+            const pdfUrl = pdf.output('bloburl');
+            const win = window.open(pdfUrl, '_blank');
+            if(!win) alert("Kérlek engedélyezd a felugró ablakokat!");
+        });
     };
 
-    // 2. RENDSZER INDÍTÁSA + PAJZS-RESET
+    // 2. RENDSZER INDÍTÁSA + PAJZS TÖRLÉS
     window.onload = () => {
-        // AZONNALI PAJZS TÖRLÉS (Hogy a GitHub frissüljön!)
+        // Kipucoljuk a régi GitHub-os szemetet
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                for(let registration of registrations) {
-                    registration.unregister(); // Kidobjuk a régit a francba
-                }
-            });
+            navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
         }
 
-        // Színválasztó
         const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
         const cp = document.getElementById('color-picker');
         if(cp) {
@@ -163,7 +180,6 @@
             });
         }
 
-        // Stílusválasztó
         const sp = document.getElementById('style-picker');
         if(sp) {
             for(let i=1; i<=10; i++) {
