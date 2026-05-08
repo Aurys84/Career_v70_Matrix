@@ -162,26 +162,53 @@
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
-        // KÖZVETLEN MENTÉS - Ez megkerüli a Brave ablakait
+  <script>
+    // 1. GENERÁTOR - KÖZVETLEN MENTÉS (Brave & PC Barát)
+    window.generatePDF = function() {
+        console.log("Mátrix: Mentés indítása...");
+        const element = document.getElementById('cv-paper');
+        
+        if(typeof updatePreview === "function") updatePreview();
+
+        // Ideiglenes stílus a görgetősávok ellen a mentés idejére
+        const noScrollStyle = document.createElement('style');
+        noScrollStyle.innerHTML = '*::-webkit-scrollbar { display: none !important; }';
+        document.head.appendChild(noScrollStyle);
+
+        const opt = {
+            margin:       0,
+            filename:     'Career-Engine-CV.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { 
+                scale: 2, 
+                useCORS: true,
+                scrollY: 0,
+                scrollX: 0
+            },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Közvetlen mentés, ami megkerüli a problémás ablakokat
         html2pdf().set(opt).from(element).save().then(() => {
-            style.remove(); // Mentés után visszaállítjuk a stílust
-            console.log("Mátrix: Kész!");
+            noScrollStyle.remove(); // Visszaállítjuk a stílust
+            console.log("Mátrix: Mentés sikeres!");
         }).catch(err => {
-            alert("Hiba a mentésnél! Próbáld meg újra.");
-            console.error(err);
+            console.error("Mátrix Hiba:", err);
+            // Ha a közvetlen mentés nem menne, megpróbáljuk a nyomtatást
+            window.print();
         });
     };
 
-    // 2. RENDSZER INDÍTÁSA + TELJES PAJZS GYALULÁS
+    // 2. RENDSZER INDÍTÁSA (Egyszeri hívás!)
     window.onload = () => {
-        // GitHub/Pajzs kényszerített takarítás
+        // GitHub Pajzs takarítás a frissítésért
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.getRegistrations().then(regs => {
                 for(let r of regs) r.unregister();
             });
         }
 
-        // Színválasztó
+        // Színválasztó feltöltése
         const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
         const cp = document.getElementById('color-picker');
         if(cp) {
@@ -192,7 +219,7 @@
             });
         }
 
-        // Stílusválasztó
+        // Stílusválasztó feltöltése
         const sp = document.getElementById('style-picker');
         if(sp) {
             for(let i=1; i<=10; i++) {
@@ -202,18 +229,11 @@
             }
         }
         
-        refreshMenu();
-        updateInterface();
-        updatePreview(); 
-    };
-</script>   
-</body>
-</html>
-        
+        // INDÍTÓRAKÉTÁK - Hogy legyen előlap és menü azonnal!
         if (typeof refreshMenu === "function") refreshMenu();
         if (typeof updateInterface === "function") updateInterface();
         if (typeof updatePreview === "function") updatePreview(); 
     };
-</script>   
+</script>
 </body>
 </html>
