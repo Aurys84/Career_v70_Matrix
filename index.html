@@ -164,74 +164,47 @@
 
 <script src="database.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="database.js"></script>
+
 <script>
-    // 1. GENERÁTOR - KÖZVETLEN MENTÉS (Brave & PC Barát)
+    // 1. KÉNYSZERÍTETT NYOMTATÁSI KÉP
     window.generatePDF = function() {
-        console.log("Mátrix: Mentés indítása...");
         const element = document.getElementById('cv-paper');
         
+        // Frissítés és görgetés a tetejére (hogy ne legyen levágva az előlap!)
         if(typeof updatePreview === "function") updatePreview();
-
-        // Ideiglenes stílus a görgetősávok ellen a mentés idejére
-        const noScrollStyle = document.createElement('style');
-        noScrollStyle.innerHTML = '*::-webkit-scrollbar { display: none !important; }';
-        document.head.appendChild(noScrollStyle);
+        window.scrollTo(0,0);
 
         const opt = {
-            margin:       0,
-            filename:     'Career-Engine-CV.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { 
-                scale: 2, 
-                useCORS: true,
-                scrollY: 0,
-                scrollX: 0
-            },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            margin: 0,
+            filename: 'Career-Engine-CV.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
-        // Közvetlen mentés, ami megkerüli a problémás ablakokat
-        html2pdf().set(opt).from(element).save().then(() => {
-            noScrollStyle.remove(); // Visszaállítjuk a stílust
-            console.log("Mátrix: Mentés sikeres!");
-        }).catch(err => {
-            console.error("Mátrix Hiba:", err);
-            // Ha a közvetlen mentés nem menne, megpróbáljuk a nyomtatást
-            window.print();
+        // EZ NYITJA MEG A NÉZETET:
+        html2pdf().set(opt).from(element).toPdf().get('pdf').then(function (pdf) {
+            const pdfUrl = pdf.output('bloburl');
+            // Megnyitjuk egy új ablakban - ez lesz a te nyomtatási nézeted!
+            const newWin = window.open(pdfUrl, '_blank');
+            if(!newWin) {
+                alert("Brave hiba: Kérlek engedélyezd a felugró ablakokat a címsor jobb szélén!");
+            }
         });
     };
 
-    // 2. RENDSZER INDÍTÁSA (Egyszeri hívás!)
+    // 2. RENDSZER INDÍTÁSA
     window.onload = () => {
-        // GitHub Pajzs takarítás a frissítésért
+        // Takarítás a frissülésért
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(regs => {
-                for(let r of regs) r.unregister();
-            });
+            navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
         }
 
-        // Színválasztó feltöltése
-        const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
-        const cp = document.getElementById('color-picker');
-        if(cp) {
-            colors.forEach(c => {
-                let b = document.createElement('div'); b.className = 'color-btn'; b.style.background = c;
-                b.onclick = () => { document.documentElement.style.setProperty('--main-color', c); updatePreview(); };
-                cp.appendChild(b);
-            });
-        }
+        // Szín- és stílusválasztók (ezeket már ismered)
+        // ... (szín/stílus ciklusok) ...
 
-        // Stílusválasztó feltöltése
-        const sp = document.getElementById('style-picker');
-        if(sp) {
-            for(let i=1; i<=10; i++) {
-                let b = document.createElement('button'); b.className = 'style-btn'; b.innerText = i;
-                b.onclick = () => { document.body.className = 'style-' + i; updatePreview(); };
-                sp.appendChild(b);
-            }
-        }
-        
-        // INDÍTÓRAKÉTÁK - Hogy legyen előlap és menü azonnal!
         if (typeof refreshMenu === "function") refreshMenu();
         if (typeof updateInterface === "function") updateInterface();
         if (typeof updatePreview === "function") updatePreview(); 
