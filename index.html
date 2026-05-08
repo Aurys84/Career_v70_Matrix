@@ -135,34 +135,6 @@
 <script src="database.js"></script>
 
 <script>
-    // 1. A "BRUTÁLIS" PDF GENERÁTOR - Nincs ablak, csak mentés!
-    window.generatePDF = function() {
-        console.log("Mátrix: Kényszerített mentés indítva...");
-        const element = document.getElementById('cv-paper');
-        
-        // Előnézet frissítése
-        if(typeof updatePreview === "function") updatePreview();
-
-        // Kényszerített stílus a görgetősáv ellen a mentés idejére
-        const style = document.createElement('style');
-        style.innerHTML = '*::-webkit-scrollbar { display: none !important; }';
-        document.head.appendChild(style);
-
-        const opt = {
-            margin:       0,
-            filename:     'Career-Engine-CV.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { 
-                scale: 2, 
-                useCORS: true,
-                logging: false,
-                scrollY: 0,
-                scrollX: 0
-            },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-
-  <script>
     // 1. GENERÁTOR - KÖZVETLEN MENTÉS (Brave & PC Barát)
     window.generatePDF = function() {
         console.log("Mátrix: Mentés indítása...");
