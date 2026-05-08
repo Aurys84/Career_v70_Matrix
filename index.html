@@ -167,44 +167,62 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="database.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <script>
-    // 1. KÉNYSZERÍTETT NYOMTATÁSI KÉP
     window.generatePDF = function() {
         const element = document.getElementById('cv-paper');
         
-        // Frissítés és görgetés a tetejére (hogy ne legyen levágva az előlap!)
+        // 1. Frissítünk és az elejére ugrunk, hogy ne legyen levágva az előlap
         if(typeof updatePreview === "function") updatePreview();
         window.scrollTo(0,0);
 
-        const opt = {
-            margin: 0,
-            filename: 'Career-Engine-CV.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
+        // 2. Várunk egy fél másodpercet, hogy a Brave motorja "beolvassa" az adatokat
+        setTimeout(() => {
+            const opt = {
+                margin:       0,
+                filename:     'Career-Engine-CV.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true, 
+                    scrollY: 0,
+                    scrollX: 0,
+                    letterRendering: true // Ez kényszeríti a szöveget a PDF-be!
+                },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
 
-        // EZ NYITJA MEG A NÉZETET:
-        html2pdf().set(opt).from(element).toPdf().get('pdf').then(function (pdf) {
-            const pdfUrl = pdf.output('bloburl');
-            // Megnyitjuk egy új ablakban - ez lesz a te nyomtatási nézeted!
-            const newWin = window.open(pdfUrl, '_blank');
-            if(!newWin) {
-                alert("Brave hiba: Kérlek engedélyezd a felugró ablakokat a címsor jobb szélén!");
-            }
-        });
+            // 3. KÖZVETLEN GENERÁLÁS ÉS LETÖLTÉS
+            html2pdf().set(opt).from(element).save();
+        }, 500);
     };
 
-    // 2. RENDSZER INDÍTÁSA
+    // RENDSZER INDÍTÁSA (Csak ami muszáj)
     window.onload = () => {
-        // Takarítás a frissülésért
+        // Kidobjuk a zavaró Pajzsot a GitHubról
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
+            navigator.serviceWorker.getRegistrations().then(regs => {
+                regs.forEach(r => r.unregister());
+            });
         }
 
-        // Szín- és stílusválasztók (ezeket már ismered)
-        // ... (szín/stílus ciklusok) ...
+        // Szín- és stílusválasztók (marad a logikád)
+        const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
+        const cp = document.getElementById('color-picker');
+        if(cp) colors.forEach(c => {
+            let b = document.createElement('div'); b.className = 'color-btn'; b.style.background = c;
+            b.onclick = () => { document.documentElement.style.setProperty('--main-color', c); updatePreview(); };
+            cp.appendChild(b);
+        });
 
+        const sp = document.getElementById('style-picker');
+        if(sp) for(let i=1; i<=10; i++) {
+            let b = document.createElement('button'); b.className = 'style-btn'; b.innerText = i;
+            b.onclick = () => { document.body.className = 'style-' + i; updatePreview(); };
+            sp.appendChild(b);
+        }
+        
         if (typeof refreshMenu === "function") refreshMenu();
         if (typeof updateInterface === "function") updateInterface();
         if (typeof updatePreview === "function") updatePreview(); 
