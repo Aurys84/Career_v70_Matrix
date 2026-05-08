@@ -135,7 +135,7 @@
         <button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY</button>
     </div>
 
-    <button onclick="window.print()" class="print-btn" id="lbl-printBtn">PDF GENERÁLÁSA</button>
+   <button onclick="generatePDF()" class="print-btn" id="lbl-printBtn">PDF GENERÁLÁSA</button>
 </div>
 
 <div class="preview-side">
@@ -362,9 +362,20 @@ const summariesDB = {
             let b = document.createElement('button'); b.className = 'style-btn'; b.innerText = i;
             b.onclick = () => { document.body.className = 'style-' + i; updatePreview(); };
             document.getElementById('style-picker').appendChild(b);
-        }
-        
-     refreshMenu();
+       // IDE MÁSOLD BE A PDF GENERÁTORT:
+        window.generatePDF = function() {
+            const element = document.getElementById('cv-paper');
+            const opt = {
+                margin:       0,
+                filename:     'Career-Engine-CV.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }; // Itt záródik le tisztán a függvény!
+
+        refreshMenu();
         updateInterface();
 
       // MÁTRIX OFFLINE PAJZS ÉS ÉRTESÍTÉSEK AKTIVÁLÁSA - KÉNYSZERÍTETT ÜZEMMÓD
