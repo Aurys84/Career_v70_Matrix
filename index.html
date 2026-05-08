@@ -363,22 +363,16 @@ const summariesDB = {
      refreshMenu();
         updateInterface();
 
-        // MÁTRIX OFFLINE PAJZS ÉS ÉRTESÍTÉSEK AKTIVÁLÁSA
+      // MÁTRIX OFFLINE PAJZS ÉS ÉRTESÍTÉSEK AKTIVÁLÁSA - KÉNYSZERÍTETT ÜZEMMÓD
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./service-worker.js')
-                    .then(reg => {
-                        console.log('Mátrix Páncél aktív!', reg);
-                        if ('Notification' in window) {
-                            Notification.requestPermission().then(permission => {
-                                if (permission === 'granted') {
-                                    console.log('Mátrix: Értesítések engedélyezve! 🚀');
-                                }
-                            });
-                        }
-                    })
-                    .catch(err => console.log('Hiba a páncélozásnál:', err));
-            });
+            navigator.serviceWorker.register('service-worker.js', { scope: './' })
+                .then(reg => {
+                    console.log('Mátrix Pajzs: AKTÍV! Hatókör:', reg.scope);
+                    if ('Notification' in window) {
+                        Notification.requestPermission();
+                    }
+                })
+                .catch(err => console.error('Pajzs hiba:', err));
         }
     };
 </script>   
