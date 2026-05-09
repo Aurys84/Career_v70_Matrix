@@ -2,7 +2,7 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Career-Engine v71 PRO - A&N Visual</title>
+    <title>Career-Engine v71.0 PRO - A&N Visual</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -12,9 +12,13 @@
         .preview-side { width: 58%; background: #333; display: flex; justify-content: center; padding: 40px; overflow: hidden !important; }
         .smart-label { display: block; margin-top: 15px; font-size: 11px; font-weight: bold; color: var(--main-color); text-transform: uppercase; }
         input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; box-sizing: border-box; }
-        .color-btn { width: 30px; height: 30px; cursor: pointer; border-radius: 4px; display: inline-block; margin: 2px; border: 1px solid #444; }
-        .print-btn { background: var(--main-color); color: white; width: 100%; padding: 18px; border: none; cursor: pointer; font-weight: bold; margin-top: 25px; border-radius: 6px; width: 100%; }
-        .cv-paper { width: 210mm; min-height: 297mm; background: white; padding: 40px; color: #333; box-sizing: border-box; position: relative; }
+        .btn-lang { padding: 12px; border: none; background: #333; color: white; cursor: pointer; border-radius: 4px; font-weight: bold; flex: 1; }
+        .btn-lang.active { background: var(--main-color); }
+        .color-grid, .style-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 5px; margin-bottom: 15px; }
+        .color-btn { height: 30px; cursor: pointer; border-radius: 4px; border: 1px solid #444; }
+        .style-btn { padding: 8px; background: #222; color: white; border: 1px solid #444; cursor: pointer; border-radius: 4px; }
+        .print-btn { background: var(--main-color); color: white; width: 100%; padding: 18px; border: none; margin-top: 25px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; }
+        .cv-paper { width: 210mm; min-height: 297mm; background: white; padding: 40px; color: #333; box-shadow: 0 0 20px rgba(0,0,0,0.5); box-sizing: border-box; position: relative; }
         h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
     </style>
 </head>
@@ -22,58 +26,90 @@
 
 <div class="editor-side">
     <div style="display: flex; gap: 8px; margin-bottom: 20px;">
-        <button onclick="alert('Nyelv váltás...')">HU</button>
-        <button onclick="alert('Language switch...')">EN</button>
-        <button onclick="alert('Sprachwechsel...')">DE</button>
+        <button class="btn-lang active" id="btn-hu" onclick="setMode('hu')">HU</button>
+        <button class="btn-lang" id="btn-en" onclick="setMode('en')">EN</button>
+        <button class="btn-lang" id="btn-de" onclick="setMode('de')">DE</button>
     </div>
-    <h1 style="color: var(--main-color);">Career-Engine</h1>
-    <div id="color-picker"></div>
-    <label class="smart-label">KERESZTNÉV</label>
-    <input type="text" id="in-fName" oninput="update()">
-    <label class="smart-label">VEZETÉKNÉV</label>
-    <input type="text" id="in-lName" oninput="update()">
+
+    <label class="smart-label">SZÍNEK</label>
+    <div class="color-grid" id="color-picker"></div>
+
+    <label class="smart-label">STÍLUSOK</label>
+    <div class="style-grid" id="style-picker"></div>
+
+    <div style="display: flex; gap: 10px;">
+        <div style="flex:1">
+            <label class="smart-label">KERESZTNÉV</label>
+            <input type="text" id="in-fName" oninput="update()">
+        </div>
+        <div style="flex:1">
+            <label class="smart-label">VEZETÉKNÉV</label>
+            <input type="text" id="in-lName" oninput="update()">
+        </div>
+    </div>
+
+    <label class="smart-label">TELEFON</label>
+    <input type="text" id="in-phone" oninput="update()">
+
+    <label class="smart-label">EMAIL</label>
+    <input type="email" id="in-email" oninput="update()">
+
     <label class="smart-label">BEMUTATKOZÁS</label>
     <textarea id="in-summary" rows="8" oninput="update()"></textarea>
-    <button onclick="exportPDF()" class="print-btn">EXPORT V71 PRO</button>
+
+    <button onclick="labor_mentes_most()" class="print-btn" id="matrix-save-btn">EXPORT V71 PRO</button>
 </div>
 
 <div class="preview-side">
     <div class="cv-paper" id="cv-paper">
-        <h1 id="out-name">NAME</h1>
-        <div id="out-summary" style="white-space: pre-wrap; margin-top: 20px;"></div>
+        <h1 id="out-name">NÉV HELYE</h1>
+        <div id="out-contact" style="margin-top:10px; font-size:14px; color:#555;"></div>
+        <div id="out-summary" style="white-space: pre-wrap; margin-top: 25px;"></div>
     </div>
 </div>
 
 <script>
-    // 1. SW-GYILKOS: Eltávolít minden beragadt folyamatot indításkor
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-            for(let registration of registrations) { registration.unregister(); }
-        });
+    function setMode(l) {
+        document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
+        document.getElementById('btn-' + l).classList.add('active');
+        console.log("Nyelv váltva: " + l);
     }
 
     function update() {
         const f = document.getElementById('in-fName').value;
         const l = document.getElementById('in-lName').value;
-        document.getElementById('out-name').innerText = (l + " " + f).toUpperCase() || "NAME";
+        document.getElementById('out-name').innerText = (l + " " + f).toUpperCase() || "NÉV HELYE";
+        
+        const phone = document.getElementById('in-phone').value;
+        const email = document.getElementById('in-email').value;
+        document.getElementById('out-contact').innerText = phone + " | " + email;
         document.getElementById('out-summary').innerText = document.getElementById('in-summary').value;
     }
 
-    async function exportPDF() {
+    window.labor_mentes_most = async function() {
+        const btn = document.getElementById('matrix-save-btn');
+        btn.innerText = "GENERÁLÁS...";
         const { jsPDF } = window.jspdf;
-        const canvas = await html2canvas(document.getElementById('cv-paper'), {scale: 2});
+        const canvas = await html2canvas(document.getElementById('cv-paper'), {scale: 2, backgroundColor: "#ffffff"});
         const pdf = new jsPDF('p', 'mm', 'a4');
         pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
         pdf.save('Career-Engine-V71.pdf');
-    }
+        btn.innerText = "SIKERES MENTÉS!";
+        setTimeout(() => btn.innerText = "EXPORT V71 PRO", 3000);
+    };
 
     window.onload = () => {
-        const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad"];
+        const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
         colors.forEach(c => {
             let b = document.createElement('div'); b.className = 'color-btn'; b.style.background = c;
             b.onclick = () => { document.documentElement.style.setProperty('--main-color', c); };
             document.getElementById('color-picker').appendChild(b);
         });
+        for(let i=1; i<=10; i++) {
+            let b = document.createElement('button'); b.className = 'style-btn'; b.innerText = i;
+            b.onclick = () => { document.body.className = 'style-' + i; };
+            document.getElementById('style-picker').appendChild(b);
+        }
     };
 </script>
 </body>
