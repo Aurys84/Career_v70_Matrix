@@ -257,7 +257,7 @@
         setTimeout(() => { window.print(); }, 300);
     }
 
-    window.onload = () => {
+ window.onload = () => {
         const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
         colors.forEach(c => {
             let b = document.createElement('div'); b.className = 'color-btn'; b.style.background = c;
@@ -272,6 +272,19 @@
         refreshMenu();
         updateInterface();
     };
+
+    // EZ A MOTOR, AMI ELINDÍTJA A NYOMTATÁSI ELŐLAPOT ÉS KINYÍRJA A CSÍKOT
+    window.generatePDF = function() {
+        console.log("Mátrix: Nyomtatási nézet generálása...");
+        updatePreview();
+        window.scrollTo(0,0);
+        
+        // Adunk 300ms-t a Brave-nek, hogy összeálljon a kép a fejében
+        setTimeout(() => {
+            window.print();
+        }, 300);
+    };
+
 </script>
 </body>
 </html>
