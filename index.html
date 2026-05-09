@@ -2,8 +2,7 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Career-Engine v71.0 PRO - A&N Visual - GLOBAL MATRIX</title>
-    <link rel="manifest" href="manifest.json">
+    <title>Career-Engine v71 PRO - A&N Visual</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -11,175 +10,70 @@
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; background: #000; color: #eee; overflow: hidden; }
         .editor-side { width: 42%; padding: 25px; overflow-y: auto; background: #111; border-right: 3px solid var(--main-color); }
         .preview-side { width: 58%; background: #333; display: flex; justify-content: center; padding: 40px; overflow: hidden !important; }
-        .logo-area { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .brand-circle { width: 45px; height: 45px; background: var(--main-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; border: 2px solid #fff; font-size: 20px; }
-        .lang-grid { display: flex; gap: 8px; margin-bottom: 20px; }
-        .btn-lang { flex: 1; padding: 12px; border: none; background: #333; color: white; cursor: pointer; border-radius: 4px; font-weight: bold; }
-        .btn-lang.active { background: var(--main-color); box-shadow: 0 0 10px var(--main-color); }
-        .color-grid, .style-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 5px; margin-bottom: 15px; }
-        .color-btn { width: 100%; height: 30px; cursor: pointer; border-radius: 4px; border: 1px solid #444; }
-        .style-btn { padding: 8px; background: #222; color: white; border: 1px solid #444; cursor: pointer; border-radius: 4px; font-weight: bold; }
         .smart-label { display: block; margin-top: 15px; font-size: 11px; font-weight: bold; color: var(--main-color); text-transform: uppercase; }
         input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; box-sizing: border-box; }
-        .entry-box { background: #151515; padding: 15px; margin-top: 10px; border-left: 4px solid var(--main-color); border-radius: 4px; position: relative; }
-        .add-btn { background: #27ae60; color: white; width: 100%; padding: 12px; border: none; margin-top: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .print-btn { background: var(--main-color); color: white; width: 100%; padding: 18px; border: none; margin-top: 25px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; }
-        .cv-paper { width: 210mm; min-height: 297mm; background: white; padding: 40px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); box-sizing: border-box; position: relative; }
-        .cv-header { display: flex; gap: 20px; border-bottom: 2px solid var(--main-color); padding-bottom: 20px; margin-bottom: 20px; }
+        .color-btn { width: 30px; height: 30px; cursor: pointer; border-radius: 4px; display: inline-block; margin: 2px; border: 1px solid #444; }
+        .print-btn { background: var(--main-color); color: white; width: 100%; padding: 18px; border: none; cursor: pointer; font-weight: bold; margin-top: 25px; border-radius: 6px; width: 100%; }
+        .cv-paper { width: 210mm; min-height: 297mm; background: white; padding: 40px; color: #333; box-sizing: border-box; position: relative; }
         h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
-        h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
     </style>
 </head>
-<body class="style-1">
+<body>
 
 <div class="editor-side">
-    <div class="logo-area">
-        <div class="brand-circle">A&N</div>
-        <h1 id="lbl-engineName">Career-Engine</h1>
+    <div style="display: flex; gap: 8px; margin-bottom: 20px;">
+        <button onclick="alert('Nyelv váltás...')">HU</button>
+        <button onclick="alert('Language switch...')">EN</button>
+        <button onclick="alert('Sprachwechsel...')">DE</button>
     </div>
-
-    <div class="lang-grid">
-        <button class="btn-lang active" onclick="setMode('hu', this)">HU</button>
-        <button class="btn-lang" onclick="setMode('en', this)">EN</button>
-        <button class="btn-lang" onclick="setMode('de', this)">DE</button>
-    </div>
-
-    <label class="smart-label">SZÍNEK</label>
-    <div class="color-grid" id="color-picker"></div>
-
-    <label class="smart-label">STÍLUSOK</label>
-    <div class="style-grid" id="style-picker"></div>
-
-    <label class="smart-label">FOTÓ FELTÖLTÉSE</label>
-    <input type="file" onchange="loadPhoto(event)" style="margin-bottom: 15px;">
-
-    <div style="display: flex; gap: 10px;">
-        <div style="flex:1">
-            <label class="smart-label">KERESZTNÉV</label>
-            <input type="text" id="in-firstName" oninput="updatePreview()">
-        </div>
-        <div style="flex:1">
-            <label class="smart-label">VEZETÉKNÉV</label>
-            <input type="text" id="in-lastName" oninput="updatePreview()">
-        </div>
-    </div>
-
-    <label class="smart-label">TELEFON</label>
-    <input type="text" id="in-phone" oninput="updatePreview()">
-
-    <label class="smart-label">EMAIL</label>
-    <input type="email" id="in-email" oninput="updatePreview()">
-
+    <h1 style="color: var(--main-color);">Career-Engine</h1>
+    <div id="color-picker"></div>
+    <label class="smart-label">KERESZTNÉV</label>
+    <input type="text" id="in-fName" oninput="update()">
+    <label class="smart-label">VEZETÉKNÉV</label>
+    <input type="text" id="in-lName" oninput="update()">
     <label class="smart-label">BEMUTATKOZÁS</label>
-    <select id="sel-summary" onchange="applyMatrixSummary()" style="background: #1a3a5a; color: white; border: 1px solid #007bb5;"></select>
-    <textarea id="in-summary" rows="8" oninput="updatePreview()"></textarea>
-
-    <div id="edu-area">
-        <h3 id="lbl-eduHeader">TANULMÁNYOK</h3>
-        <div id="edu-container"></div>
-        <button onclick="addEntry('edu')" class="add-btn">+ ÚJ ISKOLA</button>
-    </div>
-
-    <div id="work-area">
-        <h3 id="lbl-workHeader">TAPASZTALAT</h3>
-        <div id="work-container"></div>
-        <button onclick="addEntry('work')" class="add-btn">+ ÚJ MUNKAHELY</button>
-    </div>
-    
-    <button onclick="labor_mentes_most()" class="print-btn" id="matrix-save-btn">EXPORT V71 PRO</button>
+    <textarea id="in-summary" rows="8" oninput="update()"></textarea>
+    <button onclick="exportPDF()" class="print-btn">EXPORT V71 PRO</button>
 </div>
 
 <div class="preview-side">
     <div class="cv-paper" id="cv-paper">
-        <div class="cv-header">
-            <div id="out-photo-box" style="display:none; width:130px; height:160px; overflow:hidden; border: 1px solid #eee; margin-right: 20px;">
-                <img id="out-photo" style="width:100%; height:100%; object-fit: cover;">
-            </div>
-            <div class="header-text">
-                <h1 id="out-name">NAME</h1>
-                <div id="out-contact" style="margin-top:10px; font-size:14px; color:#555;"></div>
-            </div>
-        </div>
-        <div id="main-content"></div>
+        <h1 id="out-name">NAME</h1>
+        <div id="out-summary" style="white-space: pre-wrap; margin-top: 20px;"></div>
     </div>
 </div>
 
-<script src="database.js"></script>
 <script>
-    // ... (summariesDB és dictionary maradt változatlan)
-    const summariesDB = { hu: { "1": "Tapasztalt szakember..." }, en: { "1": "Experienced professional..." }, de: { "1": "Fachkraft..." } };
-    const dictionary = {
-        hu: { printBtn: "EXPORT V71 PRO" },
-        en: { printBtn: "EXPORT V71 PRO" },
-        de: { printBtn: "EXPORT V71 PRO" }
-    };
-
-    let currentLang = 'hu';
-    let selectedIndices = [];
-
-    function setMode(l, btn) {
-        currentLang = l;
-        document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        updatePreview();
+    // 1. SW-GYILKOS: Eltávolít minden beragadt folyamatot indításkor
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+            for(let registration of registrations) { registration.unregister(); }
+        });
     }
 
-    function addEntry(type) {
-        const div = document.createElement('div');
-        div.className = 'entry-box';
-        div.innerHTML = `<input type="text" class="e-main" placeholder="Megnevezés" oninput="updatePreview()"><input type="text" class="e-sub" placeholder="Idő" oninput="updatePreview()"><button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;" onclick="this.parentElement.remove(); updatePreview();">×</button>`;
-        document.getElementById(type + '-container').appendChild(div);
-    }
-
-    function updatePreview() {
-        const l = document.getElementById('in-lastName').value;
-        const f = document.getElementById('in-firstName').value;
+    function update() {
+        const f = document.getElementById('in-fName').value;
+        const l = document.getElementById('in-lName').value;
         document.getElementById('out-name').innerText = (l + " " + f).toUpperCase() || "NAME";
-        // (Többi preview logika...)
+        document.getElementById('out-summary').innerText = document.getElementById('in-summary').value;
     }
 
-    // AUDITÁLT PDF GENERÁTOR - GOLYÓÁLLÓ NÉV ÉS LOGIKA
-    window.labor_mentes_most = async function() {
-        if (window.event) window.event.preventDefault();
-
+    async function exportPDF() {
         const { jsPDF } = window.jspdf;
-        const paper = document.getElementById('cv-paper');
-        const btn = document.getElementById('matrix-save-btn');
-        
-        btn.innerText = "GENERÁLÁS...";
-        btn.style.background = "#e67e22";
-
-        try {
-            const canvas = await html2canvas(paper, {
-                scale: 2,
-                useCORS: true,
-                backgroundColor: "#ffffff"
-            });
-
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save('Career-Engine-V71-PRO.pdf');
-            
-            btn.innerText = "SIKERES MENTÉS!";
-            btn.style.background = "#27ae60";
-        } catch (err) {
-            console.error("Hiba:", err);
-            btn.innerText = "HIBA TÖRTÉNT!";
-        }
-
-        setTimeout(() => {
-            btn.innerText = "EXPORT V71 PRO";
-            btn.style.background = "";
-        }, 3000);
-    };
+        const canvas = await html2canvas(document.getElementById('cv-paper'), {scale: 2});
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
+        pdf.save('Career-Engine-V71.pdf');
+    }
 
     window.onload = () => {
-        // Szín és stílus generátor logika...
-        updatePreview();
+        const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad"];
+        colors.forEach(c => {
+            let b = document.createElement('div'); b.className = 'color-btn'; b.style.background = c;
+            b.onclick = () => { document.documentElement.style.setProperty('--main-color', c); };
+            document.getElementById('color-picker').appendChild(b);
+        });
     };
 </script>
 </body>
