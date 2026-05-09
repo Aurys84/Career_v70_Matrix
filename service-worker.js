@@ -12,7 +12,7 @@ const ASSETS_TO_CACHE = [
   './store_icon.png'
 ];
 
-// --- 1. KRITIKUS HIBAKEZELŐK (Brave/Electron Audit Fix) ---
+// --- 1. KRITIKUS HIBAKEZELŐK (Brave Audit Fix) ---
 self.addEventListener('error', (event) => {
     console.error("SW_CRITICAL_ERROR:", event.message);
 });
@@ -21,29 +21,28 @@ self.addEventListener('unhandledrejection', (event) => {
     console.error("SW_PROMISE_REJECTION:", event.reason);
 });
 
-// --- 2. INSTALL: GYORSÍTÓTÁR FELTÖLTÉSE ---
+// --- 2. INSTALL: CACHE FELTÖLTÉSE ---
 self.addEventListener('install', (event) => {
-    // Azonnal átvesszük az irányítást, nem várunk a régi SW-re
-    self.skipWaiting();
+    self.skipWaiting(); // Azonnali átvétel, nem várjuk meg a bezárást
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
-                console.log("Mátrix: Cache feltöltése folyamatban...");
+                console.log("Mátrix: Assetek tárazása...");
                 return cache.addAll(ASSETS_TO_CACHE);
             })
-            .catch((err) => console.error("Cache Install Error:", err))
+            .catch((err) => console.error("Mátrix Install Hiba:", err))
     );
 });
 
-// --- 3. ACTIVATE: RÉGI VERZIÓK TAKARÍTÁSA ---
+// --- 3. ACTIVATE: RÉGI SZEMÉT TAKARÍTÁSA ---
 self.addEventListener('activate', (event) => {
     event.waitUntil(
-        caches.keys().then((cacheNames) => {
+        caches.keys().then((keys) => {
             return Promise.all(
-                cacheNames.map((cache) => {
-                    if (cache !== CACHE_NAME) {
-                        console.log("Mátrix: Elavult cache törlése:", cache);
-                        return caches.delete(cache);
+                keys.map((key) => {
+                    if (key !== CACHE_NAME) {
+                        console.log("Mátrix: Elavult cache törlése:", key);
+                        return caches.delete(key);
                     }
                 })
             );
@@ -51,29 +50,27 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// --- 4. FETCH: NETWORK-FIRST STRATÉGIA (ERROR HANDLING-GEL) ---
+// --- 4. FETCH: NETWORK-FIRST (Hogy lásd a változást az index.html-ben!) ---
 self.addEventListener('fetch', (event) => {
-    // Csak a GET kéréseket figyeljük
     if (event.request.method !== 'GET') return;
 
     event.respondWith(
         fetch(event.request)
             .then((response) => {
-                // Ha sikeres a hálózat, frissítjük a cache-t is a háttérben
+                // Ha él a hálózat, frissítjük a cache-t is
                 if (response && response.status === 200) {
-                    const responseClone = response.clone();
+                    const clone = response.clone();
                     caches.open(CACHE_NAME).then((cache) => {
-                        cache.put(event.request, responseClone);
+                        cache.put(event.request, clone);
                     });
                 }
                 return response;
             })
-            .catch((err) => {
-                console.warn("Mátrix: Offline mód vagy hálózati hiba, cache használata...", err);
-                return caches.match(event.request).then((cachedResponse) => {
-                    if (cachedResponse) return cachedResponse;
-                    
-                    // Ha nincs a cache-ben sem, dobunk egy értelmezhető hibát/oldalt
+            .catch(() => {
+                // Ha nincs net, jön a mentett verzió
+                return caches.match(event.request).then((cached) => {
+                    if (cached) return cached;
+                    // Végső mentőöv navigációhoz
                     if (event.request.mode === 'navigate') {
                         return caches.match('./index.html');
                     }
@@ -82,13 +79,13 @@ self.addEventListener('fetch', (event) => {
     );
 });
 
-// --- 5. PUSH ÉS ÉRTESÍTÉSEK ---
+// --- 5. PUSH ÉRTESÍTÉSEK ---
 self.addEventListener('push', (event) => {
-    let payload = { title: 'Mátrix Rendszer', body: 'Adatfrissítés érkezett!' };
+    let payload = { title: 'Mátrix Rendszer', body: 'Rendszerüzenet érkezett!' };
     try {
         payload = event.data ? event.data.json() : payload;
     } catch (e) {
-        payload.body = event.data.text();
+        payload.body = event.data ? event.data.text() : payload.body;
     }
 
     event.waitUntil(
