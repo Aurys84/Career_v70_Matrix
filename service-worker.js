@@ -1,7 +1,3 @@
-/**
- * Aurys84 - Career-Engine v71 PRO
- * Stable Service Worker with Advanced Error Handling
- */
 
 const CACHE_NAME = 'aurys84-v71-matrix';
 const ASSETS_TO_CACHE = [
