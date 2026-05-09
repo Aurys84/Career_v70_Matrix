@@ -7,8 +7,10 @@
     <style>
         :root { --main-color: #007bb5; }
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; background: #000; color: #eee; overflow: hidden; }
+        
         .editor-side { width: 42%; padding: 25px; overflow-y: auto; background: #111; border-right: 3px solid var(--main-color); }
-        .preview-side { width: 58%; background: #333; display: flex; justify-content: center; padding: 40px; overflow-y: auto; }
+        /* A CSÍKGYILKOS: overflow: hidden !important */
+        .preview-side { width: 58%; background: #333; display: flex; justify-content: center; padding: 40px; overflow: hidden !important; }
         
         .logo-area { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
         .brand-circle { width: 45px; height: 45px; background: var(--main-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; border: 2px solid #fff; font-size: 20px; }
@@ -27,14 +29,14 @@
         .input-group { display: flex; gap: 10px; margin-top: 5px; }
         .entry-box { background: #151515; padding: 15px; margin-top: 10px; border-left: 4px solid var(--main-color); border-radius: 4px; position: relative; }
         .add-btn { background: #27ae60; color: white; width: 100%; padding: 12px; border: none; margin-top: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .print-btn { background: var(--main-color); color: white; width: 100%; padding: 18px; border: none; margin-top: 25px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; position: sticky; bottom: 0; }
+        .print-btn { background: var(--main-color); color: white; width: 100%; padding: 18px; border: none; margin-top: 25px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; }
 
         .cv-paper { width: 210mm; min-height: 297mm; background: white; padding: 40px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); box-sizing: border-box; position: relative; }
         .cv-header { display: flex; gap: 20px; border-bottom: 2px solid var(--main-color); padding-bottom: 20px; margin-bottom: 20px; }
         h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
         h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
 
-        /* STÍLUSOK */
+        /* STÍLUSOK (1-10) */
         body.style-1 .cv-paper { border-top: 20px solid var(--main-color); }
         body.style-2 .cv-header { flex-direction: column; text-align: center; }
         body.style-3 .cv-header { flex-direction: row-reverse; }
@@ -47,8 +49,7 @@
         body.style-10 .cv-paper::before { content: ''; position: absolute; top: 0; left: 0; width: 15px; height: 100%; background: var(--main-color); }
 
         @media print {
-            html, body { overflow: hidden !important; height: auto !important; }
-            .editor-side { display: none !important; }
+            .editor-side, .print-btn { display: none !important; }
             .preview-side { width: 100% !important; padding: 0 !important; background: white !important; overflow: visible !important; }
             .cv-paper { box-shadow: none !important; margin: 0 !important; width: 100% !important; border: none !important; }
             ::-webkit-scrollbar { display: none !important; }
@@ -104,9 +105,9 @@
         <div style="flex:1">
             <label class="smart-label">≡ TÍPUS</label>
             <select id="in-street-type" onchange="updatePreview()">
-                <option value="utca">utca / street / straße</option>
-                <option value="út">út / road / straße</option>
-                <option value="tér">tér / square / platz</option>
+                <option value="utca">utca</option>
+                <option value="út">út</option>
+                <option value="tér">tér</option>
             </select>
         </div>
         <div style="width:30%">
@@ -122,7 +123,7 @@
     <input type="email" id="in-email" oninput="updatePreview()">
 
     <label class="smart-label" id="lbl-summaryHeader">BEMUTATKOZÁS VÁLASZTÓ</label>
-    <select id="sel-summary" onchange="applyMatrixSummary()" style="background: #1a3a5a; color: white;"></select>
+    <select id="sel-summary" onchange="applyMatrixSummary()" style="background: #1a3a5a; color: white; border: 1px solid #007bb5;"></select>
     <textarea id="in-summary" rows="8" oninput="updatePreview()"></textarea>
 
     <div id="edu-area">
@@ -158,15 +159,15 @@
 <script src="database.js"></script>
 <script>
     const summariesDB = {
-        hu: { "1": "Több éves szakmai tapasztalat...", "2": "Technológiai fókusz...", "3": "Precíziós admin...", "4": "Ügyfélközpontú...", "5": "Kreatív...", "6": "Logisztikai...", "7": "Pályakezdő...", "8": "Szakipari...", "9": "Oktatás...", "10": "Vendéglátás...", "11": "Stratégiai...", "12": "Adatalapú...", "13": "Műszaki...", "14": "Biztonsági...", "15": "Sokoldalú..." },
-        en: { "1": "Experienced professional...", "2": "Tech-focused...", "3": "Precision admin...", "4": "Customer-centric...", "5": "Creative...", "6": "Logistics...", "7": "Junior...", "8": "Industrial...", "9": "Education...", "10": "Hospitality...", "11": "Strategic...", "12": "Analyst...", "13": "Technical...", "14": "Security...", "15": "Versatile..." },
-        de: { "1": "Langjährige Erfahrung...", "2": "Technologieorientiert...", "3": "Präzise Admin...", "4": "Kundenorientiert...", "5": "Kreativ...", "6": "Logistik...", "7": "Berufseinsteiger...", "8": "Facharbeiter...", "9": "Bildung...", "10": "Gastronomie...", "11": "Strategisch...", "12": "Analyst...", "13": "Technisch...", "14": "Sicherheit...", "15": "Vielseitig..." }
+        hu: { "1": "Több éves szakmai tapasztalat...", "2": "Technológiai fókusz...", "3": "Precíziós admin...", "4": "Ügyfélközpontú...", "5": "Kreatív...", "6": "Logisztikai...", "7": "Pályakezdő...", "8": "Szakipari...", "9": "Egészségügy...", "10": "Vendéglátás...", "11": "Stratégiai...", "12": "Elemző...", "13": "Karbantartó...", "14": "Biztonsági...", "15": "Motivált..." },
+        en: { "1": "Experienced professional...", "2": "Tech-focused...", "3": "Precision admin...", "4": "Customer-centric...", "5": "Creative...", "6": "Logistics...", "7": "Junior...", "8": "Industrial...", "9": "Education...", "10": "Hospitality...", "11": "Strategic...", "12": "Analyst...", "13": "Technical...", "14": "Security...", "15": "Motivated..." },
+        de: { "1": "Fachkraft mit Erfahrung...", "2": "Technologieorientiert...", "3": "Erfahren in Admin...", "4": "Kundenorientiert...", "5": "Kreativ...", "6": "Logistik...", "7": "Berufseinsteiger...", "8": "Handwerklich...", "9": "Gesundheitswesen...", "10": "Luxusbereich...", "11": "Strategisch...", "12": "Analyst...", "13": "Service...", "14": "Sicherheit...", "15": "Motiviert..." }
     };
 
     const dictionary = {
-        hu: { engineName: "Career-Engine", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", city: "VÁROS", street: "UTCA", phone: "TELEFON", email: "EMAIL", summaryHeader: "BEMUTATKOZÁS VÁLASZTÓ", summary: "BEMUTATKOZÁS", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím:", colors: "SZÍNEK", styles: "STÍLUSOK", v_deg: "Képesítés", v_prof: "Szakma", select_hint: "-- HOZZÁADÁS --", menu: ["🔝 Proaktív Vezető", "💻 Tech-Guru", "🎯 Admin", "🤝 Ügyfélmágnes", "🎨 Kreatív", "🚛 Logisztikai", "⚡ Junior", "🏗️ Szakmunkás", "🚑 Egészségügy", "💎 Luxus", "🚀 Stratégiai", "📉 Elemző", "🛠️ Karbantartó", "🛡️ Biztonság", "🌟 Motivált"] },
-        en: { engineName: "Career-Engine", fName: "FIRST NAME", lName: "LAST NAME", city: "CITY", street: "STREET", phone: "PHONE", email: "EMAIL", summaryHeader: "SUMMARY SELECTOR", summary: "SUMMARY", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address:", colors: "COLORS", styles: "STYLES", v_deg: "Degree", v_prof: "Profession", select_hint: "-- ADD --", menu: ["🔝 Proactive Leader", "💻 Tech-Guru", "🎯 Admin", "🤝 Customer Magnet", "🎨 Creative", "🚛 Logistics", "⚡ Junior", "🏗️ Industrial", "🚑 Health", "💎 Luxury", "🚀 Strategic", "📉 Analyst", "🛠️ Technical", "🛡️ Security", "🌟 Motivated"] },
-        de: { engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summaryHeader: "PROFIL AUSWAHL", summary: "PROFIL", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse:", colors: "FARBEN", styles: "STILE", v_deg: "Abschluss", v_prof: "Beruf", select_hint: "-- HINZÜFÜGEN --", menu: ["🔝 Führungskraft", "💻 Tech-Guru", "🎯 Admin", "🤝 Kundenmagnet", "🎨 Kreativ", "🚛 Logistik", "⚡ Junior", "🏗️ Facharbeiter", "🚑 Gesundheit", "💎 Luxus", "🚀 Strategisch", "📉 Analyst", "🛠️ Technisch", "🛡️ Sicherheit", "🌟 Motiviert"] }
+        hu: { engineName: "Career-Engine", fName: "KERESZTNÉV", lName: "VEZETÉKNÉV", city: "VÁROS", street: "UTCA", phone: "TELEFON", email: "EMAIL", summaryHeader: "BEMUTATKOZÁS VÁLASZTÓ", summary: "BEMUTATKOZÁS", eduHeader: "TANULMÁNYOK", workHeader: "TAPASZTALAT", addEdu: "+ ÚJ ISKOLA", addWork: "+ ÚJ MUNKAHELY", printBtn: "PDF GENERÁLÁSA", addr: "Cím:", colors: "SZÍNEK", styles: "STÍLUSOK", select_hint: "-- HOZZÁADÁS --", menu: ["🔝 Proaktív Vezető", "💻 Tech-Guru", "🎯 Admin", "🤝 Ügyfélmágnes", "🎨 Kreatív", "🚛 Logisztika", "⚡ Junior", "🏗️ Szakmunkás", "🚑 Egészségügy", "💎 Luxus", "🚀 Stratégiai", "📉 Elemző", "🛠️ Karbantartó", "🛡️ Biztonság", "🌟 Motivált"] },
+        en: { engineName: "Career-Engine", fName: "FIRST NAME", lName: "LAST NAME", city: "CITY", street: "STREET", phone: "PHONE", email: "EMAIL", summaryHeader: "SUMMARY SELECTOR", summary: "SUMMARY", eduHeader: "EDUCATION", workHeader: "EXPERIENCE", addEdu: "+ ADD SCHOOL", addWork: "+ ADD JOB", printBtn: "GENERATE PDF", addr: "Address:", colors: "COLORS", styles: "STYLES", select_hint: "-- ADD --", menu: ["🔝 Leader", "💻 Tech", "🎯 Admin", "🤝 Customer", "🎨 Creative", "🚛 Logistics", "⚡ Junior", "🏗️ Industrial", "🚑 Health", "💎 Luxury", "🚀 Strategic", "📉 Analyst", "🛠️ Service", "🛡️ Security", "🌟 Motivated"] },
+        de: { engineName: "Career-Engine", fName: "VORNAME", lName: "NACHNAME", city: "STADT", street: "STRASSE", phone: "TELEFON", email: "EMAIL", summaryHeader: "AUSWAHL", summary: "PROFIL", eduHeader: "BILDUNG", workHeader: "ERFAHRUNG", addEdu: "+ SCHULE", addWork: "+ JOB", printBtn: "PDF GENERIEREN", addr: "Adresse:", colors: "FARBEN", styles: "STILE", select_hint: "-- HINZÜFÜGEN --", menu: ["🔝 Führung", "💻 Tech", "🎯 Admin", "🤝 Kunden", "🎨 Kreativ", "🚛 Logistik", "⚡ Junior", "🏗️ Arbeiter", "🚑 Gesundheit", "💎 Luxus", "🚀 Strategisch", "📉 Analyst", "🛠️ Service", "🛡️ Sicherheit", "🌟 Motiviert"] }
     };
 
     let currentLang = 'hu';
