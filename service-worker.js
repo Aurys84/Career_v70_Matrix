@@ -1,4 +1,14 @@
-const CACHE_NAME = 'matrix-70-v1';
+// --- KRITIKUS HIBAKEZELŐK START (A Brave/Electron igénye szerint) ---
+self.addEventListener('error', (event) => {
+    console.error("Mátrix Service Worker Error:", event.message);
+});
+
+self.addEventListener('unhandledrejection', (event) => {
+    console.error("Mátrix Unhandled Rejection:", event.reason);
+});
+// --- KRITIKUS HIBAKEZELŐK END ---
+
+const CACHE_NAME = 'matrix-71-v1'; // Verziót léptettem a frissítés miatt
 const urlsToCache = [
   './',
   './index.html',
@@ -7,13 +17,31 @@ const urlsToCache = [
   './store_icon.png'
 ];
 
+// Telepítés és Cache feltöltése
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(urlsToCache))
+      .then(() => self.skipWaiting()) // Azonnali átvétel
   );
 });
 
+// Aktiválás és a régi cache takarítása
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cache => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
+  );
+});
+
+// Fetch eseménykezelő
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
@@ -21,8 +49,7 @@ self.addEventListener('fetch', event => {
   );
 });
 
-// --- Értesítési Logika START ---
-
+// --- ÉRTESÍTÉSI LOGIKA ---
 self.addEventListener('push', function(event) {
     let data = { title: 'Mátrix Labor', body: 'Rendszerüzenet érkezett!' };
     
@@ -65,5 +92,3 @@ self.addEventListener('notificationclick', function(event) {
         })
     );
 });
-
-// --- Értesítési Logika END ---
