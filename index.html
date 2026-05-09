@@ -11,7 +11,6 @@
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; background: #000; color: #eee; overflow: hidden; }
         
         .editor-side { width: 42%; padding: 25px; overflow-y: auto; background: #111; border-right: 3px solid var(--main-color); }
-        /* A CSÍKGYILKOS: overflow: hidden !important */
         .preview-side { width: 58%; background: #333; display: flex; justify-content: center; padding: 40px; overflow: hidden !important; }
         
         .logo-area { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
@@ -28,7 +27,6 @@
         .smart-label { display: block; margin-top: 15px; font-size: 11px; font-weight: bold; color: var(--main-color); text-transform: uppercase; }
         input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; box-sizing: border-box; }
         
-        .input-group { display: flex; gap: 10px; margin-top: 5px; }
         .entry-box { background: #151515; padding: 15px; margin-top: 10px; border-left: 4px solid var(--main-color); border-radius: 4px; position: relative; }
         .add-btn { background: #27ae60; color: white; width: 100%; padding: 12px; border: none; margin-top: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .print-btn { background: var(--main-color); color: white; width: 100%; padding: 18px; border: none; margin-top: 25px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; }
@@ -38,12 +36,7 @@
         h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
         h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
 
-        @media print {
-            .editor-side, .print-btn { display: none !important; }
-            .preview-side { width: 100% !important; padding: 0 !important; background: white !important; overflow: visible !important; }
-            .cv-paper { box-shadow: none !important; margin: 0 !important; width: 100% !important; border: none !important; }
-            ::-webkit-scrollbar { display: none !important; }
-        }
+        /* A RÉGI NYOMTATÁSI KÓDOT KIKÖTÖTTÜK, HOGY NE ZAVARJON BE */
     </style>
 </head>
 <body class="style-1">
@@ -69,7 +62,7 @@
     <label class="smart-label" id="lbl-photo">FOTÓ FELTÖLTÉSE</label>
     <input type="file" onchange="loadPhoto(event)" style="margin-bottom: 15px;">
 
-    <div class="input-group">
+    <div style="display: flex; gap: 10px; margin-top: 5px;">
         <div style="flex:1">
             <label class="smart-label" id="lbl-fName">KERESZTNÉV</label>
             <input type="text" id="in-firstName" oninput="updatePreview()">
@@ -80,7 +73,7 @@
         </div>
     </div>
 
-    <div class="input-group">
+    <div style="display: flex; gap: 10px; margin-top: 5px;">
         <div style="flex:1">
             <label class="smart-label" id="lbl-city">VÁROS</label>
             <input type="text" id="in-city" oninput="updatePreview()">
@@ -91,7 +84,7 @@
         </div>
     </div>
 
-    <div class="input-group">
+    <div style="display: flex; gap: 10px; margin-top: 5px;">
         <div style="flex:1">
             <label class="smart-label">≡ TÍPUS</label>
             <select id="in-street-type" onchange="updatePreview()">
@@ -127,7 +120,7 @@
         <div id="work-container"></div>
         <button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY</button>
     </div>
-    <button onclick="generatePDF_V71()" class="print-btn" id="lbl-printBtn">PDF MENTÉSE (V71 PRO)</button>
+    <button onclick="generatePDF_V71()" class="print-btn" id="matrix-save-btn">PDF MENTÉSE (V71 PRO)</button>
 </div>
 
 <div class="preview-side">
@@ -240,11 +233,14 @@
         if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
     }
 
-    // V71 PRO - GOLYÓÁLLÓ PDF GENERÁTOR (NINCS CSÍK, NINCS FEHÉRSÉG)
+    // V71 PRO - GOLYÓÁLLÓ PDF GENERÁTOR (REBUILT)
     window.generatePDF_V71 = async function() {
+        // Megakadályozzuk az alapértelmezett nyomtatást
+        if (window.event) window.event.preventDefault();
+
         const { jsPDF } = window.jspdf;
         const paper = document.getElementById('cv-paper');
-        const btn = document.getElementById('lbl-printBtn');
+        const btn = document.getElementById('matrix-save-btn');
         
         const originalText = btn.innerText;
         btn.innerText = "GENERÁLÁS...";
@@ -260,7 +256,6 @@
 
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF('p', 'mm', 'a4');
-            
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
@@ -276,7 +271,7 @@
         }
 
         setTimeout(() => {
-            btn.innerText = dictionary[currentLang].printBtn;
+            btn.innerText = "PDF MENTÉSE (V71 PRO)";
             btn.style.background = "";
         }, 3000);
     };
