@@ -36,18 +36,6 @@
         h1#out-name { margin: 0; color: var(--main-color); font-size: 32px; }
         h3 { border-bottom: 1px solid #eee; color: var(--main-color); padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
 
-        /* STÍLUSOK (1-10) */
-        body.style-1 .cv-paper { border-top: 20px solid var(--main-color); }
-        body.style-2 .cv-header { flex-direction: column; text-align: center; }
-        body.style-3 .cv-header { flex-direction: row-reverse; }
-        body.style-4 h3 { background: #f4f4f4; padding: 10px; border-left: 10px solid var(--main-color); border-bottom: none; }
-        body.style-5 .cv-paper { font-family: 'Georgia', serif; }
-        body.style-6 .cv-header { border-bottom: 8px double var(--main-color); }
-        body.style-7 .cv-paper { background: #f9f9f9; border: 1px solid #ddd; }
-        body.style-8 #out-name { letter-spacing: 5px; text-align: center; width: 100%; }
-        body.style-9 .cv-header { align-items: flex-end; border-bottom-width: 5px; }
-        body.style-10 .cv-paper::before { content: ''; position: absolute; top: 0; left: 0; width: 15px; height: 100%; background: var(--main-color); }
-
         @media print {
             .editor-side, .print-btn { display: none !important; }
             .preview-side { width: 100% !important; padding: 0 !important; background: white !important; overflow: visible !important; }
@@ -138,7 +126,7 @@
         <button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY</button>
     </div>
 
-    <button onclick="generatePDF()" class="print-btn" id="lbl-printBtn">PDF GENERÁLÁSA</button>
+    <button onclick="generatePDF(); return false;" class="print-btn" id="lbl-printBtn">PDF GENERÁLÁSA</button>
 </div>
 
 <div class="preview-side">
@@ -251,13 +239,18 @@
         if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
     }
 
-    function generatePDF() {
+    // A JAVÍTOTT MOTOR FÉL MÁSODPERCES VÁRAKOZÁSSAL
+    window.generatePDF = function() {
+        console.log("Mátrix: Nyomtatási nézet generálása...");
         updatePreview();
         window.scrollTo(0,0);
-        setTimeout(() => { window.print(); }, 300);
-    }
+        
+        setTimeout(() => {
+            window.print();
+        }, 500); 
+    };
 
- window.onload = () => {
+    window.onload = () => {
         const colors = ["#007bb5", "#e67e22", "#27ae60", "#c0392b", "#8e44ad", "#1a1a1a", "#f1c40f", "#16a085", "#d35400", "#2c3e50"];
         colors.forEach(c => {
             let b = document.createElement('div'); b.className = 'color-btn'; b.style.background = c;
@@ -272,19 +265,6 @@
         refreshMenu();
         updateInterface();
     };
-
-    // EZ A MOTOR, AMI ELINDÍTJA A NYOMTATÁSI ELŐLAPOT ÉS KINYÍRJA A CSÍKOT
-    window.generatePDF = function() {
-        console.log("Mátrix: Nyomtatási nézet generálása...");
-        updatePreview();
-        window.scrollTo(0,0);
-        
-        // Adunk 300ms-t a Brave-nek, hogy összeálljon a kép a fejében
-        setTimeout(() => {
-            window.print();
-        }, 300);
-    };
-
 </script>
 </body>
 </html>
