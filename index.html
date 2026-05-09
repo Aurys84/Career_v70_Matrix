@@ -241,15 +241,48 @@
         if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
     }
 
-    // A JAVÍTOTT MOTOR FÉL MÁSODPERCES VÁRAKOZÁSSAL
-    window.generatePDF = function() {
-        console.log("Mátrix: Nyomtatási nézet generálása...");
-        updatePreview();
-        window.scrollTo(0,0);
+  // V71 PRO - GOLYÓÁLLÓ PDF GENERÁTOR (NINCS CSÍK, NINCS FEHÉRSÉG)
+    window.generatePDF_V71 = async function() {
+        const { jsPDF } = window.jspdf;
+        const paper = document.getElementById('cv-paper');
+        const btn = document.getElementById('lbl-printBtn');
         
+        // Vizuális visszajelzés, hogy dolgozik a Labor
+        const originalText = btn.innerText;
+        btn.innerText = "GENERÁLÁS...";
+        btn.style.background = "#e67e22";
+
+        try {
+            // A html2canvas lefotózza a papírt a háttérben
+            const canvas = await html2canvas(paper, {
+                scale: 2, // Magas felbontás
+                useCORS: true,
+                logging: false,
+                backgroundColor: "#ffffff"
+            });
+
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save('Career-Engine-V71-PRO.pdf');
+            
+            btn.innerText = "SIKERES MENTÉS!";
+            btn.style.background = "#27ae60";
+        } catch (err) {
+            console.error("Mátrix Hiba:", err);
+            btn.innerText = "HIBA TÖRTÉNT!";
+            btn.style.background = "#c0392b";
+        }
+
+        // 3 másodperc múlva visszaállítjuk a gombot az eredeti nyelvre
         setTimeout(() => {
-            window.print();
-        }, 500); 
+            btn.innerText = dictionary[currentLang].printBtn;
+            btn.style.background = "";
+        }, 3000);
     };
 
     window.onload = () => {
