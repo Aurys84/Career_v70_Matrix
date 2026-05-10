@@ -47,9 +47,54 @@
         body.style-9 .cv-header { align-items: flex-end; border-bottom-width: 5px; }
         body.style-10 .cv-paper::before { content: ''; position: absolute; top: 0; left: 0; width: 15px; height: 100%; background: var(--main-color); }
 
-        @media print { .editor-side { display: none; } .preview-side { width: 100%; padding: 0; background: white; } .cv-paper { box-shadow: none; width: 100%; } }
-    </style>
+     @media print {
+        /* 1. Teljesen kilőjük a szerkesztőfelületet és a gombokat */
+        .editor-side, .action-bar, .print-btn, #lbl-printBtn, .lang-grid { 
+            display: none !important; 
+        }
+
+        /* 2. A preview oldalt kiterjesztjük, és megöljük a scrollert */
+        .preview-side {
+            display: block !important;
+            width: 100% !important;
+            height: auto !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            overflow: hidden !important; /* NINCS TÖBB GÖRGETŐSÁV */
+            background: white !important;
+        }
+
+        /* 3. A papírt rögzítjük az A4-es mérethez */
+        .cv-paper {
+            width: 210mm !important;
+            height: 297mm !important;
+            margin: 0 auto !important;
+            box-shadow: none !important;
+            border: none !important;
+            overflow: hidden !important;
+        }
+
+        /* 4. A böngésző margóinak nullázása */
+        @page {
+            size: A4;
+            margin: 0;
+         }
+    }
+      </style> </head> <body class="style-1">
+
+<div class="editor-side" id="editor-side">
+    <div class="logo-area">
+        <div class="brand-circle">A&N</div>
+        <h1 id="lbl-engineName">Career-Engine</h1>  
+        body {
+            margin: 0 !important;
+            overflow: hidden !important;
+            background: white !important;
+        }
+    }
+</style>
 </head>
+
 <body class="style-1">
 
 <div class="editor-side" id="editor-side">
@@ -57,26 +102,26 @@
         <div class="brand-circle">A&N</div>
         <h1 id="lbl-engineName">Career-Engine</h1>
         
-    <div class="action-bar" style="margin-top: 20px; margin-bottom: 25px;">
-    <a href="output.pdf" 
-       id="mainSaveBtn" 
-       onclick="if(window.isWebMode){ event.preventDefault(); window.print(); }"
-       download="Career_Engine_Export.pdf" 
-       style="text-decoration: none; 
-              background: var(--main-color); 
-              color: white; 
-              padding: 12px 25px; 
-              border-radius: 8px; 
-              font-weight: bold; 
-              font-size: 14px; 
-              display: inline-flex; 
-              align-items: center; 
-              gap: 8px; 
-              box-shadow: 0 4px 15px rgba(0,123,181,0.3); 
-              cursor: pointer;">
-       <span>💾</span> PDF GENERÁLÁSA ÉS MENTÉSE
-    </a>
-</div>
+        <div class="action-bar" style="margin-top: 20px; margin-bottom: 25px;">
+            <a href="output.pdf" 
+               id="mainSaveBtn" 
+               onclick="if(window.isWebMode){ event.preventDefault(); window.print(); }"
+               download="Career_Engine_Export.pdf" 
+               style="text-decoration: none; 
+                      background: var(--main-color); 
+                      color: white; 
+                      padding: 12px 25px; 
+                      border-radius: 8px; 
+                      font-weight: bold; 
+                      font-size: 14px; 
+                      display: inline-flex; 
+                      align-items: center; 
+                      gap: 8px; 
+                      box-shadow: 0 4px 15px rgba(0,123,181,0.3); 
+                      cursor: pointer;">
+               <span>💾</span> PDF GENERÁLÁSA ÉS MENTÉSE
+            </a>
+        </div>
     </div> <div class="lang-grid">
         <button class="btn-lang active" onclick="setMode('hu', this)">HU</button>
         <button class="btn-lang" onclick="setMode('en', this)">EN</button>
