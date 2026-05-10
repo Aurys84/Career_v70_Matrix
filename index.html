@@ -157,7 +157,12 @@
         <button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY</button>
     </div>
 
-    <button onclick="profiMentesPNG()" class="print-btn" id="lbl-printBtn">PNG MENTÉSE</button>
+   <button onclick="if(window.isWebMode){ window.print(); } else { profiMentesPNG(); }" 
+            class="print-btn" 
+            id="lbl-printBtn"
+            style="cursor: pointer; background: var(--main-color); color: white; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
+        MENTÉS (PDF/PNG)
+    </button>
 </div>
 
 <div class="preview-side" id="preview-side">
