@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Career-Engine v70.0 - A&N Visual - GLOBAL MATRIX</title>
-    <link rel="manifest" href="manifest.json">
-    <style>
+    
+    <script>
+        if (typeof nw === 'undefined') {
+            window.isWebMode = true; 
+        } else {
+            window.isWebMode = false;
+        }
+    </script>
+    <link rel="manifest" href="manifest.json"> <style>
         :root { --main-color: #007bb5; }
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; background: #000; color: #eee; transition: 0.3s; }
         .editor-side { width: 42%; padding: 25px; overflow-y: auto; background: #111; border-right: 3px solid var(--main-color); }
