@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="hu">
 <head>
     <meta charset="UTF-8">
     <title>Career-Engine v70.0 - A&N Visual - GLOBAL MATRIX</title>
@@ -43,7 +45,7 @@
 </head>
 <body class="style-1">
 
-<div class="editor-side">
+<div class="editor-side" id="editor-side">
     <div class="logo-area">
         <div class="brand-circle">A&N</div>
         <h1 id="lbl-engineName">Career-Engine</h1>
@@ -129,10 +131,10 @@
         <button onclick="addEntry('work')" class="add-btn" id="lbl-addWork">+ ÚJ MUNKAHELY</button>
     </div>
 
-    <button onclick="window.print()" class="print-btn" id="lbl-printBtn">PDF GENERÁLÁSA</button>
+    <button onclick="profiMentesPNG()" class="print-btn" id="lbl-printBtn">PNG MENTÉSE</button>
 </div>
 
-<div class="preview-side">
+<div class="preview-side" id="preview-side">
     <div class="cv-paper" id="cv-paper">
         <div class="cv-header">
             <div id="out-photo-box" style="display:none; width:130px; height:160px; overflow:hidden; border: 1px solid #eee; margin-right: 20px;">
@@ -150,6 +152,55 @@
 <script src="database.js"></script>
 
 <script>
+function profiMentesPNG() {
+    try {
+        const nw = require('nw.gui');
+        const win = nw.Window.get();
+        const fs = require('fs');
+
+        // Létrehozunk egy rejtett fájlválasztót a mentéshez
+        let saver = document.createElement('input');
+        saver.setAttribute('type', 'file');
+        saver.setAttribute('nwsaveas', 'Career-Engine-Export.png'); // Alapértelmezett név
+        saver.setAttribute('accept', '.png');
+        saver.style.display = 'none';
+        document.body.appendChild(saver);
+
+        // Amikor a júzer kiválasztotta a helyet
+        saver.addEventListener('change', function() {
+            const filePath = this.value;
+            if (!filePath) return;
+
+            // Elrejtjük a zavaró elemeket a fotózáshoz
+            document.getElementById('editor-side').style.display = 'none';
+            document.getElementById('preview-side').style.width = '100%';
+            document.getElementById('preview-side').style.padding = '0';
+            document.body.style.overflow = 'hidden';
+
+            setTimeout(() => {
+                win.capturePage(function(buffer) {
+                    fs.writeFile(filePath, buffer, function (err) {
+                        // Visszaállítjuk a felületet
+                        document.getElementById('editor-side').style.display = 'block';
+                        document.getElementById('preview-side').style.width = '58%';
+                        document.getElementById('preview-side').style.padding = '40px';
+                        document.body.style.overflow = 'auto';
+                        document.body.removeChild(saver);
+
+                        if (err) alert("Hiba a mentésnél: " + err);
+                        else alert("Siker! A kép elmentve ide: " + filePath);
+                    });
+                }, { format : 'png', datatype : 'buffer' });
+            }, 100);
+        });
+
+        // Megnyitjuk a mentés ablakot
+        saver.click();
+
+    } catch (e) {
+        window.print();
+    }
+}
 const summariesDB = {
         hu: { 
             "1": "Több éves szakmai és vezetői tapasztalattal rendelkező szakember vagyok, aki elkötelezett a hatékonyság és a csapatszellem mellett.",
@@ -352,7 +403,7 @@ const summariesDB = {
             b.onclick = () => { document.documentElement.style.setProperty('--main-color', c); updatePreview(); };
             document.getElementById('color-picker').appendChild(b);
         });
-     for(let i=1; i<=10; i++) {
+        for(let i=1; i<=10; i++) {
             let b = document.createElement('button'); b.className = 'style-btn'; b.innerText = i;
             b.onclick = () => { document.body.className = 'style-' + i; updatePreview(); };
             document.getElementById('style-picker').appendChild(b);
@@ -360,26 +411,21 @@ const summariesDB = {
         refreshMenu();
         updateInterface();
 
-    // MÁTRIX OFFLINE PAJZS ÉS ÉRTESÍTÉSEK AKTIVÁLÁSA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./service-worker.js')
                     .then(reg => {
                         console.log('Mátrix Páncél aktív!', reg);
-                        
-                        // Értesítési engedély kérése a regisztráció után
                         if ('Notification' in window) {
                             Notification.requestPermission().then(permission => {
-                                if (permission === 'granted') {
-                                    console.log('Mátrix: Értesítések engedélyezve! 🚀');
-                                }
+                                if (permission === 'granted') console.log('Mátrix: Értesítések engedélyezve! 🚀');
                             });
                         }
                     })
                     .catch(err => console.log('Hiba a páncélozásnál:', err));
             });
         }
-    }; // Itt zárul le a window.onload
-</script> 
+    };
+</script>
 </body>
 </html>
