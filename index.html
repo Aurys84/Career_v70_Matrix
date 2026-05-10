@@ -57,14 +57,15 @@
         <div class="brand-circle">A&N</div>
         <h1 id="lbl-engineName">Career-Engine</h1>
         
-        <div class="action-bar" style="margin-top: 20px; margin-bottom: 20px;">
-            <a href="output.pdf" 
-               id="mainSaveBtn" 
-               download="Oneletrajz_Career_Engine.pdf" 
-               style="text-decoration: none; background: var(--main-color); color: white; padding: 12px 25px; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,123,181,0.3); transition: 0.3s; cursor: pointer;">
-               <span>📄</span> PDF Mentése
-            </a>
-        </div>
+     <div class="action-bar" style="margin-top: 20px; margin-bottom: 20px;">
+    <a href="output.pdf" 
+       id="mainSaveBtn" 
+       onclick="if(window.isWebMode){ event.preventDefault(); window.print(); }"
+       download="Oneletrajz_Career_Engine.pdf" 
+       style="text-decoration: none; background: var(--main-color); color: white; padding: 12px 25px; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,123,181,0.3); transition: 0.3s; cursor: pointer;">
+       <span>📄</span> PDF Mentése
+    </a>
+</div>  
     </div> <div class="lang-grid">
         <button class="btn-lang active" onclick="setMode('hu', this)">HU</button>
         <button class="btn-lang" onclick="setMode('en', this)">EN</button>
