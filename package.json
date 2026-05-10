@@ -1,0 +1,13 @@
+{
+  "name": "career-engine-pro",
+  "version": "1.0.0",
+  "main": "index.html",
+  "chromium-args": "--disable-print-preview --no-header-footer --hide-scrollbars",
+  "window": {
+    "title": "Career-Engine Pro X",
+    "width": 1200,
+    "height": 900,
+    "toolbar": false,
+    "resizable": true
+  }
+}
