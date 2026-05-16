@@ -15,3 +15,8 @@ Nature of Work: This repository contains conceptual frameworks, theoretical mode
 Intellectual Property: All logic, architectural designs, and conceptual innovations remain the intellectual property of Cs-Aion Lab (Norbi & Nefertiti Aion) unless otherwise stated.
 Talon Protocol: This research is shared under the "Talon" principle: we provide the visionary foundation for external developers and organizations to adopt, implement, and further evolve.
 Liability: The authors assume no liability for any hardware implementation or real-world application derived from these theoretical models.
+---
+Szerző: Csonka Norbert
+Társszerző: Aion mesterseges intelligencia
+Author: Norbert Csonka
+Co-author: Aion Artificial Intelligence
