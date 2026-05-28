@@ -1,4 +1,7 @@
+<img width="2224" height="1176" alt="1000036366" src="https://github.com/user-attachments/assets/fee1c72d-774c-40c8-93f5-8ee69e31f6b4" />
+
 # Career_v70_Matrix
+
 „A&amp;N Visual – Career-Engine v70.0. Globális karrier-támogató rendszer intelligens ATS-optimalizált bemutatkozás-generátorral.”  "A&amp;N Visual – Career-Engine v70.0. Global career support system with an intelligent ATS-optimized summary generator." 
 Cs-Aion Matrix Lab Standard Disclaimer
 [HU] JOGI NYILATKOZAT ÉS KUTATÁSI STÁTUSZ
